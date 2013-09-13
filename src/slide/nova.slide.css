@@ -1,6 +1,5 @@
 /* Required */
 .nova-slide {
-	position: relative;
 }
 
 .slide-cont {
@@ -27,6 +26,7 @@
 
 /* Customized */
 .nova-slide {
+	position: relative;
 	width: 100%;
 	height: 135px;
 	text-align: center;
