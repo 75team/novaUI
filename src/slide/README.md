@@ -1,5 +1,6 @@
 # slide 
-To use slide you must do the following 1. Include zepto.js, nova.ui.js, nova.slide.js in your html file
+To use slide you must do the following 
+1. Include zepto.js, nova.ui.js, nova.slide.js in your html file
 
 2. Include nova.slide.css or copy the required styles in nova.slide.css into your css file
 
