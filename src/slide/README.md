@@ -42,12 +42,12 @@ There are additional configuration options that are passed in as an object param
 
 ``` js
 var config = {
-    index: 0, 				// 初始选项
-    count: 6, 				// 选项个数
-    recursive: true, 		// 是否可循环
-    autoplay: true, 		// 是否自动轮播
-    interval_ms: 10000, 	// 自动轮播间隔
-    duration_ms: 200, 		// 切换时长
+    index: 0, 				// first selected item index
+    count: 6, 				// item count
+    recursive: true, 		// whether the sliding is recursive
+    autoplay: true, 		// whether to autoplay
+    interval_ms: 10000, 	// autoplay interval
+    duration_ms: 200, 		// time cost by one slide
 
     contentsSelector: '.slide-cont .cont-item', 		
     controlsSelector: '.slide-control .control-item', 
