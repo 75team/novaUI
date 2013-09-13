@@ -292,13 +292,23 @@
         }, 
         /*
          * 关闭自动轮播
-         * @method closeAutoplay
+         * @method stopAutoplay
          * */
-        closeAutoplay: function() {
+        stopAutoplay: function() {
             var me = this;
             me.config.auto = false;
             clearInterval(me.autoplayTimerID);
             me.autoplayTimerID = undefined;
+        }, 
+        /*
+         * 设置是否可循环
+         * @method setRecursive
+         * @param {Boolean} isRecursive 
+         *
+         * */
+        setRecursive: function(isRecursive) {
+            this.config.recursive = isRecursive;
+            this.switcher.config.recursive = isRecursive;
         }, 
         /*
          * 将下一个要显示的项放置好，再开始滑动

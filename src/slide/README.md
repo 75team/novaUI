@@ -1,0 +1,62 @@
+# slide
+
+To use slide you must do the following
+
+1. Include zepto.js, nova.ui.js, nova.slide.js in your html file
+
+2. Include nova.slide.css or copy the required styles in nova.slide.css into your css file
+
+3. Create a div with the content inside you wan to page between. You must set the height and width of this div, along with overflow: hidden
+
+``` html
+<div class="my_slider">
+    <div class="slide-cont">
+        <div class="cont-item">page1</div>
+        <div class="cont-item">page2</div>
+    </div>
+</div>
+```
+
+4. If you want the dots to show up for paging, create the div with class "slide-control"
+
+``` html
+<div class="my_slider">
+    <div class="slide-cont">
+        <div class="cont-item">page1</div>
+        <div class="cont-item">page2</div>
+    </div>
+    <div class="slide-control">
+        <a class="control-item"></a>
+        <a class="control-item"></a>
+    </div>
+</div>
+```
+
+5. Call the javascript function to create the slider
+
+``` js
+var slide = new Slide('.my_slider');
+```
+
+There are additional configuration options that are passed in as an object parameter
+
+``` js
+var config = {
+    index: 0, 				// 初始选项
+    count: 6, 				// 选项个数
+    recursive: true, 		// 是否可循环
+    autoplay: true, 		// 是否自动轮播
+    interval_ms: 10000, 	// 自动轮播间隔
+    duration_ms: 200, 		// 切换时长
+
+    contentsSelector: '.slide-cont .cont-item', 		
+    controlsSelector: '.slide-control .control-item', 
+    activeClassName: 'active'
+}; 	
+var slide = new Slide('.my_slider', config);
+```
+There are two functions for switching on/off autoplay
+``` js
+slide.startAutoplay();
+slide.stopAutoplay();
+```
