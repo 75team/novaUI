@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8" />
+<title></title>
+<link href="http://static.qhimg.com/!c957e3af/reset.css" rel="stylesheet" />
+<link href="*.css" rel="stylesheet" />
+<style type="text/css">
+    #search_form {
+        width: 60%;
+        margin: auto;
+    }
+
+    #search_input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nova-suggest {
+        width: 100%;
+    }
+
+    .nova-suggest .sugg-item {
+        position: relative;
+    }
+    
+
+    .nova-suggest .sugg-cont {
+        padding: 8px 50px 8px 0px; 
+    }
+
+    .nova-suggest .sugg-copy, .nova-suggest .sugg-close {
+        background-color: gray;
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50px;    
+        height: 100%;
+    }
+</style>
+</head>
+<body>
+<div id="doc">
+    <div id="hd">
+    </div>
+    <div id="bd">
+        <form action="http://www.so.com/s" id="search_form" charset="gbk">
+            <input type="text" name="q" id="search_input" autocomplete="off"/>
+        </form>
+    </div>
+    <div id="ft">
+    </div>
+</div>
+<script src="../../zepto.js"></script>
+<script src="../../zepto.touch.js"></script>
+<script src="../../zepto.ext.js"></script>
+<script src="../../nova.ui.js"></script>
+<script src="../suggest.js"></script>
+
+<script type="text/javascript">
+    var input = $('#search_input');    
+
+    var suggest = new Suggest('#search_input', {
+        url: 'http://sug.so.360.cn/suggest/word', 
+        param: {encodeout: 'utf-8', encodein: 'utf-8'}, 
+        method: 'jsonp', 
+        preprocessFun: function(data) {
+            var suggestlist = data['s']; 
+            return suggestlist;
+        }
+    });
+
+</script>
+
+</body>
+</html>
