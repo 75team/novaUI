@@ -38,7 +38,7 @@ To use slide you must do the following
     var slide = new Slide('.my-slider');
     ```
 
-There are additional configuration options that are passed in as an object parameter
+There are additional options that are passed in as an object parameter
 
 ``` js
 var config = {
