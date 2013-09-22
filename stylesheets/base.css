@@ -1,0 +1,12 @@
+.widget-gallery {
+    overflow: hidden;
+}
+
+.widget {
+    float: left;
+    width: 32%;
+}
+
+.widget a, .widget h3{
+    color: black;
+}
