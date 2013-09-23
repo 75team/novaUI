@@ -1,3 +1,72 @@
+/* Base */
+pre {
+    background-color: white;
+    border-radius: 9px;
+    padding: 8.5px;
+    margin: 2em 0;
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 0;
+}
+
+pre code {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Layout */
+#main_content {
+    overflow: hidden;
+}
+
+.l-sidebar {
+    width: 30%;
+    min-width: 180px;
+    float: right;
+}
+
+.l-content {
+    *zoom: 1;
+    overflow: hidden;
+    padding-right: 40px;
+}
+
+/* module */
+.m-category {
+    border: 1px solid #cbcbcb;
+    color: #303030;
+    border-radius: 9px;
+    font-weight: bold;
+    background: -webkit-linear-gradient(top, #fdfdfd 0%,#f2f2f2 100%);
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 0;
+    margin-top: 16px;
+}
+
+.m-category .item {
+    margin-bottom: 5px;
+}
+
+
+.m-category .item a {
+    color: #303030;
+}
+
+.m-category .item a:hover {
+    text-decoration: underline;
+}
+
 .widget-gallery a, .widget-gallery h3 {
     color: black;
+}
+
+@media only screen and (max-width: 767px) {
+    .l-sidebar {
+        display: none;
+    }
+
+  .l-content {
+    padding-right: 0;
+  }
+
 }
