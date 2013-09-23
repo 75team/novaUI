@@ -41,7 +41,7 @@ layout: widget
     // Adjust height when window is resized
     var ratio = 0.66;   // height / width
     var novaSlide = $('.nova-slide');
-    $(window).on('resize load', function() {
+    $(window).on('resize DOMContentLoaded", function() {
         var width = novaSlide.width();
         novaSlide.height(width * ratio); 
     })

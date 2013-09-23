@@ -163,6 +163,7 @@
         // Make slider draggable
         me.$items.on('touchstart', function(ev) {
             if(!me._notSliding()) return;
+            me.stopAutoplay();
             var $ins = $(this),
                 touch = ev.touches[0],
                 startX = touch.pageX,
@@ -179,7 +180,8 @@
                 $ins.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + deltaX + 'px, 0, 0)');
                 me.$next.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (me.width + deltaX) + 'px, 0, 0)');
                 me.$prev.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (-me.width + deltaX) + 'px, 0, 0)');
-            } function touchendHandler(ev) { var rightToLeft = deltaX < 0,
+            } function touchendHandler(ev) { 
+                var rightToLeft = deltaX < 0,
                     endTime = new Date(),
                     swipeDuration = endTime - startTime,
                     swipeDistance = Math.abs(deltaX),
@@ -194,6 +196,8 @@
                 } else {
                     recur();
                 }
+
+                if(me.config.autoplay) me.startAutoplay();
 
                 // 回到原位
                 function recur() {
