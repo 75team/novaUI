@@ -6,7 +6,7 @@ layout: widget
 
 ## Example
 
-<link rel="stylesheet" href="{{site.baseurl}}stylesheets/nova/nova.slide.css" />
+<link rel="stylesheet" href="{{site.baseurl}}stylesheets/nova/nova.slide.css?t={{site.time | date: "%H%M%S"}}" />
 <div>
 <style type="text/css">
     .nova-slide {
@@ -33,8 +33,8 @@ layout: widget
         <a href="#" class="control-item"></a> 
     </div>
 </div>
-<script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.ui.js"></script>
-<script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.slide.js"></script>
+<script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.ui.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.slide.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript">
     var slide = new Slide('.nova-slide', {autoplay: true});
     
