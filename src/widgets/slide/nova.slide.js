@@ -161,15 +161,24 @@
         });
 
         // Make slider draggable
-        me.$items.on('touchstart', function(ev) {
+        me.$items.parent().on('touchstart', function(ev) {
             if(!me._notSliding()) return;
-            var $ins = $(this),
+
+
+            var $ins = me.$cur,
+                $body = $(document.body),
                 touch = ev.touches[0],
                 startX = touch.pageX,
                 deltaX = 0,
-                startTime = new Date();
-            $ins.on('touchmove', touchmoveHandler);
-            $ins.on('touchend', touchendHandler);
+                startTime = new Date(), 
+                autoplay = me.config.autoplay;
+
+            if(autoplay) {
+                me.stopAutoplay();
+            }
+
+            $body.on('touchmove', touchmoveHandler);
+            $body.on('touchend', touchendHandler);
 
             function touchmoveHandler(ev) {
                 var curTouch = ev.touches[0];
@@ -179,20 +188,26 @@
                 $ins.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + deltaX + 'px, 0, 0)');
                 me.$next.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (me.width + deltaX) + 'px, 0, 0)');
                 me.$prev.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (-me.width + deltaX) + 'px, 0, 0)');
-            } function touchendHandler(ev) { var rightToLeft = deltaX < 0,
+            } 
+            function touchendHandler(ev) { 
+                var rightToLeft = deltaX < 0,
                     endTime = new Date(),
                     swipeDuration = endTime - startTime,
                     swipeDistance = Math.abs(deltaX),
                     duration = Math.abs(me.slideOffset) * me.config.duration_ms / me.width;
 
-                $ins.off('touchmove', touchmoveHandler);
-                $ins.off('touchend', touchendHandler);
+                $body.off('touchmove', touchmoveHandler);
+                $body.off('touchend', touchendHandler);
 
                 if(swipeDistance >= SWIPE_DISTANCE_MIN) {
                     if(!(rightToLeft ? me.next() : me.prev()))
                         recur();
                 } else {
                     recur();
+                }
+
+                if(autoplay) {
+                    me.startAutoplay();
                 }
 
                 // 回到原位
