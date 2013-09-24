@@ -109,8 +109,8 @@
     var SWIPE_DISTANCE_MIN = 25,
         TRANSFORM_PROPERTY_NAME = document.body.style.webkitTransform === undefined ? 'transform' : '-webkit-transform';
 
-    var cssReset = {};
-    cssReset[TRANSFORM_PROPERTY_NAME] = '';
+    var transitionCssReset = {};
+    transitionCssReset[TRANSFORM_PROPERTY_NAME] = '';
 
     /*
      * Slider类实例化时的初始化函数
@@ -374,8 +374,8 @@
             me.$cur.animate(me._getOffsetXCss(offset), duration, 'linear');
             $to.animate(me._getOffsetXCss(0), duration, 'linear');
             setTimeout(function() {
-                me.$cur.css(cssReset);
-                $to.css(cssReset);
+                me._stopTransition(me.$cur);
+                me._stopTransition($to);
                 me.slidingCount = 0;
                 me._resetReadyEles();
             }, duration);
@@ -464,6 +464,10 @@
             var cssObj = {};
             cssObj[TRANSFORM_PROPERTY_NAME] = 'translate3d(' + offsetX + 'px, 0, 0)';
             return cssObj;
+        }, 
+
+        _stopTransition: function(ele) {
+            ele.css(transitionCssReset);
         }
 
     };
