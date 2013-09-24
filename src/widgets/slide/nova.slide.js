@@ -109,6 +109,9 @@
     var SWIPE_DISTANCE_MIN = 25,
         TRANSFORM_PROPERTY_NAME = document.body.style.webkitTransform === undefined ? 'transform' : '-webkit-transform';
 
+    var cssReset = {};
+    cssReset[TRANSFORM_PROPERTY_NAME] = '';
+
     /*
      * Slider类实例化时的初始化函数
      * @method init
@@ -162,6 +165,7 @@
 
         // Make slider draggable
         me.$items.parent().on('touchstart', function(ev) {
+            console.log('start');
             if(!me._notSliding()) return;
 
 
@@ -169,9 +173,12 @@
                 $body = $(document.body),
                 touch = ev.touches[0],
                 startX = touch.pageX,
+                startY = touch.pageY,
                 deltaX = 0,
+                deltaY = 0, 
                 startTime = new Date(), 
-                autoplay = me.config.autoplay;
+                autoplay = me.config.autoplay, 
+                isScrolling = undefined;
 
             if(autoplay) {
                 me.stopAutoplay();
@@ -182,12 +189,23 @@
 
             function touchmoveHandler(ev) {
                 var curTouch = ev.touches[0];
-                deltaX = Math.abs(curTouch.pageX - startX) < me.width ? (curTouch.pageX - startX) : deltaX;
-                me.slideOffset = deltaX;
 
-                $ins.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + deltaX + 'px, 0, 0)');
-                me.$next.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (me.width + deltaX) + 'px, 0, 0)');
-                me.$prev.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (-me.width + deltaX) + 'px, 0, 0)');
+                console.log(isScrolling);
+
+                if(isScrolling === undefined) {
+                    isScrolling = Math.abs(curTouch.pageX - startX) < Math.abs(curTouch.pageY - startY);
+                }
+
+                if(!isScrolling) {
+                    ev.preventDefault();
+
+                    deltaX = Math.abs(curTouch.pageX - startX) < me.width ? (curTouch.pageX - startX) : deltaX;
+                    me.slideOffset = deltaX;
+
+                    $ins.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + deltaX + 'px, 0, 0)');
+                    me.$next.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (me.width + deltaX) + 'px, 0, 0)');
+                    me.$prev.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (-me.width + deltaX) + 'px, 0, 0)');
+                }
             } 
             function touchendHandler(ev) { 
                 var rightToLeft = deltaX < 0,
@@ -353,14 +371,26 @@
                 duration = (me.width - Math.abs(me.slideOffset)) * me.config.duration_ms / me.width;
 
             me.slidingCount = 2;
-            me.$cur.animate(me._getOffsetXCss(offset), duration, 'linear', function() {
-                me.slidingCount--;
-                if(me._notSliding()) me._resetReadyEles();
-            });
-            $to.animate(me._getOffsetXCss(0), duration, 'linear', function() {
-                me.slidingCount--;
-                if(me._notSliding()) me._resetReadyEles();
-            });
+            me.$cur.animate(me._getOffsetXCss(offset), duration, 'linear');
+            $to.animate(me._getOffsetXCss(0), duration, 'linear');
+            setTimeout(function() {
+                me.$cur.css(cssReset);
+                $to.css(cssReset);
+                me.slidingCount = 0;
+                me._resetReadyEles();
+            }, duration);
+            /*setTimeout(function() {
+                me.slidingCount = 0;
+                me._resetReadyEles();
+            }, duration);*/
+
+            // change control
+            var activeClassName = me.config.activeClassName, 
+                curIndex = me.switcher.index;
+            me.$curControl.removeClass(activeClassName);
+            me.$curControl = $(me.$controls[curIndex]);
+            me.$curControl.addClass(activeClassName);
+            
         },
 
         /*
@@ -378,7 +408,7 @@
             this.$cur.removeClass(activeClassName);
             this.$next.removeClass(activeClassName);
             this.$prev.removeClass(activeClassName);
-            this.$curControl.removeClass(activeClassName);
+            //this.$curControl.removeClass(activeClassName);
 
             if(this.config.recursive) {
                 prevIndex = (prevIndex >= 0 ? prevIndex : count - 1);
@@ -389,13 +419,13 @@
             this.$cur = $(this.$items[curIndex]);
             this.$prev = $(this.$items[prevIndex]);
             this.$next = $(this.$items[nextIndex]);
-            this.$curControl = $(this.$controls[curIndex]);
+            //this.$curControl = $(this.$controls[curIndex]);
 
             this.slideOffset = 0;
             this.$cur.addClass(activeClassName).css(this._getOffsetXCss(0));
             this.$next.addClass(activeClassName).css(this._getOffsetXCss(this.width));
             this.$prev.addClass(activeClassName).css(this._getOffsetXCss(-this.width));
-            this.$curControl.addClass(activeClassName);
+            //this.$curControl.addClass(activeClassName);
         },
 
         /*

@@ -17,6 +17,7 @@
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	visibility: hidden;
+    overflow: hidden;
 }
 
 .slide-cont .cont-item.active {
