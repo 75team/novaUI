@@ -13,6 +13,10 @@ pre code {
     padding: 0;
 }
 
+strong {
+    color: #f29a5c;
+}
+
 
 /* Layout */
 #main_content {

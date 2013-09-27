@@ -65,7 +65,7 @@ Include nova.slide.css or copy the required styles from it.
 ## Usage
 
     <!-- include nova.slide.css -->
-    <link rel="stylesheet" href="{{site.baseurl}}stylesheets/nova/nova.slide.css" />
+    <link rel="stylesheet" href="nova.slide.css" />
 
     <!-- the viewport -->
     <div class="nova-slide" >
