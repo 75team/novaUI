@@ -6,6 +6,7 @@ layout: widget
 
 ## Example
 
+
 <link rel="stylesheet" href="{{site.baseurl}}stylesheets/nova/nova.suggest.css?t={{site.time | date: "%H%M%S"}}" />
 <div>
     <style>
@@ -76,6 +77,7 @@ layout: widget
     });
 
 </script>
+
 
 ### CSS
 
