@@ -6,7 +6,6 @@ layout: widget
 
 ## Example
 
-
 <link rel="stylesheet" href="{{site.baseurl}}stylesheets/nova/nova.suggest.css?t={{site.time | date: "%H%M%S"}}" />
 <div>
     <style>
@@ -52,7 +51,6 @@ layout: widget
         }
     </style>
 </div>
-
 <form action="http://www.so.com/s" id="search_form" charset="gbk">
     <div class="search">
         <div class="input-container">
@@ -75,7 +73,6 @@ layout: widget
             return suggestlist;
         }
     });
-
 </script>
 
 
