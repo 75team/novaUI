@@ -52,12 +52,12 @@ layout: widget
     </style>
 </div>
 <form action="http://www.so.com/s" id="search_form" charset="gbk">
-    <div class="search">
-        <div class="input-container">
-            <input type="text" name="q" id="search_input" autocomplete="off"/>
-        </div>
-        <input class="submit-btn" type="submit" value="Go"/>
+<div class="search">
+    <div class="input-container">
+        <input type="text" name="q" id="search_input" autocomplete="off"/>
     </div>
+    <input class="submit-btn" type="submit" value="Go"/>
+</div>
 </form>
 <script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.ui.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.suggest.js?t={{site.time | date: "%H%M%S"}}"></script>
