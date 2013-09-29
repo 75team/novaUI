@@ -49,6 +49,10 @@ layout: widget
             border-radius: 0;
             -webkit-appearance: none;
         }
+
+        .nova-suggest {
+            top: 30px;
+        }
     </style>
 </div>
 <form action="http://www.so.com/s" id="search_form" charset="gbk">
@@ -122,35 +126,35 @@ Include nova.suggest.css or copy the required styles from it.
 
      var config = {
             // 必填
-            url: '',                                    // Suggest请求的url
-            param: {},                                  // 请求的参数
-            preprocessFun: null,                        // 服务端返回数据的预处理方法
+            url: '',                                    // request URL
+            param: {},                                  // request parameters
+            preprocessFun: null,                        // proprocess the return data from server
 
             // 可选
-            method: 'jsonp',                            // 请求方法，支持jsonp和ajax
-            listCount: 5,                               // 最多显示suggestions个数 
-            formID: undefined,                          // 表单ID, 默认为input框最近的外层Form元素 
-            isStorable: true,                           // 是否通过localStorage保存搜索记录 
-            storageKeyName: 'nova-search-history',      // 通过localStorage保存历史记录的key
-            lazySuggestInterval_ms: 100,                // 每次input出suggest的延迟 
-            showClose: true,                            // 是否显示关闭按钮
-            showClearHistory: true,                     // 是否显示清理历史按钮
-            closeText: 'Close',                         // 关闭按钮的文字
-            clearHistoryText: 'Clear history',          // 清除历史记录的文字
+            method: 'jsonp',                            // request method
+            listCount: 5,                               // max number of listed suggestions
+            formID: undefined,                          // identify which form the input belongs to, defaultly its closet parent form
+            isStorable: true,                           // whether enable local storage of search history
+            storageKeyName: 'nova-search-history',      // local storage key of search history 
+            lazySuggestInterval_ms: 100,                // decounce interval
+            showClose: true,                            // whether to show close button
+            showClearHistory: true,                     // whether to show clear history button
+            closeText: 'Close',                         // close button text
+            clearHistoryText: 'Clear history',          // clear history button text
 
-            renderSuggestListFun: null,                 // 渲染Suggest列表的方法
-            getSuggestTemplateFun: null,                // 获得单条Suggest模板的方法
+            renderSuggestListFun: null,                 // method to render suggestion list
+            getSuggestTemplateFun: null,                // method to get template of single suggestion
 
 
             className: {
-                container: 'nova-suggest',              // Suggest列表
-                visible: 'nova-is-visible',             // 状态类，可视
-                suggest: 'sugg-item',                   // 单条Suggest
-                content: 'sugg-cont',                   // 单条Suggest的内容
-                copyControl: 'sugg-copy',               // 单条Suggest的复制按钮
-                control: 'sugg-control',                // Suggest列表下方的控制栏
-                closeControl: 'sugg-close',             // 关闭按钮
-                historyClearControl: 'sugg-clear'       // 清楚历史按钮
+                container: 'nova-suggest',              // suggestion list
+                visible: 'nova-is-visible',             // status visible
+                suggest: 'sugg-item',                   // single suggestion
+                content: 'sugg-cont',                   // content of single suggestion
+                copyControl: 'sugg-copy',               // copy button of single suggestion
+                control: 'sugg-control',                // control bar
+                closeControl: 'sugg-close',             // close button
+                historyClearControl: 'sugg-clear'       // clear history button
             }
         },
 
@@ -159,9 +163,9 @@ Include nova.suggest.css or copy the required styles from it.
 Parse the data from server and return an Array of suggest strings.
 
     /*
-     * @method preprocessFun 预处理服务端返回数据
-     * @param {Object} data 服务端返回数据
-     * @return {Array} 如['real time pcr', 'real time ling']
+     * @method preprocessFun Proprocess the return data from server
+     * @param {Object} data Return data from server
+     * @return {Array} eg: ['real time pcr', 'real time ling']
      * */
      function preprocessFun(data) {//...}
 
@@ -170,8 +174,8 @@ Parse the data from server and return an Array of suggest strings.
 Render the suggestion list in your own way.
 
     /*
-     * @method renderSuggestListFun 渲染Suggest列表
-     * @param {Array} data Suggest数据
+     * @method renderSuggestListFun Render suggestion list
+     * @param {Array} data Suggestion data
      * */
      function renderSuggestListFun(data) {//...}
 
@@ -199,6 +203,7 @@ See template documents [here](http://360.75team.com/~quguangyu/qwrap/js/_docs/_q
 | suggest           | Single suggest element   |
 | content           | Suggest content element    |
 | copy-control      | Copy control element   |
+
 
 See example:
 
