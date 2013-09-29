@@ -1,6 +1,6 @@
 /*
  * @file novaUI Slide 组件
- * @name novaUI.slide
+ * @name slide
  * @desc 轮播组件
  * @import src/zepto.js, src/nova.ui.js
  * */

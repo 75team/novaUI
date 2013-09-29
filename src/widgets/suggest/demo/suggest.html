@@ -2,41 +2,60 @@
 <html lang="zh-cn">
 <head>
 <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title></title>
 <link href="http://static.qhimg.com/!c957e3af/reset.css" rel="stylesheet" />
+<link rel="stylesheet" href="../nova.suggest.css" />
 <style type="text/css">
+    html {
+        height: 100%;
+    }
+
+    body {
+        font-family: Helvetica, Sans-serif;
+        height: 100%;
+        padding-top: 100px;
+    }
+
     #search_form {
-        width: 60%;
+        width: 90%;
         margin: auto;
     }
 
-    #search_input {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .nova-suggest {
-        width: 100%;
-    }
-
-    .nova-suggest .sugg-item {
+    .search {
         position: relative;
     }
-    
 
-    .nova-suggest .sugg-cont {
-        padding: 8px 50px 8px 0px; 
+    .input-container {
+        margin-right: 50px;
     }
 
-    .nova-suggest .sugg-copy, .nova-suggest .sugg-close {
-        background-color: gray;
-        display: block;
+    #search_input {
+        height: 30px;
+        width: 100%;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -webkit-appearance: none;
+        border: 1px solid #b4b4b4;
+        border-radius: 0;
+    }
+
+    .submit-btn {
+        text-align: center;
+        background-color: #ececec;
         position: absolute;
-        right: 0;
+        height: 30px;
+        line-height: 30px;
+        width: 50px;
         top: 0;
-        width: 50px;    
-        height: 100%;
+        right: 0;
+        border: 1px solid #b4b4b4;
+        border-left: 0;
+        border-radius: 0;
+        -webkit-appearance: none;
     }
+
+
 </style>
 </head>
 <body>
@@ -45,7 +64,12 @@
     </div>
     <div id="bd">
         <form action="http://www.so.com/s" id="search_form" charset="gbk">
-            <input type="text" name="q" id="search_input" autocomplete="off"/>
+            <div class="search">
+                <div class="input-container":t>
+                    <input type="text" name="q" id="search_input" autocomplete="off"/>
+                </div>
+                <input class="submit-btn" type="submit" value="Go"/>
+            </div>
         </form>
     </div>
     <div id="ft">
