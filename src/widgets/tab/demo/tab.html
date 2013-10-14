@@ -48,15 +48,15 @@
             </div>
             <div id="bd">
                 <div class="nova-tab">
-                    <div class="tab-control">
-                        <div class="control-item">Tab1</div>
-                        <div class="control-item">Tab2</div>
-                        <div class="control-item">Tab3</div>
+                    <div class="tab-control" data-role="control">
+                        <div class="control-item" data-role="control-item">Tab1</div>
+                        <div class="control-item" data-role="control-item">Tab2</div>
+                        <div class="control-item" data-role="control-item">Tab3</div>
                     </div>
-                    <div class="tab-cont">
-                        <div class="cont-item" style="background: red">Content1</div>
-                        <div class="cont-item" style="background: yellow">Content2</div>
-                        <div class="cont-item" style="background: green">Content3</div>
+                    <div class="tab-cont" data-role="content">
+                        <div class="cont-item" style="background: red" data-role="cont-item">Content1</div>
+                        <div class="cont-item" style="background: yellow" data-role="cont-item">Content2</div>
+                        <div class="cont-item" style="background: green" data-role="cont-item">Content3</div>
                     </div>
                 </div>
             </div>
@@ -65,10 +65,12 @@
         </div>
         <script src="../../../../libs/zepto.js"></script>
         <script src="../../../../libs/zepto.touch.js"></script>
-        <script src="../../../core/nova.ui.js"></script>
+        <script src="../../../core/class.js"></script>
+        <script src="../../../core/widget.js"></script>
+        <script src="../../../widgets/switchable/switchable.js"></script>
         <script src="../nova.tab.js"></script>
         <script type="text/javascript">
-            var tab = new Tab('.nova-tab', {});
+
         </script>
     </body>
 </html>
