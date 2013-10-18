@@ -19,6 +19,14 @@ strong {
 
 
 /* Layout */
+header h1 a {
+    color: #303030;
+}
+
+header h1 a:hover {
+    color: #303030;
+}
+
 #main_content {
     overflow: hidden;
 }

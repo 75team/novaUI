@@ -1,0 +1,52 @@
+.nova-tab {
+    overflow: hidden;
+}
+
+.tab-cont {
+    font-size: 0;
+    white-space: nowrap;
+}
+
+.cont-item {
+    font-size: 16px;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Custom */
+.nova-tab {
+    width: 600px;
+    border: 1px solid #AFD1FE;
+}
+
+.tab-control {
+    overflow: hidden;
+}
+
+.cont-item {
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+}
+
+.control-item {
+    background-color: #AFD1FE;
+    color: #666;
+    width: 33.333%;
+    float: left;
+    border-bottom: 1px solid #e7ecef;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    text-align: center;
+    padding: 0.5em 2em;
+}
+
+.control-item + .control-item {
+    border-left: 1px solid #e7ecef;
+}
+
+.control-item.active {
+    background-color: transparent;
+    border-bottom-color: transparent;
+}
+

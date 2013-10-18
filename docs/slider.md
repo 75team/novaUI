@@ -6,7 +6,7 @@ layout: widget
 
 ## Example
 
-<link rel="stylesheet" href="{{site.baseurl}}stylesheets/nova/nova.slide.css?t={{site.time | date: "%H%M%S"}}" />
+<link rel="stylesheet" href="{{site.baseurl}}nova/slide/slide.css?t={{site.time | date: "%H%M%S"}}" />
 <div>
 <style type="text/css">
     .nova-slide {
@@ -33,8 +33,8 @@ layout: widget
         <a href="#" class="control-item"></a> 
     </div>
 </div>
-<script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.ui.js?t={{site.time | date: "%H%M%S"}}"></script>
-<script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.slide.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/slide/slide.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript">
     var slide = new Slide('.nova-slide', {autoplay: true});
     
@@ -48,10 +48,11 @@ layout: widget
 </script>
 <br />
 
+## Resources
 
 ### CSS
 
-    <link rel="stylesheet" href="nova.slide.css">
+    <link rel="stylesheet" href="link[slide.css](http://melonhuang.github.io{{site.baseurl}}nova/nova.css?t={{site.time | date: "%H%M%S"}})">
 
 Include nova.slide.css or copy the required styles from it.
 
@@ -59,8 +60,8 @@ Include nova.slide.css or copy the required styles from it.
 
     <script src="zepto.js"></script>
     <script src="zepto.touch.js"></script>
-    <script src="nova.ui.js"></script>
-    <script src="nova.slide.js"></script>
+    <script src="link[nova.js](http://melonhuang.github.io{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[slide.js](http://melonhuang.github.io{{site.baseurl}}nova/slide/slide.js?t={{site.time | date: "%H%M%S"}})"></script>
 
 ## Usage
 
