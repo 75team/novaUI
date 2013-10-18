@@ -4,267 +4,19 @@
  * @desc 轮播组件
  * @import src/zepto.js, src/nova.ui.js
  * */
-;(function($) {
-    /*
-     * Switcher类实例化时的初始化函数
-     * @method init
-     * @param {DOM} ele 组件对应的DOM元素
-     * @param {JSON} config 组件配置
-     *
-     * */
-    function init(ele, config) {
-        this.index = config.index;  // 初始选项
-        this.count = config.count;  // 选项个数
-    }
+;(function() {
 
-    /*
-     * Switcher类的原型属性和方法
-     * */
-    var prototype = {
-        /* 默认配置 */
-        _defaultConf: {
-            index: -1,          // 初始选项
-            count: 0,           // 选项个数
-            recursive: false    // 是否可循环
-        },
-
-        /*
-         * 切换到下一个
-         * @method next
-         * @return {Boolean} 是否切换成功 成功:true 失败: false
-         * */
-        next: function() {
-            var from = this.index,
-                to;
-            // 可循环
-            if(this.config.recursive) {
-                to = (from + 1) % this.count;
-                this.switchTo(to);
-                this.trigger('next', [from, to]);
-                return true;
-            }
-            // 不可循环，但未超出范围
-            else if((to = from + 1) < this.count){
-                this.switchTo(to);
-                this.trigger('next', [from, to]);
-                return true;
-            }
-
-            return false;
-        },
-
-        /*
-         * 切换到上一个
-         * @method prev
-         * @return {Boolean} 是否切换成功 成功:true 失败: false
-         * */
-        prev: function() {
-            var from = this.index,
-                to;
-            // 可循环
-            if(this.config.recursive) {
-                to = (from + this.count - 1) % this.count;
-                this.switchTo(to);
-                this.trigger('prev', [from, to]);
-                return true;
-            }
-            // 不可循环，但未超出范围
-            else if((to = from - 1) >= 0){
-                this.switchTo(to);
-                this.trigger('prev', [from, to]);
-                return true;
-            }
-
-            return false;
-        },
-        /*
-         * 切换到指定项
-         * @method switchTo
-         * @param {Integer} to 切换到项的索引
-         * @return {Boolean} 是否切换成功 成功:true 失败: false
-         * */
-        switchTo: function(to) {
-            var from = this.index;
-            if(from != to) {
-                this.index = to;
-                this.trigger('switch', [from, to]);
-                return true;
-            }
-            return false;
-        }
-    };
-
-    /*
-     * 控制选项之间的切换
-     * @class Switcher
-     * @param {DOM} ele 组件对应的DOM元素
-     * @param {JSON} config 组件配置
-     * */
-    var Switcher = nova.ui.define(init, prototype);
-    window.Switcher = Switcher;
-
-})($);
-
-;(function($) {
     var SWIPE_DISTANCE_MIN = 25,
         TRANSFORM_PROPERTY_NAME = document.body.style.webkitTransform === undefined ? 'transform' : '-webkit-transform';
 
     var transitionCssReset = {};
     transitionCssReset[TRANSFORM_PROPERTY_NAME] = '';
 
-    /*
-     * Slider类实例化时的初始化函数
-     * @method init
-     * @param {DOM} ele 组件对应的DOM元素
-     * @param {JSON} config 组件配置
-     *
-     * */
-    function init(ele, config) {
-        var me = this;
 
-        // DOM elements
-        me.$root = me.root;
-        me.$items = me.$root.find(config.contentsSelector);
-        me.$controls = me.$root.find(config.controlsSelector);
-        me.$cur = $(),
-        me.$prev = $(),
-        me.$next = $(),
-        me.$curControl = $();
+    this.Slide = Switchable.extend({
+        defaultConfig: {
+            recursive: true,
 
-        me.width = me.$items.parent().width(),
-        me.slideOffset = 0,
-        me.slideDuration = 0,
-        me.autoplayTimerID;
-
-        config.count = me.$items.length;
-        config.index = 0;
-        // switcher
-        me.switcher = new Switcher(ele,
-            {
-                recursive: config.recursive,
-                index: config.index,
-                count: config.count
-            }
-        );
-
-        // Slide status
-        me.slidingCount = 0;        // 0 indicates no element is sliding
-
-        // Tapping Control event listeners
-        me.$controls.delegate('.control-item', 'tap', function(ev) {
-            ev.preventDefault();
-            var index = me.$controls.indexOf(this);
-            me.go(index);
-        });
-
-        // Resizing window event listener
-        $(window).on('resize', function() {
-            me.width = me.$items.parent().width();
-            me._resetReadyEles();
-        });
-
-        // Make slider draggable
-        me.$items.parent().on('touchstart', function(ev) {
-            console.log('start');
-            if(!me._notSliding()) return;
-
-
-            var $ins = me.$cur,
-                $body = $(document.body),
-                touch = ev.touches[0],
-                startX = touch.pageX,
-                startY = touch.pageY,
-                deltaX = 0,
-                deltaY = 0, 
-                startTime = new Date(), 
-                autoplay = me.config.autoplay, 
-                isScrolling = undefined;
-
-            if(autoplay) {
-                me.stopAutoplay();
-            }
-
-            $body.on('touchmove', touchmoveHandler);
-            $body.on('touchend', touchendHandler);
-
-            function touchmoveHandler(ev) {
-                var curTouch = ev.touches[0];
-
-                console.log(isScrolling);
-
-                if(isScrolling === undefined) {
-                    isScrolling = Math.abs(curTouch.pageX - startX) < Math.abs(curTouch.pageY - startY);
-                }
-
-                if(!isScrolling) {
-                    ev.preventDefault();
-
-                    deltaX = Math.abs(curTouch.pageX - startX) < me.width ? (curTouch.pageX - startX) : deltaX;
-                    me.slideOffset = deltaX;
-
-                    $ins.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + deltaX + 'px, 0, 0)');
-                    me.$next.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (me.width + deltaX) + 'px, 0, 0)');
-                    me.$prev.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (-me.width + deltaX) + 'px, 0, 0)');
-                }
-            } 
-            function touchendHandler(ev) { 
-                var rightToLeft = deltaX < 0,
-                    endTime = new Date(),
-                    swipeDuration = endTime - startTime,
-                    swipeDistance = Math.abs(deltaX),
-                    duration = Math.abs(me.slideOffset) * me.config.duration_ms / me.width;
-
-                $body.off('touchmove', touchmoveHandler);
-                $body.off('touchend', touchendHandler);
-
-                if(swipeDistance >= SWIPE_DISTANCE_MIN) {
-                    if(!(rightToLeft ? me.next() : me.prev()))
-                        recur();
-                } else {
-                    recur();
-                }
-
-                if(autoplay) {
-                    me.startAutoplay();
-                }
-
-                // 回到原位
-                function recur() {
-                    me.slideOffset = 0;
-                    $ins.animate(me._getOffsetXCss(0), duration);
-                    me.$prev.animate(me._getOffsetXCss(-me.width), duration);
-                    me.$next.animate(me._getOffsetXCss(me.width), duration);
-                }
-            }
-
-        });
-
-        // 如果小于三个选项，禁止循环
-        if(me.$items.length < 3 ) {
-            me.setRecursive(false);
-        }
-
-        // 选中第一项
-        me._resetReadyEles();
-
-        // 自动轮播
-        if(config.autoplay) {
-            me.startAutoplay();
-        }
-
-    }
-
-    /*
-     * Slider类的原型属性和方法
-     *
-     * */
-    var prototype = {
-        _defaultConf: {
-            index: -1,              // 初始选项
-            count: 0,               // 选项个数
-            recursive: true,        // 是否可循环
-            autoplay: false,            // 是否自动轮播
-            interval_ms: 10000,     // 自动轮播间隔
             duration_ms: 200,       // 切换时长
 
             contentsSelector: '.slide-cont .cont-item',
@@ -272,14 +24,128 @@
             activeClassName: 'active'
         },
 
-        /*
-         * 切换到下一个
-         * @method next
-         * @return {Boolean} 是否切换成功 成功:true 失败: false
-         * */
+
+        setup: function init(ele, config) {
+            this._super(arguments);
+
+            var me = this;
+            ele = me.element;
+            config = me.config;
+
+            // DOM elements
+            me.$root = me.element;
+            me.$items = me.$root.find(config.contentsSelector);
+            me.$controls = me.$root.find(config.controlsSelector);
+            me.$cur = $(),
+            me.$prev = $(),
+            me.$next = $(),
+            me.$curControl = $();
+
+            me.width = me.$items.parent().width(),
+            me.slideOffset = 0,
+            me.slideDuration = 0,
+
+            me.count = me.$items.length;
+            me.index = 0;
+
+            // Slide status
+            me.slidingCount = 0;        // 0 indicates no element is sliding
+
+            // Tapping Control event listeners
+            me.$controls.delegate('.control-item', 'tap', function(ev) {
+                ev.preventDefault();
+                var index = me.$controls.indexOf(this);
+                me.go(index);
+            });
+
+            // Resizing window event listener
+            $(window).on('resize', function() {
+                me.width = me.$items.parent().width();
+                me._resetReadyEles();
+            });
+
+            // Make slider draggable
+            me.$items.parent().on('touchstart', function(ev) {
+                console.log('start');
+                if(!me._notSliding()) return;
+
+
+                var $ins = me.$cur,
+                    $body = $(document.body),
+                    touch = ev.touches[0],
+                    startX = touch.pageX,
+                    startY = touch.pageY,
+                    deltaX = 0,
+                    deltaY = 0, 
+                    startTime = new Date(), 
+                    isScrolling = undefined;
+
+                $body.on('touchmove', touchmoveHandler);
+                $body.on('touchend', touchendHandler);
+
+                function touchmoveHandler(ev) {
+                    var curTouch = ev.touches[0];
+
+                    console.log(isScrolling);
+
+                    if(isScrolling === undefined) {
+                        isScrolling = Math.abs(curTouch.pageX - startX) < Math.abs(curTouch.pageY - startY);
+                    }
+
+                    if(!isScrolling) {
+                        ev.preventDefault();
+
+                        deltaX = Math.abs(curTouch.pageX - startX) < me.width ? (curTouch.pageX - startX) : deltaX;
+                        me.slideOffset = deltaX;
+
+                        $ins.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + deltaX + 'px, 0, 0)');
+                        me.$next.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (me.width + deltaX) + 'px, 0, 0)');
+                        me.$prev.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (-me.width + deltaX) + 'px, 0, 0)');
+                    }
+                } 
+                function touchendHandler(ev) { 
+                    var rightToLeft = deltaX < 0,
+                        endTime = new Date(),
+                        swipeDuration = endTime - startTime,
+                        swipeDistance = Math.abs(deltaX),
+                        duration = Math.abs(me.slideOffset) * me.config.duration_ms / me.width;
+
+                    $body.off('touchmove', touchmoveHandler);
+                    $body.off('touchend', touchendHandler);
+
+                    if(swipeDistance >= SWIPE_DISTANCE_MIN) {
+                        if(!(rightToLeft ? me.next() : me.prev()))
+                            recur();
+                    } else {
+                        recur();
+                    }
+
+                    // 回到原位
+                    function recur() {
+                        me.slideOffset = 0;
+                        $ins.animate(me._getOffsetXCss(0), duration);
+                        me.$prev.animate(me._getOffsetXCss(-me.width), duration);
+                        me.$next.animate(me._getOffsetXCss(me.width), duration);
+                    }
+                }
+
+            });
+
+            // 如果小于三个选项，禁止循环
+            if(me.$items.length < 3 ) {
+                me.setRecursive(false);
+            }
+
+            // 选中第一项
+            me._resetReadyEles();
+            me.$controls.eq(this.index).addClass('active');
+
+            me.plug($autoplay);
+        },
+
         next: function() {
             var rightToLeft = true;
-            if(this._notSliding() && this.switcher.next()) {
+            if(this._notSliding() && this._super()) {
                 this._slide(rightToLeft);
                 return true;
             }
@@ -292,7 +158,7 @@
          * */
         prev: function() {
             var rightToLeft = false;
-            if(this._notSliding() && this.switcher.prev()) {
+            if(this._notSliding() && this._super()) {
                 this._slide(rightToLeft);
                 return true;
             }
@@ -305,33 +171,12 @@
          * @return {Boolean} 是否切换成功 成功:true 失败: false
          * */
         go: function(to) {
-            from = this.switcher.index;
-            if(this._notSliding() && this.switcher.switchTo(to)) {
+            from = this.index;
+            if(this._notSliding() && this.switchTo(to)) {
                 this._slideTo(from, to);
                 return true;
             }
             return false;
-        },
-        /*
-         * 开始自动轮播
-         * @method startAutoplay
-         * */
-        startAutoplay: function() {
-            var me = this;
-            me.config.auto = true;
-            me.autoplayTimerID = setInterval(function() {
-               me.next();
-            }, me.config.interval_ms);
-        },
-        /*
-         * 关闭自动轮播
-         * @method stopAutoplay
-         * */
-        stopAutoplay: function() {
-            var me = this;
-            me.config.auto = false;
-            clearInterval(me.autoplayTimerID);
-            me.autoplayTimerID = undefined;
         },
         /*
          * 设置是否可循环
@@ -341,7 +186,6 @@
          * */
         setRecursive: function(isRecursive) {
             this.config.recursive = isRecursive;
-            this.switcher.config.recursive = isRecursive;
         },
         /*
          * 将下一个要显示的项放置好，再开始滑动
@@ -386,7 +230,7 @@
 
             // change control
             var activeClassName = me.config.activeClassName, 
-                curIndex = me.switcher.index;
+                curIndex = me.index;
             me.$curControl.removeClass(activeClassName);
             me.$curControl = $(me.$controls[curIndex]);
             me.$curControl.addClass(activeClassName);
@@ -399,10 +243,10 @@
          *
          * */
         _resetReadyEles: function() {
-            var curIndex = this.switcher.index,
+            var curIndex = this.index,
                 prevIndex = curIndex - 1,
                 nextIndex = curIndex + 1,
-                count = this.switcher.count,
+                count = this.count,
                 activeClassName = this.config.activeClassName;
 
             this.$cur.removeClass(activeClassName);
@@ -470,12 +314,6 @@
             ele.css(transitionCssReset);
         }
 
-    };
-    /*
-     * @class Slide
-     * @param {DOM} ele 组件的Dom元素
-     * @param {JSON} config 组件配置
-     * */
-    var Slide = nova.ui.define(init, prototype);
-    window.Slide = Slide;
-})($);
+    });
+})();
+

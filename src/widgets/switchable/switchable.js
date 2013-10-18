@@ -8,11 +8,13 @@
             recursive: false    // 是否可循环
         },
 
+        /* 初始化 */
         setup: function() {
             this.index = this.config.index;
             this.count = this.config.count;
         },
 
+        /* 切换到下一个，成功返回true, 触发next事件 */
         next: function() {
             var from = this.index,
                 to;
@@ -33,6 +35,7 @@
             return false;
         },
 
+        /* 切换到上一个，成功返回true, 触发prev事件 */
         prev: function() {
             var from = this.index,
                 to;
@@ -52,6 +55,8 @@
 
             return false;
         },
+
+        /* 切换到to, 成功返回true, 触发switch事件 */
         switchTo: function(to) {
             var from = this.index;
             if(from != to) {

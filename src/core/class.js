@@ -46,6 +46,8 @@
         this.init.apply(this, arguments);
     }
 
+    Class.superclass = _super;
+
     // Populate our constructed prototype object
     Class.prototype = prototype;
 
