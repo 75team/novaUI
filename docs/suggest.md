@@ -6,7 +6,7 @@ layout: widget
 
 ## Example
 
-<link rel="stylesheet" href="{{site.baseurl}}stylesheets/nova/nova.suggest.css?t={{site.time | date: "%H%M%S"}}" />
+<link rel="stylesheet" href="{{site.baseurl}}nova/suggest/suggest.css?t={{site.time | date: "%H%M%S"}}" />
 <div>
     <style>
         #search_form {
@@ -64,7 +64,7 @@ layout: widget
 </div>
 </form>
 <script type="text/javascript" src="{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}}"></script>
-<script type="text/javascript" src="{{site.baseurl}}nova/suggest.suggest.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/suggest/suggest.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript">
     var input = $('#search_input');    
 
@@ -82,7 +82,7 @@ layout: widget
 
 ### CSS
 
-    <link rel="stylesheet" href="nova.slide.css">
+    <link rel="stylesheet" href="link[slide.css]({{site.baseurl}}nova/suggest/suggest.css?t={{site.time | date: "%H%M%S"}})">
 
 Include nova.suggest.css or copy the required styles from it.
 
@@ -90,24 +90,18 @@ Include nova.suggest.css or copy the required styles from it.
 
     <script src="zepto.js"></script>
     <script src="zepto.touch.js"></script>
-    <script src="nova.ui.js"></script>
-    <script src="nova.suggest.js"></script>
+    <script src="link[nova.js]({{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[suggest.js]({{site.baseurl}}nova/suggest/suggest.js?t={{site.time | date: "%H%M%S"}})"></script>
 
 ### Usage
 
-    <!-- include nova.slide.css -->
-    <link rel="stylesheet" href="nova.suggest.css" />
-
     <form action="http://www.so.com/s" id="search_form" charset="gbk">
         <div class="search">
-            <div class="input-container">
-                <input type="text" name="q" id="search_input" autocomplete="off"/>
-            </div>
+            <input type="text" name="q" id="search_input" autocomplete="off"/>
             <input class="submit-btn" type="submit" value="Go"/>
         </div>
     </form>
-    <script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.ui.js?t={{site.time | date: "%H%M%S"}}"></script>
-    <script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.suggest.js?t={{site.time | date: "%H%M%S"}}"></script>
+
     <script type="text/javascript">
         var input = $('#search_input');    
 
@@ -125,12 +119,12 @@ Include nova.suggest.css or copy the required styles from it.
 ### Configuration
 
      var config = {
-            // 必填
+            // Required
             url: '',                                    // request URL
             param: {},                                  // request parameters
             preprocessFun: null,                        // proprocess the return data from server
 
-            // 可选
+            // Optional
             method: 'jsonp',                            // request method
             listCount: 5,                               // max number of listed suggestions
             formID: undefined,                          // identify which form the input belongs to, defaultly its closet parent form

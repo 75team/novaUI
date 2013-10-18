@@ -65,9 +65,6 @@ Include nova.slide.css or copy the required styles from it.
 
 ## Usage
 
-    <!-- include nova.slide.css -->
-    <link rel="stylesheet" href="nova.slide.css" />
-
     <!-- the viewport -->
     <div class="nova-slide" >
         <!-- the slider -->
@@ -91,12 +88,6 @@ Include nova.slide.css or copy the required styles from it.
         </div>
     </div>
 
-    <!-- include zepto.js and zepto.touch.js -->
-    <script type="text/javascript" src="zepto.js"></script>
-    <script type="text/javascript" src="zepto.touch.js"></script>
-    <!-- include nova.ui.js and nova.slide.js -->
-    <script type="text/javascript" src="nova.ui.js"></script>
-    <script type="text/javascript" src="nova.slide.js"></script>
     <!-- construct the slider -->
     <script type="text/javascript">
         var slide = new Slide('.nova-slide', {autoplay: true});
