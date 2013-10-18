@@ -63,8 +63,8 @@ layout: widget
     <input class="submit-btn" type="submit" value="Go"/>
 </div>
 </form>
-<script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.ui.js?t={{site.time | date: "%H%M%S"}}"></script>
-<script type="text/javascript" src="{{site.baseurl}}/javascripts/nova/nova.suggest.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/suggest.suggest.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript">
     var input = $('#search_input');    
 

@@ -1,33 +1,179 @@
-/*
- * @file novaUI Suggest 组件
- * @name Suggest
- * @desc 搜索提示组件
- * @import src/zepto.js, src/nova.ui.js
- * */
 (function() {
-    /*******************************************************************************************************************
-     * 公共方法
-     *******************************************************************************************************************/
+    this.nova = this.nova || {};
 
-    /*
-    * 字符串简易模板
-    * @method tmpl
-    * @static
-    * @param {String} sTmpl 字符串模板，其中变量以｛$aaa｝表示
-    * @param {Object} opts 模板参数
-    * @return {String}  模板变量被替换后的字符串
-    * @example alert(tmpl("{$a} love {$b}.",{a:"I",b:"you"}))
-    tmpl:function(sTmpl,opts){
-        return sTmpl.replace(/\{\$(\w+)\}/g,function(a,b){return opts[b]});
-    },
-    */
+    this.nova.utils = this.nova.utils || {};
+
+    this.nova.utils.tmpl = (function() {
+
+        var tmplFuns={};
+        /*
+        sArrName 拼接字符串的变量名。
+        */
+        var sArrName = "sArrCMX",
+            sLeft = sArrName + '.push("';
+        /*
+            tag:模板标签,各属性含义：
+            tagG: tag系列
+            isBgn: 是开始类型的标签
+            isEnd: 是结束类型的标签
+            cond: 标签条件
+            rlt: 标签结果
+            sBgn: 开始字符串
+            sEnd: 结束字符串
+        */
+        var tags = {
+            '=': {
+                tagG: '=',
+                isBgn: 1,
+                isEnd: 1,
+                sBgn: '",QW.StringH.encode4HtmlValue(',
+                sEnd: '),"'
+            },
+            'js': {
+                tagG: 'js',
+                isBgn: 1,
+                isEnd: 1,
+                sBgn: '");',
+                sEnd: ';' + sLeft
+            },
+            //任意js语句, 里面如果需要输出到模板，用print("aaa");
+            'if': {
+                tagG: 'if',
+                isBgn: 1,
+                rlt: 1,
+                sBgn: '");if',
+                sEnd: '{' + sLeft
+            },
+            //if语句，写法为{if($a>1)},需要自带括号
+            'elseif': {
+                tagG: 'if',
+                cond: 1,
+                rlt: 1,
+                sBgn: '");} else if',
+                sEnd: '{' + sLeft
+            },
+            //if语句，写法为{elseif($a>1)},需要自带括号
+            'else': {
+                tagG: 'if',
+                cond: 1,
+                rlt: 2,
+                sEnd: '");}else{' + sLeft
+            },
+            //else语句，写法为{else}
+            '/if': {
+                tagG: 'if',
+                isEnd: 1,
+                sEnd: '");}' + sLeft
+            },
+            //endif语句，写法为{/if}
+            'for': {
+                tagG: 'for',
+                isBgn: 1,
+                rlt: 1,
+                sBgn: '");for',
+                sEnd: '{' + sLeft
+            },
+            //for语句，写法为{for(var i=0;i<1;i++)},需要自带括号
+            '/for': {
+                tagG: 'for',
+                isEnd: 1,
+                sEnd: '");}' + sLeft
+            },
+            //endfor语句，写法为{/for}
+            'while': {
+                tagG: 'while',
+                isBgn: 1,
+                rlt: 1,
+                sBgn: '");while',
+                sEnd: '{' + sLeft
+            },
+            //while语句,写法为{while(i-->0)},需要自带括号
+            '/while': {
+                tagG: 'while',
+                isEnd: 1,
+                sEnd: '");}' + sLeft
+            } //endwhile语句, 写法为{/while}
+        };
+
+        return function(sTmpl, opts) {
+
+            var fun  = tmplFuns[sTmpl];
+            if (!fun) {
+                var N = -1,
+                    NStat = []; //语句堆栈;
+                var ss = [
+                    [/\{strip\}([\s\S]*?)\{\/strip\}/g, function(a, b) {
+                        return b.replace(/[\r\n]\s*\}/g, " }").replace(/[\r\n]\s*/g, "");
+                    }],
+                    [/\\/g, '\\\\'],
+                    [/"/g, '\\"'],
+                    [/\r/g, '\\r'],
+                    [/\n/g, '\\n'], //为js作转码.
+                    [
+                        /\{[\s\S]*?\S\}/g, //js里使用}时，前面要加空格。
+                        function(a) {
+                            a = a.substr(1, a.length - 2);
+                            for (var i = 0; i < ss2.length; i++) {a = a.replace(ss2[i][0], ss2[i][1]); }
+                            var tagName = a;
+                            if (/^(=|.\w+)/.test(tagName)) {tagName = RegExp.$1; }
+                            var tag = tags[tagName], 
+                                stat;
+                            if (tag) {
+                                if (tag.isBgn) {
+                                    stat = NStat[++N] = {
+                                        tagG: tag.tagG,
+                                        rlt: tag.rlt
+                                    };
+                                }
+                                if (tag.isEnd) {
+                                    if (N < 0) {throw new Error("Unexpected Tag: " + a); }
+                                    stat = NStat[N--];
+                                    if (stat.tagG != tag.tagG) {throw new Error("Unmatch Tags: " + stat.tagG + "--" + tagName); }
+                                } else if (!tag.isBgn) {
+                                    if (N < 0) {throw new Error("Unexpected Tag:" + a); }
+                                    stat = NStat[N];
+                                    if (stat.tagG != tag.tagG) {throw new Error("Unmatch Tags: " + stat.tagG + "--" + tagName); }
+                                    if (tag.cond && !(tag.cond & stat.rlt)) {throw new Error("Unexpected Tag: " + tagName); }
+                                    stat.rlt = tag.rlt;
+                                }
+                                return (tag.sBgn || '') + a.substr(tagName.length) + (tag.sEnd || '');
+                            } else {
+                                return '",(' + a + '),"';
+                            }
+                        }
+                    ]
+                ];
+                var ss2 = [
+                    [/\\n/g, '\n'],
+                    [/\\r/g, '\r'],
+                    [/\\"/g, '"'],
+                    [/\\\\/g, '\\'],
+                    [/\$(\w+)/g, 'opts["$1"]'],
+                    [/print\(/g, sArrName + '.push(']
+                ];
+                for (var i = 0; i < ss.length; i++) {
+                    sTmpl = sTmpl.replace(ss[i][0], ss[i][1]);
+                }
+                if (N >= 0) {throw new Error("Lose end Tag: " + NStat[N].tagG); }
+
+                sTmpl = sTmpl.replace(/##7b/g,'{').replace(/##7d/g,'}').replace(/##23/g,'#'); //替换特殊符号{}#
+                sTmpl = 'var ' + sArrName + '=[];' + sLeft + sTmpl + '");return ' + sArrName + '.join("");';
+
+                //alert('转化结果\n'+sTmpl);
+                tmplFuns[sTmpl] = fun = new Function('opts', sTmpl);
+            }
+
+            if (arguments.length > 1) {return fun(opts); }
+            return fun;
+        };
+    })();
+
+})();
+
+(function() {
+    // Helpers
     var tmpl = nova.utils.tmpl;
 
-    /*
-     * @method decounce 防抖
-     * @param {Function} func 回调函数
-     * @param {Integer} threshold 最小执行间隔
-     * */
     function debounce(func, threshold) {
         var timerId;
         return function() {
@@ -46,45 +192,8 @@
         };
     }
 
-    /*******************************************************************************************************************
-     * Class Suggest
-     *******************************************************************************************************************/
-
-    /*
-     * @method constructor Suggest类的构造函数
-     * @param {DOM} ele DOM元素
-     * @param {Object} config Suggest配置
-     * */
-    function constructor(ele, config) {
-        var me = this;
-
-        me.history = {};                        // 搜索和suggest记录
-        me._preprocess = config.preprocessFun;  // Suggest数据预处理方法
-        me.$suggest = null;                     // Suggest的Zepto对象
-        me.$form = me.config.formID ? $('#' + me.config.formID) : this.root.closest('form'),    // Suggest的表单的Zepto对象
-        me.storageData = [];                    // 本地存储的查询记录
-
-        if(config.renderSuggestListFun) me._renderList = config.renderSuggestListFun;   // 渲染Suggest列表的方法
-        if(config.getSuggestTemplateFun) me._getSuggestTempFun = config.getSuggestTemplateFun;     // 获得单条Suggest模板的方法
-
-        // 控制条模板
-        me.controlTemplate = '<div data-role="control"><span data-role="close">' + config.closeText + '</span></div>';
-        // 历史记录控制条模板
-        me.historyControlTemplate = '<div data-role="control"><span data-role="clear-history">' + config.clearHistoryText + '</span><span data-role="close">' + config.closeText + '</span></div>', 
-        // 单条suggest的模板
-        me.suggestTemplate = '<div data-role="suggest"><span data-role="content" data-cont="{$suggest}">{$suggest}</span><span data-role="copy-control" data-cont="{$suggest}"></span></div>',
-
-        // 初始化历史查询数据
-        me._initStorageData();
-
-        // 添加输入和提交时间监听
-        me._bindInputEvent();
-        me._bindSubmitEvent();
-    }
-
-    /* Suggest类的原型属性和方法 */
-    var prototype = {
-        _defaultConf: {
+    this.Suggest = Widget.extend({
+        defaultConfig: {
             // 必填
             url: '',                                    // Suggest请求的url
             param: {},                                  // 请求的参数
@@ -118,10 +227,38 @@
             }
         },
 
+        setup: function() {
+            var me = this;
+            var config = this.config;
+
+            me.history = {};                        // 搜索和suggest记录
+            me._preprocess = config.preprocessFun;  // Suggest数据预处理方法
+            me.$suggest = null;                     // Suggest的Zepto对象
+            me.$form = me.config.formID ? $('#' + me.config.formID) : this.element.closest('form'),    // Suggest的表单的Zepto对象
+            me.storageData = [];                    // 本地存储的查询记录
+
+            if(config.renderSuggestListFun) me._renderList = config.renderSuggestListFun;   // 渲染Suggest列表的方法
+            if(config.getSuggestTemplateFun) me._getSuggestTempFun = config.getSuggestTemplateFun;     // 获得单条Suggest模板的方法
+
+            // 控制条模板
+            me.controlTemplate = '<div data-role="control"><span data-role="close">' + config.closeText + '</span></div>';
+            // 历史记录控制条模板
+            me.historyControlTemplate = '<div data-role="control"><span data-role="clear-history">' + config.clearHistoryText + '</span><span data-role="close">' + config.closeText + '</span></div>', 
+            // 单条suggest的模板
+            me.suggestTemplate = '<div data-role="suggest"><span data-role="content" data-cont="{$suggest}">{$suggest}</span><span data-role="copy-control" data-cont="{$suggest}"></span></div>',
+
+            // 初始化历史查询数据
+            me._initStorageData();
+
+            // 添加输入和提交时间监听
+            me._bindInputEvent();
+            me._bindSubmitEvent();
+        },
+
         // 绑定Input事件
         _bindInputEvent: function() {
             var me = this;
-            me.root.on('input focus', debounce(function() {
+            me.element.on('input focus', debounce(function() {
                 // 获得Input输入
                 var query = me._getInput().trim();
 
@@ -163,7 +300,7 @@
                 /* Hide suggest */
                 me.$suggest.removeClass(me.config.className.visible);
 
-                me.root.trigger('input');
+                me.element.trigger('input');
             });
 
             // 点击清理历史记录
@@ -184,7 +321,7 @@
             $(document.body).on('tap', function(ev) {
                 var target = ev.target;
                 //alert('@');
-                if(me.root[0] != target && me.$suggest[0] != target && !$.contains(me.$suggest[0], target)) {
+                if(me.element[0] != target && me.$suggest[0] != target && !$.contains(me.$suggest[0], target)) {
                     me.$suggest.removeClass(me.config.className.visible);
                     console.log(Math.random());
                 }
@@ -316,12 +453,12 @@
 
         // 获取查询字符串
         _getInput: function() {
-            return this.root.val(); 
+            return this.element.val(); 
         }, 
 
         // 设置查询字符串
         _setInput: function(value) {
-           this.root.val(value);        
+           this.element.val(value);        
         }, 
 
         // 提交表单
@@ -332,20 +469,18 @@
         // 检测是否缓存查询
         _inHistory: function(query) {
             return !!this.history[query];
-        }, 
+        },
 
         // 获得缓存数据
         _getHistoryData: function(query) {
             return this.history[query]; 
-        } 
-
-    };
-
-     /*
-     * @class Suggest
-     * @param {DOM} ele 组件的Dom元素
-     * @param {JSON} config 组件配置
-     * */
-    var Suggest = nova.ui.define(constructor, prototype);
-    window.Suggest = window.Suggest || Suggest;
+        }
+    });
 })();
+
+
+
+
+
+
+

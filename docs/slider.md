@@ -52,7 +52,7 @@ layout: widget
 
 ### CSS
 
-    <link rel="stylesheet" href="link[slide.css](http://melonhuang.github.io{{site.baseurl}}nova/nova.css?t={{site.time | date: "%H%M%S"}})">
+    <link rel="stylesheet" href="link[slide.css]({{site.baseurl}}nova/slide/slide.css?t={{site.time | date: "%H%M%S"}})">
 
 Include nova.slide.css or copy the required styles from it.
 
@@ -60,8 +60,8 @@ Include nova.slide.css or copy the required styles from it.
 
     <script src="zepto.js"></script>
     <script src="zepto.touch.js"></script>
-    <script src="link[nova.js](http://melonhuang.github.io{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}})"></script>
-    <script src="link[slide.js](http://melonhuang.github.io{{site.baseurl}}nova/slide/slide.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[nova.js]({{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[slide.js]({{site.baseurl}}nova/slide/slide.js?t={{site.time | date: "%H%M%S"}})"></script>
 
 ## Usage
 
