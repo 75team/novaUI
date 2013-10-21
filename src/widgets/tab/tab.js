@@ -3,6 +3,7 @@
 
     this.Tab = Switchable.extend({
         defaultConfig: {
+            index: 0,
             openAnimate: true,
             duration_ms: 200
         },
@@ -36,6 +37,7 @@
             // 绑定事件
             me._bindEvents_controlTap();
             me._bindEvents_switch();
+            me._bindEvents_resize();
 
             // 选中第一项
             me.$content.css(me._getCssObj());
@@ -59,6 +61,15 @@
             me.on('switch', function(ev, from, to) {
                 me.trigger('beforeSwitch');
                 me._switchUI(from, to);
+            });
+        },
+
+        _bindEvents_resize: function() {
+            var me = this;
+            $(window).on('resize', function() {
+                me.width = me.$contItems.width();
+                me.$content.css(me._getCssObj());
+                me.$content.css('height', me.$contItems.eq(me.index).height() + 'px');
             });
         },
 

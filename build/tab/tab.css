@@ -25,6 +25,8 @@
 
 .cont-item {
     text-align: center;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 .control-item {
