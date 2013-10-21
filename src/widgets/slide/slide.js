@@ -102,7 +102,7 @@
                         me.$next.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (me.width + deltaX) + 'px, 0, 0)');
                         me.$prev.css(TRANSFORM_PROPERTY_NAME, 'translate3d(' + (-me.width + deltaX) + 'px, 0, 0)');
                     }
-                } 
+                }
                 function touchendHandler(ev) { 
                     var rightToLeft = deltaX < 0,
                         endTime = new Date(),
@@ -138,7 +138,8 @@
 
             // 选中第一项
             me._resetReadyEles();
-            me.$controls.eq(this.index).addClass('active');
+            me.$curControl = me.$controls.eq(this.index);
+            me.$curControl.addClass('active');
 
             me.plug($autoplay);
         },

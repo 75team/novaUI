@@ -1,0 +1,78 @@
+.nova-suggest {
+    width: 100%;
+    display: none;
+    position: absolute;
+    background-color: white;
+}
+
+.nova-is-visible {
+    display: block;
+}
+
+
+/* Customized */
+.nova-suggest {
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 1px solid #b4b4b4;
+    border-top: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+}
+
+.nova-suggest .sugg-item {
+    position: relative;
+}
+
+.nova-suggest .sugg-cont {
+    display: block;
+    padding: 8px 50px 8px 5px;
+    margin-right: 40px;
+}
+
+.nova-suggest .sugg-cont:active, .nova-suggest .sugg-copy:active {
+    background-color: #ddd;
+}
+
+.nova-suggest .sugg-copy {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
+}
+
+.nova-suggest .sugg-copy:after {
+    content: '+';
+    color: rgb(180, 180, 180);
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -13px;
+    margin-left: -8px;
+    font-size: 24px;
+}
+
+/* Control */
+.sugg-control {
+    background-color: #f7f7f7;
+    overflow: hidden;
+}
+
+.nova-suggest .sugg-clear, .nova-suggest .sugg-close {
+    font-size: 13px;
+    padding: 0 5px;
+    line-height: 2.5em;
+    text-decoration: underline;
+}
+
+.nova-suggest .sugg-clear {
+    float: left;
+}
+
+.nova-suggest .sugg-close {
+    float: right;
+}
+

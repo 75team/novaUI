@@ -66,38 +66,3 @@
 }
 
 
-/* Required */
-/*.slide-outer {
-	overflow: hidden;
-	font-size: 0;
-}
-
-.slide-inner {
-	white-space: nowrap;
-	text-align: left;
-	position: relative;
-	-webkit-transition-duration: 0.5s;
-	-webkit-transition-property: -webkit-transform;
-	-webkit-transition-timing-function: cubic-bezier(0.33, 0.66, 0.66, 1);
-}
-
-.slide-inner .item {
-	display: inline-block;
-	width: 100%;
-	white-space: normal;
-	box-sizing: border-box;
-}*/
-
-/* Customized */
-/*.slide-outer {
-	border: 1px solid blue;
-	width: 300px;
-}
-
-.slide-inner .item{
-	height: 100px;
-	background-color: yellow;
-	border: 1px solid green;
-	font-size: 16px;
-}
-*/

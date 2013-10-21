@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title></title>
+<link href="http://static.qhimg.com/!c957e3af/reset.css" rel="stylesheet" />
+<link rel="stylesheet" href="../suggest.css" />
+<style type="text/css">
+    html {
+        height: 100%;
+    }
+
+    body {
+        font-family: Helvetica, Sans-serif;
+        height: 100%;
+        padding-top: 100px;
+    }
+
+    #search_form {
+        width: 90%;
+        margin: auto;
+        position: relative;
+    }
+
+    .search {
+        position: relative;
+    }
+
+    .input-container {
+        margin-right: 50px;
+    }
+
+    #search_input {
+        height: 30px;
+        width: 100%;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -webkit-appearance: none;
+        border: 1px solid #b4b4b4;
+        border-radius: 0;
+    }
+
+    .submit-btn {
+        text-align: center;
+        background-color: #ececec;
+        position: absolute;
+        height: 30px;
+        line-height: 30px;
+        width: 50px;
+        top: 0;
+        right: 0;
+        border: 1px solid #b4b4b4;
+        border-left: 0;
+        border-radius: 0;
+        -webkit-appearance: none;
+    }
+
+
+</style>
+</head>
+<body>
+<div id="doc">
+    <div id="hd">
+    </div>
+    <div id="bd">
+        <form action="http://www.so.com/s" id="search_form" charset="gbk">
+            <div class="search">
+                    <input type="text" name="q" id="search_input" />
+                <input class="submit-btn" type="submit" value="Go"/>
+            </div>
+        </form>
+    </div>
+    <div id="ft">
+    </div>
+</div>
+
+<script src="../../zepto.js"></script>
+<script src="../../zepto.touch.js"></script>
+<script src="../../nova.js"></script>
+<script src="../suggest.js"></script>
+
+<script type="text/javascript">
+    var input = $('#search_input');    
+
+    var suggest = new Suggest('#search_input', {
+        url: 'http://sug.so.360.cn/suggest/word',
+        param: {encodeout: 'utf-8', encodein: 'utf-8'},
+        method: 'jsonp',
+        preprocessFun: function(data) {
+            var suggestlist = data['s']; 
+            return suggestlist;
+        }
+    });
+
+</script>
+
+</body>
+</html>

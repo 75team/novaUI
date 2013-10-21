@@ -1,4 +1,5 @@
 (function() {
+    var prefix = nova.utils.prefix;
 
     this.Tab = Switchable.extend({
         defaultConfig: {
@@ -35,11 +36,13 @@
             // 绑定事件
             me._bindEvents_controlTap();
             me._bindEvents_switch();
-            me._bindEvents_swipe();
 
             // 选中第一项
             me.$content.css(me._getCssObj());
+            me.$content.css('height', me.$contItems.eq(me.index).height() + 'px');
             me.$controlItems.eq(me.index).addClass(me.selectors.active_class);
+
+            me.plug($swipe);
 
         },
 
@@ -54,17 +57,8 @@
         _bindEvents_switch: function() {
             var me = this;
             me.on('switch', function(ev, from, to) {
+                me.trigger('beforeSwitch');
                 me._switchUI(from, to);
-            });
-        },
-
-        _bindEvents_swipe: function() {
-            var me = this;
-            me.$content.on('swipeLeft', function(ev) {
-                me.next();
-            });
-            me.$content.on('swipeRight', function(ev) {
-                me.prev();
             });
         },
 
@@ -82,10 +76,14 @@
 
             // Change content appearance
             if(me.config.openAnimate) {
-                me.$content.animate(me._getCssObj(), me.config.duration_ms);
+                me.$content.animate(me._getCssObj(), me.config.duration_ms, 'linear', function() {
+                    me.$content.animate({'height': me.$contItems.eq(me.index).height() + 'px'}, 100);
+                    me.trigger('afterSwitch', from, to);
+                });
             }
             else {
                 me.$content.css(me._getCssObj());
+                me.trigger('afterSwitch', from, to);
             }
         },
 
@@ -94,8 +92,15 @@
                 cssObj = {},
                 offsetX = me.index * me.width;
 
-            cssObj['-webkit-transform'] = 'translate3d(' + -offsetX + 'px, 0, 0)';
+            cssObj[prefix.css + 'transform'] = 'translate3d(' + -offsetX + 'px, 0, 0)';
             return cssObj;
+        },
+
+        _getXCssObj: function(offsetX) {
+            var cssObj = {};
+            cssObj[prefix.css + 'transform'] = 'translate3d(' + offsetX + 'px, 0, 0)';
+
+            return cssObj
         }
     });
 

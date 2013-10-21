@@ -1,33 +1,7 @@
-/*
- * @file novaUI Suggest 组件
- * @name Suggest
- * @desc 搜索提示组件
- * @import src/zepto.js, src/nova.ui.js
- * */
 (function() {
-    /*******************************************************************************************************************
-     * 公共方法
-     *******************************************************************************************************************/
-
-    /*
-    * 字符串简易模板
-    * @method tmpl
-    * @static
-    * @param {String} sTmpl 字符串模板，其中变量以｛$aaa｝表示
-    * @param {Object} opts 模板参数
-    * @return {String}  模板变量被替换后的字符串
-    * @example alert(tmpl("{$a} love {$b}.",{a:"I",b:"you"}))
-    tmpl:function(sTmpl,opts){
-        return sTmpl.replace(/\{\$(\w+)\}/g,function(a,b){return opts[b]});
-    },
-    */
+    // Helpers
     var tmpl = nova.utils.tmpl;
 
-    /*
-     * @method decounce 防抖
-     * @param {Function} func 回调函数
-     * @param {Integer} threshold 最小执行间隔
-     * */
     function debounce(func, threshold) {
         var timerId;
         return function() {
@@ -46,45 +20,8 @@
         };
     }
 
-    /*******************************************************************************************************************
-     * Class Suggest
-     *******************************************************************************************************************/
-
-    /*
-     * @method constructor Suggest类的构造函数
-     * @param {DOM} ele DOM元素
-     * @param {Object} config Suggest配置
-     * */
-    function constructor(ele, config) {
-        var me = this;
-
-        me.history = {};                        // 搜索和suggest记录
-        me._preprocess = config.preprocessFun;  // Suggest数据预处理方法
-        me.$suggest = null;                     // Suggest的Zepto对象
-        me.$form = me.config.formID ? $('#' + me.config.formID) : this.root.closest('form'),    // Suggest的表单的Zepto对象
-        me.storageData = [];                    // 本地存储的查询记录
-
-        if(config.renderSuggestListFun) me._renderList = config.renderSuggestListFun;   // 渲染Suggest列表的方法
-        if(config.getSuggestTemplateFun) me._getSuggestTempFun = config.getSuggestTemplateFun;     // 获得单条Suggest模板的方法
-
-        // 控制条模板
-        me.controlTemplate = '<div data-role="control"><span data-role="close">' + config.closeText + '</span></div>';
-        // 历史记录控制条模板
-        me.historyControlTemplate = '<div data-role="control"><span data-role="clear-history">' + config.clearHistoryText + '</span><span data-role="close">' + config.closeText + '</span></div>', 
-        // 单条suggest的模板
-        me.suggestTemplate = '<div data-role="suggest"><span data-role="content" data-cont="{$suggest}">{$suggest}</span><span data-role="copy-control" data-cont="{$suggest}"></span></div>',
-
-        // 初始化历史查询数据
-        me._initStorageData();
-
-        // 添加输入和提交时间监听
-        me._bindInputEvent();
-        me._bindSubmitEvent();
-    }
-
-    /* Suggest类的原型属性和方法 */
-    var prototype = {
-        _defaultConf: {
+    this.Suggest = Widget.extend({
+        defaultConfig: {
             // 必填
             url: '',                                    // Suggest请求的url
             param: {},                                  // 请求的参数
@@ -118,10 +55,38 @@
             }
         },
 
+        setup: function() {
+            var me = this;
+            var config = this.config;
+
+            me.history = {};                        // 搜索和suggest记录
+            me._preprocess = config.preprocessFun;  // Suggest数据预处理方法
+            me.$suggest = null;                     // Suggest的Zepto对象
+            me.$form = me.config.formID ? $('#' + me.config.formID) : this.element.closest('form'),    // Suggest的表单的Zepto对象
+            me.storageData = [];                    // 本地存储的查询记录
+
+            if(config.renderSuggestListFun) me._renderList = config.renderSuggestListFun;   // 渲染Suggest列表的方法
+            if(config.getSuggestTemplateFun) me._getSuggestTempFun = config.getSuggestTemplateFun;     // 获得单条Suggest模板的方法
+
+            // 控制条模板
+            me.controlTemplate = '<div data-role="control"><span data-role="close">' + config.closeText + '</span></div>';
+            // 历史记录控制条模板
+            me.historyControlTemplate = '<div data-role="control"><span data-role="clear-history">' + config.clearHistoryText + '</span><span data-role="close">' + config.closeText + '</span></div>', 
+            // 单条suggest的模板
+            me.suggestTemplate = '<div data-role="suggest"><span data-role="content" data-cont="{$suggest}">{$suggest}</span><span data-role="copy-control" data-cont="{$suggest}"></span></div>',
+
+            // 初始化历史查询数据
+            me._initStorageData();
+
+            // 添加输入和提交时间监听
+            me._bindInputEvent();
+            me._bindSubmitEvent();
+        },
+
         // 绑定Input事件
         _bindInputEvent: function() {
             var me = this;
-            me.root.on('input focus', debounce(function() {
+            me.element.on('input focus', debounce(function() {
                 // 获得Input输入
                 var query = me._getInput().trim();
 
@@ -163,7 +128,7 @@
                 /* Hide suggest */
                 me.$suggest.removeClass(me.config.className.visible);
 
-                me.root.trigger('input');
+                me.element.trigger('input');
             });
 
             // 点击清理历史记录
@@ -184,7 +149,7 @@
             $(document.body).on('tap', function(ev) {
                 var target = ev.target;
                 //alert('@');
-                if(me.root[0] != target && me.$suggest[0] != target && !$.contains(me.$suggest[0], target)) {
+                if(me.element[0] != target && me.$suggest[0] != target && !$.contains(me.$suggest[0], target)) {
                     me.$suggest.removeClass(me.config.className.visible);
                     console.log(Math.random());
                 }
@@ -316,12 +281,12 @@
 
         // 获取查询字符串
         _getInput: function() {
-            return this.root.val(); 
+            return this.element.val(); 
         }, 
 
         // 设置查询字符串
         _setInput: function(value) {
-           this.root.val(value);        
+           this.element.val(value);        
         }, 
 
         // 提交表单
@@ -332,20 +297,18 @@
         // 检测是否缓存查询
         _inHistory: function(query) {
             return !!this.history[query];
-        }, 
+        },
 
         // 获得缓存数据
         _getHistoryData: function(query) {
             return this.history[query]; 
-        } 
-
-    };
-
-     /*
-     * @class Suggest
-     * @param {DOM} ele 组件的Dom元素
-     * @param {JSON} config 组件配置
-     * */
-    var Suggest = nova.ui.define(constructor, prototype);
-    window.Suggest = window.Suggest || Suggest;
+        }
+    });
 })();
+
+
+
+
+
+
+
