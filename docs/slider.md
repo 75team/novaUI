@@ -5,6 +5,7 @@ layout: widget
 # slide 
 
 ## Example
+### Please imulate touch events
 
 <link rel="stylesheet" href="{{site.baseurl}}nova/slide/slide.css?t={{site.time | date: "%H%M%S"}}" />
 <div>

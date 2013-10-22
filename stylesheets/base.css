@@ -5,6 +5,7 @@ pre {
     padding: 8.5px;
     margin: 2em 0;
     box-shadow: rgba(0, 0, 0, .15) 0 3px 0;
+    font-family: Georgia,'Xin Gothic','PT Sans','Hiragino Sans GB','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 
 pre code {
@@ -82,3 +83,4 @@ header h1 a:hover {
   }
 
 }
+

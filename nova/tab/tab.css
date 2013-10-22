@@ -24,9 +24,9 @@
 }
 
 .cont-item {
-    height: 100px;
-    line-height: 100px;
     text-align: center;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 .control-item {
