@@ -5,7 +5,7 @@
 ###继承形式：
 
 ```javascript
-// 定义Widget类
+// Class Animal
 var Animal = Class.extend({
      init: function() {…….},                   // 构造函数
      sound: function(…...)
@@ -14,7 +14,7 @@ var Animal = Class.extend({
 实例化Widget对象时会调用init方法
 
 ```javascript
-// 继承Widget类
+// Class Pig, 继承Class Animal
 var Pig = Animal.extend({
      sound: function() {
           this._super();                         // 调用父类的sound方法
@@ -59,7 +59,7 @@ this.Switchable = Widget.extend({
 ```
 
 ```javascript
-// Class tab
+// Class tab extends Switchable
 this.Tab = Switchable.extend({
      defaultConfig: {
           animate: true,
