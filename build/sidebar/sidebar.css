@@ -1,0 +1,53 @@
+.nova-sidebar {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.nova-mask {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    z-index: 2;
+}
+
+.nova-left {
+    left: 0;
+}
+
+.nova-right {
+    right: 0;
+}
+
+.nova-mask.nova-left {
+    right: 0;
+    left: auto;
+}
+
+.nova-mask.nova-right {
+    left: 0;
+    right: auto;
+}
+
+.nova-content {
+    position: relative:
+    z-index: 1;
+}
+
+.nova-sidebar.nova-overlay {
+    z-index: 1;
+}
+
+.nova-content.nova-overlay {
+    z-index: 0;
+}
+
+/* Customized */
+.nova-sidebar {
+    background-color: #3D3D3D;
+    color: white;
+    padding: 20px 10px;
+    width: 240px;
+}

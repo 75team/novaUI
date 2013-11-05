@@ -44,6 +44,16 @@ module.exports = function(grunt) {
                     'build/suggest/suggest.css' : ['src/widgets/suggest/suggest.css'],
                     'build/suggest/README.md' : ['src/widgets/suggest/README.md']
                 }
+            },
+            sidebar: {
+                files: {
+                    'build/sidebar/sidebar.js' : [
+                        'src/utils/prefix.js',
+                        'src/widgets/sidebar/sidebar.js'
+                    ],
+                    'build/sidebar/sidebar.css' : ['src/widgets/sidebar/sidebar.css'],
+                    'build/sidebar/README.md' : ['src/widgets/sidebar/README.md']
+                }
             }
         }
     });

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title></title>
+        <link rel="stylesheet" href="../sidebar.css" />
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+
+            #page {
+                position: relative;
+            }
+
+            .main {
+                text-align: center;
+                background-color: white;
+                height: 800px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="page">
+            <div class="sidebar">
+                This is pannel
+            </div>
+            <div class="main">
+                <p>
+                    Push from left
+                    <button class="panel-trigger">Click me</button>
+                </p>
+                <p>
+                    Overlay
+                    <button class="panel-trigger2">Click me</button>
+                </p>
+                <p>
+                    Reveal
+                    <button class="panel-trigger3">Click me</button>
+                </p>
+                <p>
+                    Push from right
+                    <button class="panel-trigger4">Click me</button>
+                </p>
+            </div>
+        </div>
+        <script src="../../../../libs/zepto.js"></script>
+        <script src="../../../../libs/zepto.touch.js"></script>
+        <script src="../../../core/class.js"></script>
+        <script src="../../../core/widget.js"></script>
+        <script src="../../../utils/prefix.js"></script>
+        <script src="../sidebar.js"></script>
+        <script type="text/javascript">
+            var sidebar = new Sidebar('.sidebar', {
+contentWrap: '.main'
+            });
+
+            var btn = $('.panel-trigger');
+            var btn2 = $('.panel-trigger2');
+            var btn3 = $('.panel-trigger3');
+            var btn4 = $('.panel-trigger4');
+            btn.on('tap', function() {
+                sidebar.push();
+            });
+            btn2.on('tap', function() {
+                sidebar.overlay();
+            });
+            btn3.on('tap', function() {
+                sidebar.reveal();
+            });
+            btn4.on('tap', function() {
+                sidebar.push('right');
+            });
+
+            sidebar.on('beforeopen', function() {
+                console.log('beforeopen');
+            });
+            sidebar.on('afteropen', function() {
+                console.log('afteropen');
+            });
+            sidebar.on('beforeclose', function() {
+                console.log('beforeclose');
+            });
+            sidebar.on('afterclose', function() {
+                console.log('afterclose');
+            });
+        </script>
+    </body>
+</html>
