@@ -3,5 +3,5 @@ Nova UI
 
 A mobile UI library.
 
-Project Homepage: http://melonhuang.github.io/novaUI/
+Project Homepage: http://75team.github.io/novaUI/
 
