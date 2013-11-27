@@ -5,7 +5,7 @@
         defaultConfig: {
             enableSwipe: true
         },
-
+        
         setupPlugin: function() {
             if(!this.config.enableSwipe) {
                 return;

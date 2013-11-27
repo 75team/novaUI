@@ -1,4 +1,6 @@
 (function() {
+    var events = [];
+
     this.Widget = Class.extend({
 
         /* 默认配置 */
@@ -27,6 +29,7 @@
         /* 支持自定义事件 */
         on: function(event, handler) {
             this.element.on.apply(this.element, arguments);
+            events.push(event);
             //this.element.on(event, $.proxy(handler, this));
             return this;
         },
@@ -63,6 +66,7 @@
                 // If function
                 if(typeof plugin[key] == "function" && typeof me[key] == "function" && fnTest.test(plugin[key]) && (hostFn = me[key])) {
                     me[key] = (function() {
+                        var pluginFn = plugin[key];
                         return function() {
                             var tmp = me._host;
 
@@ -70,7 +74,7 @@
                             // but on the host widget
                             me._host = hostFn;
 
-                            var ret = plugin[key].apply(me, arguments);
+                            var ret = pluginFn.apply(me, arguments);
 
                             // unbound _host when we're done executing
                             me._host = tmp;
@@ -88,7 +92,7 @@
                     }
                 }
             }
-            plugin.setupPlugin.call(me);
+            plugin.setupPlugin && plugin.setupPlugin.call(me);
         }
     });
 

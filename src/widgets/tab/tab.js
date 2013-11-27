@@ -1,7 +1,7 @@
 (function() {
     var prefix = nova.utils.prefix;
 
-    this.Tab = Switchable.extend({
+    var Tab = Switchable.extend({
         defaultConfig: {
             index: 0,
             openAnimate: true,
@@ -43,8 +43,6 @@
             me.$content.css(me._getCssObj());
             me.$content.css('height', me.$contItems.eq(me.index).height() + 'px');
             me.$controlItems.eq(me.index).addClass(me.selectors.active_class);
-
-            me.plug($swipe);
 
         },
 
@@ -114,5 +112,13 @@
             return cssObj
         }
     });
+
+    if (typeof define === 'function' && define.amd) {
+        define(['widget'], function(){
+            return Tab;
+        });
+    } else {
+        this.Tab = Tab;
+    }
 
 })();
