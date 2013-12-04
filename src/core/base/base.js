@@ -114,6 +114,7 @@
             },
 
             // this.trigger('switch', [args1, args2]);
+            // this.trigger('switch change', [args1, args2]);
             trigger: function(events) {
                 var cache = this._events, event, 
                     me = this;
