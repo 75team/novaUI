@@ -34,8 +34,8 @@ layout: widget
         <a href="#" class="control-item"></a> 
     </div>
 </div>
-<script type="text/javascript" src="{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}}"></script>
-<script type="text/javascript" src="{{site.baseurl}}nova/slide/slide.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/slide/carousel.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript">
     var slide = new Slide('.nova-slide', {autoplay: true});
     
@@ -61,8 +61,8 @@ Include nova.slide.css or copy the required styles from it.
 
     <script src="zepto.js"></script>
     <script src="zepto.touch.js"></script>
-    <script src="link[nova.js]({{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}})"></script>
-    <script src="link[slide.js]({{site.baseurl}}nova/slide/slide.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[widget.js]({{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[carousel.js]({{site.baseurl}}nova/slide/carousel.js?t={{site.time | date: "%H%M%S"}})"></script>
 
 ## Usage
 

@@ -1,229 +1,175 @@
 (function() {
-    this.nova = this.nova || {};
-    this.nova.utils = this.nova.utils || {};
-
-    this.nova.utils.prefix = (function () {
-      var styles = window.getComputedStyle(document.documentElement, ''),
+    var prefix = (function () {
+        var styles = window.getComputedStyle(document.documentElement, ''),
         pre = (Array.prototype.slice
-          .call(styles)
-          .join('') 
-          .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
-        )[1],
-        dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
-      return {
-        dom: dom,
-        lowercase: pre,
-        css: '-' + pre + '-',
-        js: pre[0].toUpperCase() + pre.substr(1)
-      };
-    })();
-})();
+               .call(styles)
+               .join('') 
+               .match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o'])
+              )[1],
+              dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
+              return {
+                  dom: dom,
+                  lowercase: pre,
+                  css: '-' + pre + '-',
+                  js: pre[0].toUpperCase() + pre.substr(1)
+              };
+    })(); 
 
-(function() {
-    var prefix = nova.utils.prefix;
+    var Sidebar = Widget.extend({
+        attrs: {
+            // 可配置项
+            duration_ms: 200,       // 动画时长
+            display: 'push',        // 显示方式，有push, overlay, reveal
+            position: 'left',       // sidebar 位置，有left, right
+            contentSelector: '',       // div main选择器
+            
+            classNames: {
+                sidebar: 'sidebar',
+                content: 'content',
+                left: 'sidebar-left',
+                right: 'sidebar-right',
+                push: 'sidebar-push',
+                overlay: 'sidebar-overlay',
+                reveal: 'sidebar-reveal',
+                mask: 'sidebar-mask'
+            },
 
-    this.Sidebar = Widget.extend({
-        defaultConfig: {
-            scrollMode: 'follow',
-            animate: true,
-            duration_ms: 200,
-            display: 'push',
-            position: 'left',
-            dismissible: true,
-            prefix: 'nova-',
-
-            // Required
-            contentWrap: '',
-        },
-
-
-        classNames: {
-            sidebar: 'sidebar',
-            content: 'content',
-            sidebarLeft: 'left',
-            sidebarRight: 'right',
-            push: 'push',
-            overlay: 'overlay',
-            reveal: 'reveal',
-            mask: 'mask'
+            // 内部属性
+            status: 0,              // 0: off, 1: on
         },
 
         setup: function() {
-            var me = this,
-                ele = me.element,
-                config = me.config;
+            var ele = this.$element;
+            var config = this.get();
 
+            // 保存display, position初始值 
+            this.defaultDisplay = this.get('display');
+            this.defaultPosition = this.get('position');
 
-            // 添加前缀
-            me._addClassPrefix();
+            this.content = $(config.contentSelector).addClass(config.classNames.content);
+            this.mask = $('<div></div>').addClass(config.classNames.mask).appendTo(ele.parent()).hide();
+            this.delegateEvents(this.mask, 'tap', function() {
+                this.hide();
+            });
+            this.delegateEvents(window, 'resize', function() {
+                //alert(ele.parent().width() - ele.width());
+                this.mask.width(ele.parent().width() - ele.width());
+            });
 
-            // 内容DOM
-            me.content = $(config.contentWrap);
-            me.mask = $('<div class="' + me.classNames.mask + '"></div>');
+            // 初始化class  
+            ele.addClass(this.get('classNames.sidebar'));
 
-            // 为sidebar和content添加class
-            me.element.addClass(me.classNames.sidebar);
-            me.content.addClass(me.classNames.content);
-
-            me.width = me.element.width();
-            me.isOpen = false;
-            me.duration = me.config.duration_ms;
-
-            // 初始化class
-            me._switchPosClass(me.config.position);
-            me._switchD
-            me.position = config.position;
-            me.display = config.display;
-
-            // 添加push, overlay, reveal等显示方法
-            me._initDisplayFun();
+            this._initDisplayFun();
 
             // 初始化位置
-            me._initPos(me._getDisplaysPos(config.position)[config.display]);
+            var pos = this._getDisplayPos();
 
-            // 添加mask
-            me.mask.width(me.element.parent().width() - me.width).appendTo(me.element.parent()).hide();
+            // 初始化位置 
+            ele.css(this._getXCssObj(pos['sidebar'][0]));
+            this.content.css(this._getXCssObj(pos['cont'][0]));
 
-            me.mask.on('tap', function() {
-                me.close();
-            });
-
-            $(window).on('resize', function() {
-                me.mask.width(me.element.parent().width() - me.width);
-            });
+            this.render();
         },
 
+        /*
+        * function toggle([display], [position])
+        * @param {String} display 显示方式
+        * @param {String} position 位置
+        *
+        * toggle()  传入为空时使用默认值
+        * */
         toggle: function(display, position) {
-            var me = this;
-            if(me.isOpen) {
-                me.close();
-            }
-            else {
-                me.open(display, position);
+            var curStatus = this.get('status');
+            if(curStatus == 0) {
+                this.show(display, position);
+            } else {
+                this.hide();
             }
         },
 
-        // 打开
-        open: function(display, position) {
-            var me = this;
-
-            if(me.isOpen) return;
-
-            position = position || me.config.position;
-            display = display || me.config.display;
-
-            // position发生更改,切换class，和me.position标志表示当前position
-            if(position != me.position) {
-                me._switchPosClass(position);
-                me.position = position;
-            }
-
-            // Display方式发生更改，切换class，和me.display标志表示当前display方式
-            if(display != me.display) {
-                me._switchDisplayClass(display);
-                me.display = display;
-            }
-
-            // 标志打开状态
-            me.isOpen = true;
-
-            // 获得动画向量, 开始动画
-            var displayPos = this._getDisplaysPos(me.position)[me.display];
-            this._initPos(displayPos);
-            this._animateOpen(displayPos);
-
-            // 开启Dismissible
-            this.mask.show();
+        show: function(display, position) {
+            display ? this.set('display', display) : this.set('display', this.defaultDisplay);
+            position ? this.set('position', position) : this.set('position', this.defaultPosition);
+            this.set('status', 1);
         },
 
-        // 关闭
-        close: function() {
-            if(!this.isOpen) return;
-
-            this.isOpen = false;
-            var displayPos = this._getDisplaysPos(this.position)[this.display];
-
-            this._animateClose(displayPos);
-            this.mask.hide();
+        hide: function() {
+            this.set('status', 0);
         },
 
         // 定义了push, overlay, reveal 等方法
         _initDisplayFun: function() {
             var me = this;
-            var displaysPos = me._getDisplaysPos(this.config.position);
+            var displayMethods = ['push', 'overlay', 'reveal']; 
 
-            $.each(displaysPos, function(funName, display) {
-                me[funName] = function(position) {
-                    me.toggle(funName, position);
+            $.each(displayMethods, function(index, method) {
+                me[method] = function(position) {
+                    me.toggle(method, position);
                 }
             });
         },
 
-        _addClassPrefix: function() {
-            var me = this;
-            var prefix = me.config.prefix;
-            $.each(me.classNames, function(key, classname) {
-                me.classNames[key] = prefix + classname;
-            });
+        _onChangeStatus: function(ev, status) {
+            if(status == 1) {
+                this._show();
+            } else {
+                this._hide();
+            }
         },
 
-        _switchPosClass: function(position) {
-            var me = this;
-            var className = {
-                'left': me.classNames.sidebarLeft,
-                'right': me.classNames.sidebarRight
-            };
-
-            me.element.addClass(className[position]);
-            me.position && me.element.removeClass(className[me.position]);
-
-            me.mask.addClass(className[position]);
-            me.position && me.mask.removeClass(className[me.position]);
+        _onRenderDisplay: function(ev, val, prev) {
+            var ele = this.$element;
+            var classNames = this.get('classNames');
+            classNames[prev] && ele.removeClass(classNames[prev]);
+            classNames[val] && ele.addClass(classNames[val]);
         },
 
-        _switchDisplayClass: function(display) {
-            var me = this;
-            var className = {
-                'push': me.classNames.push,
-                'overlay': me.classNames.overlay,
-                'reveal': me.classNames.reveal
-            };
-
-            me.element.addClass(className[display]);
-            me.display && me.element.removeClass(className[me.display]);
-            me.content.addClass(className[display]);
-            me.display && me.content.removeClass(className[me.display]);
+        _onRenderPosition: function(ev, val, prev) {
+            var ele = this.$element;
+            var classNames = this.get('classNames');
+            classNames[prev] && ele.removeClass(classNames[prev]) && this.mask.removeClass(classNames[prev]);
+            classNames[val] && ele.addClass(classNames[val]) && this.mask.addClass(classNames[val]);
         },
 
-        _initPos: function(displayPos) {
-            this.element.css(prefix.css + 'transition', 'none');
-            this.element.css(this._getXCssObj(displayPos['sidebar'][0]));
-            this.content.css(this._getXCssObj(displayPos['cont'][0]));
+        _show: function() {
+            var ele = this.$element;
+            var pos = this._getDisplayPos();
+            var duration = this.get('duration_ms');
+
+            // 初始化位置 
+            ele.css(prefix.css + 'transition', 'none');
+            this.content.css(prefix.css + 'transition', 'none');
+            ele.css(this._getXCssObj(pos['sidebar'][0]));
+            this.content.css(this._getXCssObj(pos['cont'][0]));
+            
+            // 开始动画
+            ele.animate(this._getXCssObj(pos['sidebar'][1]), duration, 'ease');
+            this.content.animate(this._getXCssObj(pos['cont'][1]), duration, 'ease');
+
+            // 显示mask
+            this.mask.width(ele.parent().width() - ele.width());
+            this.mask.show();
         },
 
-        _animateOpen: function(displayPos) {
-            this.element.animate(this._getXCssObj(displayPos['sidebar'][1]), this.duration);
-            this.content.animate(this._getXCssObj(displayPos['cont'][1]), this.duration);
+        _hide: function() {
+            var ele = this.$element;
+            var pos = this._getDisplayPos();
+            var duration = this.get('duration_ms');
+            
+            // 开始动画
+            ele.animate(this._getXCssObj(pos['sidebar'][0]), duration, 'ease');
+            this.content.animate(this._getXCssObj(pos['cont'][0]), duration, 'ease');
+
+            // 隐藏mask
+            this.mask.hide();
         },
 
-        _animateClose: function(displayPos) {
-            this.element.animate(this._getXCssObj(displayPos['sidebar'][0]), this.duration);
-            this.content.animate(this._getXCssObj(displayPos['cont'][0]), this.duration);
-        },
+        _getDisplayPos: function() {
+            var width = this.$element.width(); 
+            var dir = this.get('position') == 'left' ? 1 : -1;
+            var display = this.get('display');
 
-        _getXCssObj: function(offsetX) {
-            var cssObj = {};
-            cssObj[prefix.css + 'transform'] = 'translate3d(' + offsetX + 'px, 0, 0)';
-
-            return cssObj
-        },
-
-        _getDisplaysPos: function(position) {
-            var me = this;
-            var width = me.width;
-            var dir = position == 'left' ? 1 : -1;
-
-            return {
+            var pos = {
                 push: {
                     sidebar: [-dir * width, 0],         // [from, to]
                     cont: [0, dir * width]
@@ -236,7 +182,18 @@
                     sidebar: [0, 0],
                     cont: [0, dir * width]
                 }
-            }
-        }
+            };
+
+            return pos[display];
+        },
+        _getXCssObj: function(offsetX) {
+            var cssObj = {};
+            cssObj[prefix.css + 'transform'] = 'translate3d(' + offsetX + 'px, 0, 0)';
+
+            return cssObj
+        },
+        
     });
-})()
+
+    !this.requireMode && (this.Sidebar = Sidebar);
+})();

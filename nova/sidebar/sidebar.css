@@ -1,52 +1,50 @@
-/* Required */
-.nova-sidebar {
+.content {
+    position: relative;
+    z-index: 3;
+}
+.sidebar {
     position: absolute;
+    z-index: 2;
     height: 100%;
     top: 0;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
 
-.nova-mask {
+.sidebar-mask {
     position: absolute;
     top: 0;
     height: 100%;
-    z-index: 2;
+    width: 100%;
+    z-index: 5;
 }
 
-.nova-left {
+.sidebar-left {
     left: 0;
 }
 
-.nova-right {
+.sidebar-right {
     right: 0;
 }
 
-.nova-mask.nova-left {
+.sidebar-mask.sidebar-left {
     right: 0;
     left: auto;
 }
 
-.nova-mask.nova-right {
+.sidebar-mask.sidebar-right {
     left: 0;
     right: auto;
 }
 
-.nova-content {
-    position: relative:
-    z-index: 1;
+
+.sidebar.sidebar-overlay {
+    z-index: 4;
 }
 
-.nova-sidebar.nova-overlay {
-    z-index: 1;
-}
-
-.nova-content.nova-overlay {
-    z-index: 0;
-}
 
 /* Customized */
-.nova-sidebar {
+.sidebar {
     background-color: #3D3D3D;
     color: white;
     padding: 20px 10px;

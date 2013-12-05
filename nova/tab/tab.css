@@ -1,32 +1,47 @@
 .nova-tab {
-    overflow: hidden;
 }
 
 .tab-cont {
-    font-size: 0;
-    white-space: nowrap;
+    position: relative;
+	height: 100%;
+	overflow: hidden;
 }
 
 .cont-item {
-    font-size: 16px;
-    display: inline-block;
-    width: 100%;
+	position: absolute;
+	width: 100%;
+	top: 0
+	left: 0;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	visibility: hidden;
+    overflow: hidden;
+}
+
+.cont-item.active {
+	visibility: visible;
+	z-index: 1;
 }
 
 /* Custom */
 .nova-tab {
+	text-align: center;
     width: 600px;
     border: 1px solid #AFD1FE;
 }
 
-.tab-control {
-    overflow: hidden;
+.tab-cont {
+    height: 300px;
 }
 
 .cont-item {
     text-align: center;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
+}
+
+.tab-control {
+    overflow: hidden;
 }
 
 .control-item {

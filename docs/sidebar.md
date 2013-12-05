@@ -4,8 +4,8 @@ layout: widget
 
 # Sidebar
 
-## Demo
-### Please imulate touch events
+## 例子
+### 注意：请使用开发者工具模拟Touch事件
 
 <link rel="stylesheet" href="{{site.baseurl}}nova/sidebar/sidebar.css?t={{site.time | date: "%H%M%S"}}" />
 <div>
@@ -58,13 +58,13 @@ layout: widget
     </div>
     <div class="cont">
         <p>
-            <h3>Open Sidebar from left</h3>
+            <h3>从左边打开</h3>
             <button class="btn1" data-display="push">Push</button>
             <button class="btn1 yellow" data-display="overlay">Overlay</button>
             <button class="btn1 blue" data-display="reveal">reveal</button>
         </p>
         <p style="margin-top:40px;">
-            <h3>Open Sidebar from right</h3>
+            <h3>从右边打开</h3>
             <button class="btn2" data-display="push">Push</button>
             <button class="btn2 yellow" data-display="overlay">Overlay</button>
             <button class="btn2 blue" data-display="reveal">reveal</button>
@@ -72,11 +72,12 @@ layout: widget
     </div>
 </div>
 
-<script type="text/javascript" src="{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript" src="{{site.baseurl}}nova/sidebar/sidebar.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript">
-    var sidebar = new Sidebar('.side', {
-        contentWrap: '.cont'
+    var sidebar = new Sidebar({
+        element: '.side',
+        contentSelector: '.cont'
     });
     $('.btn1').on('tap', function() {
         sidebar.toggle($(this).data('display'));
@@ -84,10 +85,14 @@ layout: widget
     $('.btn2').on('tap', function() {
         sidebar.toggle($(this).data('display'), 'right');
     });
+
+    sidebar.before('show', function() {
+        console.log('before show');
+    });
 </script>
 <br />
 
-## Resources
+## 文件
 
 ### CSS
 
@@ -99,12 +104,19 @@ layout: widget
 
     <script src="zepto.js"></script>
     <script src="zepto.touch.js"></script>
-    <script src="link[nova.js]({{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[widget.js]({{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}})"></script>
     <script src="link[sidebar.js]({{site.baseurl}}nova/sidebar/sidebar.js?t={{site.time | date: "%H%M%S"}})"></script>
 
-## Usage
+## 使用方法
 
-    <!-- Page -->
+### Class说明
+
+| 类名          |  作用  |
+|---------------|---------|
+| sidebar       | 侧边栏 |
+| content       | 与侧边栏同级的内容 |
+
+    <!-- HTML结构 -->
     <div class="page">
         <!-- Sidebar -->
         <div class="sidebar">Sidebar</div>
@@ -115,56 +127,61 @@ layout: widget
         </div>
     </div>
 
-    <!-- Construct sidebar -->
+    <!-- Javascript -->
     <script type="text/javascript">
-        var sidebar = new Sidebar('.sidebar', {
-            contentWrap: '.cont'
+        var sidebar = new Sidebar({
+            element: '.side',
+            contentSelector: '.cont'
         });
+
         $('.btn').on('tap', function() {
             sidebar.toggle();
         });
     </script>
 
-## Configuration
+## 配置
+
     var config = {
+        element: '.side'        // 侧边栏元素
+        contentSelector: '',    // 与侧边栏同级的内容元素
+
         duration_ms: 200,       // 动画时长
-        position: 'left',       // sidebar位置，可为'left'或'right'
         display: 'push',        // 动画类型，可为'push','overlay','reveal'
-        prefix: 'nova'          // 类的前缀
+        position: 'left',       // sidebar位置，可为'left'或'right'
+
+        classNames: {
+            sidebar: 'sidebar',             // 加在侧边栏上的类
+            content: 'content',             // 加在与侧边栏同级的内容上的类
+            left: 'sidebar-left',           // 侧边栏靠左
+            right: 'sidebar-right',         // 侧边栏靠右
+            push: 'sidebar-push',           // 侧边栏以push方式显示
+            overlay: 'sidebar-overlay',     // 侧边栏以overlay方式显示
+            reveal: 'sidebar-reveal',       // 侧边栏以reveal方式显示
+            mask: 'sidebar-mask'            // 点击隐藏侧边栏区域
+        },
     };
-    var sidebar = new Sidebar('.sidebar', config);
+    var sidebar = new Sidebar(config);
 
-## Methods
+## 方法
 
-    sidebar.toggle(display, position);      // 显示或隐藏sidebar, 当未传入display或position时将使用默认配置
-    sidebar.push(position);                 // 使用push动画, 来显示或隐藏sidebar，当未传入position时将使用默认配置
-    sidebar.overlay(position);              // 使用overlay动画, 来显示或隐藏sidebar，当未传入position时将使用默认配置
-    sidebar.reveal(position);               // 使用reveal动画, 来显示或隐藏sidebar，当未传入position时将使用默认配置
-    sidebar.open(display, position);        // 显示sidebar, 当未传入display或position时将使用默认配置
-    sidebar.close();                        // 隐藏sidebar
+    // 注意：当display, position未传入时，使用初始化时的配置
+    sidebar.toggle(display, position);      // 显示或隐藏sidebar 
+    sidebar.show(display, position);        // 显示sidebar
+    sidebar.hide();                         // 隐藏sidebar
+    sidebar.push(position);                 // 使用push动画, 来显示或隐藏sidebar
+    sidebar.overlay(position);              // 使用overlay动画, 来显示或隐藏sidebar
+    sidebar.reveal(position);               // 使用reveal动画, 来显示或隐藏sidebar
 
-## Events
+## 扩展
 
-### beforeopen
-sidebar显示前触发
+### 可通过before, after在方法前后插入一段代码
 
-    sidebar.on('beforeopen', function() {
+    // 在show()方法前执行一段代码, 回调函数的参数为show方法的参数
+    carousel.before('show', function(ev, display, position) {
+        // .... 
     });
 
-### afteropen
-sidebar显示后触发
-
-    sidebar.on('afteropen', function() {
+    // 在hide()方法后执行一段代码
+    carousel.after('hide', function(ev, display, position) {
     });
-
-### beforeclose
-sidebar隐藏前触发
-
-    sidebar.on('beforeclose', function() {
-    });
-
-### afterclose
-sidebar隐藏后触发
-
-    sidebar.on('afterclose', function() {
-    });
+### 

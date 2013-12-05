@@ -4,8 +4,8 @@ layout: widget
 
 # Tab
 
-## Demo
-### Please imulate touch events
+## 例子
+### 注意：请使用开发者工具模拟Touch事件
 
 <link rel="stylesheet" href="{{site.baseurl}}nova/tab/tab.css?t={{site.time | date: "%H%M%S"}}" />
 <div>
@@ -14,6 +14,10 @@ layout: widget
         width: 100%;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
+    }
+
+    .tab-cont {
+        height: 400px;
     }
 
     .cont-item {
@@ -35,30 +39,34 @@ layout: widget
     </div>
     <div class="tab-cont">
         <div class="cont-item">
-            <p>看我的胡子~</p>
+            <p>Delicious</p>
             <img id="firstImg" src="{{site.baseurl}}images/1.jpg" alt=""/>
         </div>
         <div class="cont-item">
-            <p>我要吃冰淇淋</p>
+            <p>口水哗啦啦滴流啊流~~</p>
             <img src="{{site.baseurl}}images/2.jpg" alt="" />
         </div>
         <div class="cont-item">
-            <p>这是骗人的，不能吃</p>
+            <p>欢迎啃我</p>
             <img src="{{site.baseurl}}images/3.jpg" alt="" />
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript" src="{{site.baseurl}}nova/tab/tab.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript">
     $('#firstImg').on('load', function() {
-        var tab = new Tab('.nova-tab');
+        var tab = new Tab({
+            element: '.nova-tab',
+            swipable: true,
+            className: 'nova-tab'
+        });
     });
 </script>
 <br />
 
-## Resources
+## 文件
 
 ### CSS
 
@@ -70,10 +78,12 @@ layout: widget
 
     <script src="zepto.js"></script>
     <script src="zepto.touch.js"></script>
-    <script src="link[nova.js]({{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[widget.js]({{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}})"></script>
     <script src="link[tab.js]({{site.baseurl}}nova/tab/tab.js?t={{site.time | date: "%H%M%S"}})"></script>
 
-## Usage
+## 使用方法
+
+### Class说明
 
 | 类名          |  作用  |
 |-------------------|---------|
@@ -83,16 +93,16 @@ layout: widget
 | cont-item         | 单个tab    |
 | active            | 当前tab或控制器    |
 
-    <!-- Tab -->
+    <!-- HTML结构 -->
     <div class="nova-tab">
-        <!-- Tab controls -->
+        <!-- Controls -->
         <div class="tab-control">
             <!-- Control item -->
             <div class="control-item">Tab1</div>
             <div class="control-item">Tab2</div>
             <div class="control-item">Tab3</div>
         </div>
-        <!-- Tab contents -->
+        <!-- Contents -->
         <div class="tab-cont">
             <!-- Content item -->
             <div class="cont-item">
@@ -110,37 +120,66 @@ layout: widget
         </div>
     </div>
 
-    <!-- Construct tab -->
+    <!-- Javascript -->
     <script type="text/javascript">
-        var tab = new Tab('.nova-tab', {index: 0});
+        var tab = new Tab({
+            element: '.nova-tab',
+            swipable: true,
+            className: 'nova-tab'
+        });
     </script>
 
-## Configuration
+## 配置
+
     var config = {
-        index: 0,               // 初始选项
-        openAnimate: true,      // 切换使用slide效果
-        duration_ms: 200,       // 使用slide效果的切换时长
-        enableSwipe: true       // 是否启用滑动效果
-    };
-    var tab = new Tab('.nova-tab', {index: 0});
+        element: '.nova-tab'                // Tab元素
 
-## Methods
+        index: 0,                           // 初始index 
+        animate: true,                      // 是否使用动画
+        duration_ms: 200,                   // 切换动画时长 
+        autoplay: true,                     // 是否自动轮播 
+        autoplay_interval_ms: 10000,        // 自动轮播时间间隔 
+        swipable: true,                     // 是否可滑动
 
-    tab.next();                 // 切换到下一个tab
-    tab.prev();                 // 切换到上一个tab
-    tab.go(n);                  // 切换到第n个tab
+        selectors: {
+            content: '.tab-cont',           // 切换内容容器
+            contItem: '.cont-item',         // 单个切换内容
+            control: 'tab-control',         // 触发器容器
+            controlItem: '.control-item',   // 单个触发器
+            active: '.active'               // 当前的内容或触发器
+        }
+    };  
+    var tab = new Tab(config);
 
-## Events
 
-### beforeswitch
-面板切换前触发
+## 方法
 
-    tab.on('beforeswitch', function(ev, from, to) {
+    tab.next();                        // 切换到下一个内容
+    tab.prev();                        // 切换到上一个内容
+    tab.switch(n);                     // 切换到第n个内容
+    tab.set('autoplay', false)         // 打开或关闭自动轮播
+
+## 扩展
+
+### 可通过before, after在方法前后插入一段代码
+
+    // 在prev()方法前执行一段代码
+    carousel.before('prev', function() {
+        // .... 
     });
 
-### afterswitch
-面板切换后触发
-
-    tab.on('afterswitch', function(ev, from, to) {
+    // 在next()方法后执行一段代码
+    carousel.after('next', function() {
     });
 
+### 事件beforeSwitch, afterSwitch
+
+    // 在切换动画前执行一段代码
+    carousel.on('beforeSwitch', function(ev, toIndex, fromIndex) {
+        console.log('before Sliding from ' + fromIndex + ' to ' + toIndex);
+    });
+
+    // 在切换动画后执行一段代码
+    carousel.on('afterSwitch', function(ev, toIndex, fromIndex) {
+        console.log('after Sliding from ' + fromIndex + ' to ' + toIndex);
+    });

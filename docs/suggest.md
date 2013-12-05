@@ -4,8 +4,8 @@ layout: widget
 
 # Suggest 
 
-## Example
-### Please imulate touch events
+## 例子
+### 注意：请使用开发者工具模拟Touch事件
 
 <link rel="stylesheet" href="{{site.baseurl}}nova/suggest/suggest.css?t={{site.time | date: "%H%M%S"}}" />
 <div>
@@ -64,12 +64,13 @@ layout: widget
     <input class="submit-btn" type="submit" value="Go"/>
 </div>
 </form>
-<script type="text/javascript" src="{{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}}"></script>
+<script type="text/javascript" src="{{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript" src="{{site.baseurl}}nova/suggest/suggest.js?t={{site.time | date: "%H%M%S"}}"></script>
 <script type="text/javascript">
     var input = $('#search_input');    
 
-    var suggest = new Suggest('#search_input', {
+    var suggest = new Suggest({
+        element: '#search_input',
         url: 'http://sug.so.360.cn/suggest/word', 
         param: {encodeout: 'utf-8', encodein: 'utf-8'}, 
         method: 'jsonp', 
@@ -91,7 +92,7 @@ Include nova.suggest.css or copy the required styles from it.
 
     <script src="zepto.js"></script>
     <script src="zepto.touch.js"></script>
-    <script src="link[nova.js]({{site.baseurl}}nova/nova.js?t={{site.time | date: "%H%M%S"}})"></script>
+    <script src="link[widget.js]({{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}})"></script>
     <script src="link[suggest.js]({{site.baseurl}}nova/suggest/suggest.js?t={{site.time | date: "%H%M%S"}})"></script>
 
 ### Usage
@@ -106,7 +107,8 @@ Include nova.suggest.css or copy the required styles from it.
     <script type="text/javascript">
         var input = $('#search_input');    
 
-        var suggest = new Suggest('#search_input', {
+        var suggest = new Suggest({
+            element: '#search_input',
             url: 'http://sug.so.360.cn/suggest/word', 
             param: {encodeout: 'utf-8', encodein: 'utf-8'}, 
             method: 'jsonp', 
