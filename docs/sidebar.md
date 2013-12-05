@@ -143,7 +143,7 @@ layout: widget
 
     var config = {
         element: '.side'        // 侧边栏元素
-        contentSelector: '',    // 与侧边栏同级的内容元素
+        contentSelector: '.cont',    // 与侧边栏同级的内容元素
 
         duration_ms: 200,       // 动画时长
         display: 'push',        // 动画类型，可为'push','overlay','reveal'
