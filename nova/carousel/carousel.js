@@ -108,7 +108,7 @@
         attrs: {
             // 可配置项
             index: 0,                   // 初始选中项
-            recursive: false,           // 是否可循环
+            recursive: true,           // 是否可循环
             duration_ms: 200,           // 切换时长
             autoplay: false,            // 自动轮播
             autoplay_interval_ms: 10000,   // 自动轮播间隔

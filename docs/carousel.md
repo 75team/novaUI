@@ -114,7 +114,7 @@ layout: widget
         index: 0,                           // 初始index 
         recursive: true,                    // 是否可循环
         duration_ms: 200,                   // 切换动画时长 
-        autoplay: true,                     // 是否自动轮播 
+        autoplay: false,                    // 是否自动轮播 
         autoplay_interval_ms: 10000,        // 自动轮播时间间隔 
         swipable: true,                     // 是否可滑动
 
