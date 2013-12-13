@@ -137,8 +137,9 @@ layout: widget
             // 自定义方法
             preprocess: null,                           // 服务端返回数据的预处理方法
             renderList: null,                           // 渲染Suggest的方法
+            getData: null,                              // 获取Suggest data list的方法
 
-            // 功能定制
+            // 功能
             lazy_ms: 100,                               // 当输入框内容超过n秒未改变，才发送请求 
             isStorable: true,                           // 是否通过localStorage保存搜索记录 
             storageKeyName: 'nova-search-history',      // 通过localStorage保存历史记录的key
@@ -206,6 +207,50 @@ layout: widget
         this.$list.html(html);
     }
 
+### getData 获取Suggest data 
+如果需要自定义获取查询数据的方法，可以在config中传入getData方法  
+
+    /*
+     * 获取Suggest内容 
+     * @param {String} query 用户输入查询内容 
+     *
+     * getData方法职责：
+     * 1. 获取Suggest data
+     * 2. 调用this.updateSuggestData(data)来更新Suggest
+     *
+     * @method this.updateSuggestData(data)
+     * @param {Array} data
+     * data格式
+     * 1. [{channel: 'youku', suggest: '叮当'}, {channel: '56', suggest: '叮当'}] 
+     *    模板中的双大括号占位符会根据data[n]对象解析
+     * 2. 简写['cont1', 'cont2'], 相当于[{suggest: 'cont1', suggest: 'cont2'}]
+     *
+     * helpers：
+     * this.getStorageData(data)        获得localStorage中存储的查询历史记录
+     * this.request(query)              由suggest根据配置来请求数据和更新列表
+     * this.cache(query) = data         缓存Suggest内容
+     * 
+     */
+    // Example
+    function getData(query) {
+        var me = this;
+        var data [];
+        if(query == '') {
+            data = this.getStorageData();       // 获取本地查询记录
+            this.updateSuggest(data, {showClear: true});    
+        }
+
+        else if(query.indexOf('spiderman') != '-1') {
+            data = staticData[query];
+            me.updateSuggest(data);             // 刷新Suggest列表
+            me.cache[query] = data;             // 缓存查询结果, 那么会避免重复请求
+        }
+
+        else {
+            this.request(query);                // 由suggest根据url等配置来请求和更新数据
+        }
+    }
+
 ### 自定义模板
 
     // 当前模板
@@ -213,7 +258,7 @@ layout: widget
                 + '<div class="{$classNames.list}">'
                     // 单条suggest模板
                     + '<div class="{$classNames.item}">' 
-                        + '<span class="{$classNames.content}">{{suggest}}</span>'
+                        + '<span class="{$classNames.content}">\{\{suggest\}\}</span>'
                         + '<span class="{$classNames.copy}"></span>'
                     + '</div>'
                 + '</div>'
@@ -223,8 +268,8 @@ layout: widget
                 + '</div>'
             + '</div>'
 
-1. 模板中可通过{$attrName}获得属性，效果如同widget.get('attrName')
-2. {{suggest}}表示单条suggest的内容
+1. 模板中可通过{$attrName}获得配置属性
+2. \{\{suggest\}\}为模板中的内容占位符。eg. 当第i条内容data[i]为{suggest: '叮当'}时，\{\{suggest\}\}会被替换为"叮当"
 3. 如不需要Close, Clear History等按钮，可在模板中删除
 
 
