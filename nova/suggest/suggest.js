@@ -17,6 +17,7 @@
             // 自定义方法
             preprocess: null,                           // 服务端返回数据的预处理方法
             renderList: null,                           // 渲染Suggest的方法
+            getData: null,                              // 获取Suggest list的方法
 
             // 功能定制
             lazy_ms: 100,                               // 当输入框内容超过n秒未改变，才发送请求 
@@ -66,7 +67,7 @@
             var me = this;
 
             // suggest缓存
-            this._history = {};         
+            this.cache = {};         
 
             // 替换template中的{$className}占位符
             var template = this.get('template').replace(/{\$([^\})]*)}/g, function() {
@@ -87,6 +88,10 @@
             parentNode.append(this.$suggest);
             this.$suggest.hide();
 
+            // 设置自定义方法
+            this.get('renderList') && (this.renderList = this.get('renderList'));
+            this.get('getData') && (this.getData = this.get('getData'));
+
             // 绑定事件
             this._bindInputEvent();             
             this._bindTapEvent();
@@ -96,21 +101,19 @@
 
         _bindInputEvent: function() {
             var callback = debounce(function() {
+                var me = this;
+
                 // 获得Input输入
                 var query = this.$element.val().trim();
-                if(query == '') {
-                    var data = this._getStorageData();
-                    this._updateSuggest(data, {showClear: true});
-                }
-            
-                else if(this._history[query]){
-                    var data = this._history[query]; 
-                    this._updateSuggest(data);
+
+                // 如果数据在缓存中
+                if(this.cache[query]) {
+                    var data = this.cache[query]; 
+                    this.updateSuggest(data);
                 }
 
-                // 输入不为空，且未缓存，则发送请求数据
                 else {
-                    this._request(query);
+                    this.getData(query);
                 }
 
             }, this.get('lazy_ms'));
@@ -123,7 +126,8 @@
             // 点击复制到输入框
             this.delegateEvents(this.$suggest, 'tap .' + this.get('classNames.copy'), function(ev) {
                 this.$element.val($(ev.target).siblings('.' + this.get('classNames.content')).html()); 
-                this.$element.trigger('input');
+                this.$element.focus();
+                //this.$element.trigger('focus');
             });
 
             // 点击关闭
@@ -140,6 +144,7 @@
             // 点击单条suggest
             this.delegateEvents(this.$suggest, 'tap .' + this.get('classNames.content'), function(ev) {
                 this.$element.val($(ev.target).html()); 
+                this.$element.focus();
                 if(this.get('autocommit')) {
                     this.$form.submit();
                 }
@@ -168,10 +173,23 @@
             });
         },
 
-        _request: function(query) {
+        getData: function(query) {
+            if(query == '') {
+                var data = this.getStorageData();
+                this.updateSuggest(data, {showClear: true});
+            }
+
+            // 输入不为空，则请求数据
+            else {
+                this.request(query);
+            }
+        },
+
+        request: function(query) {
             var me = this, 
                 param = me.get('param'), 
-                requestId = -1;
+                reqId = -1, 
+                latestReqId = 0;    // 最近一次显示Suggest的requestId
 
             this.keyName = this.get('keyName') || this.$element.attr('name');
 
@@ -185,42 +203,50 @@
 
                 success: (function(rid) {
                     return function(data, status, xhr) {
-                        // 若返回数据不是最新请求的suggest, 则不刷新sugget
-                        if(rid != requestId) { return; }
+                        // 若rid小于最近一次显示suggest的RequestId，则不刷新
+                        if(rid < latestReqId) { return; }
+                        latestReqId = rid;
                         me.get('preprocess') && (data = me.get('preprocess')(data));
-                        me._updateSuggest(data);
-                        me._history[query] = data;
+                        me.updateSuggest(data);
+                        me.cache[query] = data;
                     } 
-                })(++requestId)
+                })(++reqId)
             }); 
         },
 
-        _getStorageData: function() {
+        getStorageData: function() {
             var list = JSON.parse(localStorage.getItem(this.get('storageKeyName'))) || [];
             return list;
         },
 
-        _updateSuggest: function(data, options) {
+        updateSuggest: function(data, options) {
             if(data.length == 0) {
                 this.$suggest.hide();
                 return;
             }
-            this.renderSuggest(data, options);
+            this.renderList(data, options);
             this.$suggest.show();
         },
 
         // 渲染Suggest
-        renderSuggest: function(data, options) {
+        renderList: function(data, options) {
             // 将每一条suggest模板填充数据，添加到suggest list
             var html = '',
                 count = this.get('listCount');
             for(var i = 0, len = data.length; i < len && i < count; i++) {
-                html += template(this.itemTpl, {suggest: data[i]});
+                html += template(this.itemTpl, this._formatSuggest(data[i]));
             }
             this.$list.html(html);
-
             this.$suggest.find('.' + this.get('classNames.clearHistory')).toggle(options && options.showClear || false);
         },
+
+        // 将'string'转换为{suggest: 'string'}
+        _formatSuggest: function(suggest) {
+            if(typeof suggest == 'object') {
+                return suggest;
+            }
+            return {suggest: suggest};
+        }
 
          
     });
