@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title></title>
+    <link rel="stylesheet" href="../../../../libs/mocha.css" />
+    <link rel="stylesheet" href="../carousel.css">
+
+    <style type="text/css">
+        .cont-item img {
+            height: 100%;
+            -webkit-user-drag: none;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="../../../../libs/zepto.js"></script>
+    <script type="text/javascript" src="../../../../libs/zepto.touch.js"></script>
+    <script type="text/javascript" src="../../../../libs/mocha.js"></script>
+    <script type="text/javascript" src="../../../../libs/chai.js"></script>
+    <script type="text/javascript" src="../../../../libs/sinon.js"></script>
+
+    <script src="../../../core/base/class.js"></script>
+    <script src="../../../core/base/base.js"></script>
+    <script src="../../../core/widget/widget.js"></script>
+
+    <script src="../switchable.js"></script>
+    <script src="../carousel.js"></script>
+   
+</head>
+<body>
+    <div id="mocha"></div>
+
+    <div class="nova-carousel">
+        <div class="carousel-cont">
+            <div class="cont-item">
+                <img src="1.jpg" alt="" class="src">
+            </div>
+            <div class="cont-item">
+                <img src="2.jpg" alt="" class="src">
+            </div>
+            <div class="cont-item">
+                <img src="3.jpg" alt="" class="src">
+            </div>
+        </div>
+        <div class="carousel-control">
+            <span class="control-item"></span>
+            <span class="control-item"></span>
+            <span class="control-item"></span>
+        </div>
+    </div>
+    <script>
+        var carousel = new Carousel({
+            element: '.nova-carousel'
+        });
+
+        carousel.on('beforeSlide', function(ev, to, from) {
+            //alert('from ' + from + ' to ' + to);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../../../libs/mocha.css" />
+    <link rel="stylesheet" href="../tab.css">
+
+
+
+    <script type="text/javascript" src="../../../../libs/zepto.js"></script>
+    <script type="text/javascript" src="../../../../libs/zepto.touch.js"></script>
+    <script type="text/javascript" src="../../../../libs/mocha.js"></script>
+    <script type="text/javascript" src="../../../../libs/chai.js"></script>
+    <script type="text/javascript" src="../../../../libs/sinon.js"></script>
+
+    <script src="../../../core/base/class.js"></script>
+    <script src="../../../core/base/base.js"></script>
+    <script src="../../../core/widget/widget.js"></script>
+
+    <script src="../switchable.js"></script>
+    <script src="../carousel.js"></script>
+    <script src="../tab.js"></script>
+
+    <style type="text/css">
+        .cont-item img {
+            -webkit-user-drag: none;
+        }
+    </style>
+   
+</head>
+<body>
+    <div id="mocha"></div>
+    <div class="tab" data-index="2" data-api="on" data-open-animate="true">
+        <div class="tab-control" data-role="control">
+            <div class="control-item">Tab1</div>
+            <div class="control-item">Tab2</div>
+            <div class="control-item">Tab3</div>
+        </div>
+        <div class="tab-cont" data-role="content">
+            <div class="cont-item">
+                <img src="1.jpg" alt="" />
+            </div>
+            <div class="cont-item">
+                <img src="2.jpg" alt="" />
+            </div>
+            <div class="cont-item">
+                <img src="3.jpg" alt="" />
+            </div>
+        </div>
+    </div>
+    <script>
+        mocha.setup('bdd');
+        chai.should();
+        var expect = chai.expect;
+        var define = function (name, requires, factory) { 
+            if(typeof name === 'function') {
+                factory = name;
+            } else if(typeof requires === 'function') {
+                factory = requires;
+            }
+
+            if(typeof module != 'undefined'){
+                module.exports = factory(require); 
+            }else if(typeof window != 'undefined'){
+                factory();
+            }
+        };
+        
+    </script>
+    <script src="switchable-spec.js"></script>
+    <script>
+        //mocha.run();
+
+        var tab = new Tab({
+            element: '.tab',
+            swipable: true,
+            className: 'nova-tab'
+        });
+
+        tab.on('beforeSlide', function(ev, to, from) {
+            //console.log(from, to);
+        });
+    </script>
+</body>
+</html>
