@@ -30,6 +30,7 @@
 
 
         <script type="text/javascript" src="../../../../libs/zepto.js"></script>
+        <script type="text/javascript" src="../../../../libs/zepto.touch.js"></script>
         <script type="text/javascript" src="../../../../libs/mocha.js"></script>
         <script type="text/javascript" src="../../../../libs/chai.js"></script>
         <script type="text/javascript" src="../../../../libs/sinon.js"></script>
@@ -99,6 +100,10 @@
             sidebar.on('afterclose', function() {
                 console.log('afterclose');
             });
+
+sidebar.before('show', function(ev, display, position) {
+        console.log(arguments);
+        });
         </script>
     </body>
 </html>

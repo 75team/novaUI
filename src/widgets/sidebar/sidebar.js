@@ -15,7 +15,7 @@
               };
     })(); 
 
-    this.Sidebar = Widget.extend({
+    var Sidebar = Widget.extend({
         attrs: {
             // 可配置项
             duration_ms: 200,       // 动画时长
@@ -81,6 +81,8 @@
         toggle: function(display, position) {
             var curStatus = this.get('status');
             if(curStatus == 0) {
+                display = display || this.defaultDisplay;
+                position = position || this.defaultPosition;
                 this.show(display, position);
             } else {
                 this.hide();
@@ -88,8 +90,8 @@
         },
 
         show: function(display, position) {
-            display ? this.set('display', display) : this.set('display', this.defaultDisplay);
-            position ? this.set('position', position) : this.set('position', this.defaultPosition);
+            this.set('display', display);
+            this.set('position', position);
             this.set('status', 1);
         },
 
@@ -194,4 +196,6 @@
         },
         
     });
+
+    this.Sidebar = Sidebar;
 })();

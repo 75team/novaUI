@@ -59,6 +59,7 @@
 
 </style>
 <script type="text/javascript" src="../../../../libs/zepto.js"></script>
+<script type="text/javascript" src="../../../../libs/zepto.touch.js"></script>
 <script type="text/javascript" src="../../../../libs/mocha.js"></script>
 <script type="text/javascript" src="../../../../libs/chai.js"></script>
 <script type="text/javascript" src="../../../../libs/sinon.js"></script>
@@ -77,7 +78,7 @@
         <form action="http://www.so.com/s" id="search_form" charset="gbk">
             <div class="search">
                 <div class="input-container">
-                    <input type="text" name="q" id="search_input" />
+                    <input type="text" name="q" id="search_input" autocomplete="off" />
                 </div>
                 <input class="submit-btn" type="submit" value="Go"/>
             </div>
@@ -95,6 +96,8 @@
         url: 'http://sug.so.360.cn/suggest/word',
         param: {encodeout: 'utf-8', encodein: 'utf-8'},
         method: 'jsonp',
+        jsonp: 'callback',
+        keyName: 'word',
         preprocess: function(data) {
             var suggestlist = data['s']; 
             return suggestlist;

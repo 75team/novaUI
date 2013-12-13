@@ -48,6 +48,20 @@ define(['module/base/1.0.0/base'], function(Base) {
                 expect(result).to.equal(1);
             });
         });
+        describe('callback', function() {
+            it('should share the same arguments', function() {
+                var ins = new Base();
+                ins.say = function() {};
+                ins.before('say', function() {
+                    console.log(arguments);
+                    expect(arguments.length).to.equal(3);
+                    expect(arguments[0]['type']).to.equal('before:say');
+                    expect(arguments[1]).to.equal('haha');
+                    expect(arguments[2]).to.equal('hehe');
+                });
+                ins.say('haha', 'hehe');
+            }); 
+        });
     });
 
 });

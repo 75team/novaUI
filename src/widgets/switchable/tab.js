@@ -1,39 +1,28 @@
-(function(define, global) {
-    define(['module/Nova.switchable/1.0.0/carousel'], function(Carousel) {
+(function() {
 
-        Carousel = Carousel || global.Carousel;
+    Tab = Carousel.extend({
+        attrs: {
+            animate: true,
+            recursive: false,
+            autoplay: false,
 
-        Tab = Carousel.extend({
-            attrs: {
-                recursive: false,
-                autoplay: false,
-
-                selectors: {
-                    content: '.tab-cont',
-                    contItem: '.cont-item',
-                    control: '.tab-control',
-                    controlItem: '.control-item',
-                    active: '.active'
-                },
+            selectors: {
+                content: '.tab-cont',
+                contItem: '.cont-item',
+                control: '.tab-control',
+                controlItem: '.control-item',
+                active: '.active'
+            },
+        },
+        setup: function() {
+            if(!this.get('animate')) {
+                this.set('swipable', false);
+                this.set('duration_ms', 0);
             }
-        });
-
-        return Tab;
-    });
-}) (
-    typeof define === 'function' && define.amd ? define : function (name, requires, factory) { 
-    	if(typeof name === 'function') {
-    		factory = name;
-    	} else if(typeof requires === 'function') {
-    		factory = requires;
-    	}
-
-        if(typeof module != 'undefined'){
-            module.exports = factory(require); 
-        }else if(typeof window != 'undefined'){
-            window.Tab = factory();
+            Tab.superclass.setup.call(this);
         }
-    },
-    this
-);
+    });
 
+    this.Tab = Tab;
+
+})();
