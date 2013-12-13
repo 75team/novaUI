@@ -1,284 +1,228 @@
 (function() {
 
+    // 功能
+    // 1. 提供一套基础结构，支持复制，关闭，清除历史记录。同时可自定义模板，自定义渲染函数
+    // 2. 监听input变化，实时请求suggest，并使用debounce和cache机制减少请求
+    // 3. 提供本地存储查询记录功能 
+    // 4. 检验suggest reponse顺序, 保证显示最新suggest内容
     var Suggest = Widget.extend({
         attrs: {
-            // 必填
+            // 请求数据
             url: '',                                    // Suggest请求的url
             param: {},                                  // 请求的参数
-            preprocess: null,                        // 服务端返回数据的预处理方法
-
-            // 可选
+            keyName: null,                              // 查询关键词在请求中的字段名, 默认为input的name属性
             method: 'jsonp',                            // 请求方法，支持jsonp和ajax
-            listCount: 5,                               // 最多显示suggestions个数 
-            formID: undefined,                          // 表单ID, 默认为input框最近的外层Form元素 
+            jsonp: 'callback',                          // jsonp callback字段名 
+            
+            // 自定义方法
+            preprocess: null,                           // 服务端返回数据的预处理方法
+            renderList: null,                           // 渲染Suggest的方法
+
+            // 功能定制
+            lazy_ms: 100,                               // 当输入框内容超过n秒未改变，才发送请求 
             isStorable: true,                           // 是否通过localStorage保存搜索记录 
             storageKeyName: 'nova-search-history',      // 通过localStorage保存历史记录的key
-            lazySuggestInterval_ms: 100,                // 每次input出suggest的延迟 
+            autocommit: true,                           // 点击内容区域是否自动submit
+
+            // 显示
+            formId: null,                               // 若为空，则默认为input所在的form
+            parentNode: null,                           // 若parentNode不为空，则将suggest插入到parentNode. 否则插入到所属的form中
+            listCount: 5,                               // 最多显示suggestions个数 
             closeText: 'Close',                         // 关闭按钮的文字
             clearHistoryText: 'Clear history',          // 清除历史记录的文字
 
-            renderList: null,                 // 渲染Suggest列表的方法
-            getSuggestTemplate: null,                // 获得单条Suggest模板的方法
-
-
+            // 类名
             classNames: {
-                container: 'nova-suggest',              // Suggest列表
-                visible: 'nova-is-visible',             // 状态类，可视
-                suggest: 'sugg-item',                   // 单条Suggest
-                content: 'sugg-cont',                   // 单条Suggest的内容
-                copyControl: 'sugg-copy',               // 单条Suggest的复制按钮
+                container: 'suggest',                   // Suggest Wrap
+
+                list: 'sugg-list',                      // Suggest列表
+                item: 'sugg-item',                      // 单条Suggest
+                content: 'sugg-item-cont',              // 单条Suggest的内容
+                copy: 'sugg-item-copy',                 // 单条Suggest的复制到输入框按钮
+
                 control: 'sugg-control',                // Suggest列表下方的控制栏
-                closeControl: 'sugg-close',             // 关闭按钮
-                historyClearControl: 'sugg-clear'       // 清楚历史按钮
-            }
+                clearHistory: 'sugg-clear',             // 清除历史按钮
+                close: 'sugg-close'                     // 关闭按钮
+            },
+
+            // 完整模板
+            template: '<div class="{$classNames.container}">' 
+                        + '<div class="{$classNames.list}">'
+                            // 单条suggest模板
+                            + '<div class="{$classNames.item}">' 
+                                + '<span class="{$classNames.content}">{{suggest}}</span>'
+                                + '<span class="{$classNames.copy}"></span>'
+                            + '</div>'
+                        + '</div>'
+                        + '<div class="{$classNames.control}">'
+                            + '<span class="{$classNames.clearHistory}">{$clearHistoryText}</span>'
+                            + '<span class="{$classNames.close}">{$closeText}</span>'
+                        + '</div>'
+                    + '</div>'
         },
 
         setup: function() {
+
             var me = this;
-            var config = this.get();
-            var ele = this.$element;
 
-            me.history = {};                        // 搜索和suggest记录
-            me.$suggest = null;                     // Suggest的Zepto对象
-            me.$form = config.formID ? $('#' + config.formID) : ele.closest('form'),    // Suggest的表单的Zepto对象
-            me.storageData = [];                    // 本地存储的查询记录
+            // suggest缓存
+            this._history = {};         
 
-            if(config.renderList) me._renderList = config.renderList;   // 渲染Suggest列表的方法
-            if(config.getSuggestTemplate) me._getSuggestTempFun = config.getSuggestTemplate;     // 获得单条Suggest模板的方法
+            // 替换template中的{$className}占位符
+            var template = this.get('template').replace(/{\$([^\})]*)}/g, function() {
+                return me.get(arguments[1]);
+            });
 
-            // 控制条模板
-            me.controlTemplate = '<div data-role="control"><span data-role="close">' + config.closeText + '</span></div>';
-            // 历史记录控制条模板
-            me.historyControlTemplate = '<div data-role="control"><span data-role="clear-history">' + config.clearHistoryText + '</span><span data-role="close">' + config.closeText + '</span></div>', 
-            // 单条suggest的模板
-            me.suggestTemplate = '<div data-role="suggest"><span data-role="content" data-cont="{{suggest}}">{{suggest}}</span><span data-role="copy-control" data-cont="{{suggest}}"></span></div>',
+            // 生成Suggest DOM元素
+            this.$suggest = $(template);
+            this.$list = this.$suggest.find('.' + this.get('classNames.list'));
 
-            // 初始化历史查询数据
-            me._initStorageData();
+            // 获得单条suggest模板
+            this.itemTpl = this.$list.html();
 
-            // 添加输入和提交时间监听
-            me._bindInputEvent();
-            me._bindSubmitEvent();
+            // 将suggest插入到DOM
+            this.$list.html('');
+            this.$form = this.get('formId') ? $('#' + this.get('formId')) : this.$element.closest('form');
+            var parentNode = this.get('parentNode') ? $(this.get('parentNode')) : this.$form;
+            parentNode.append(this.$suggest);
+            this.$suggest.hide();
+
+            // 绑定事件
+            this._bindInputEvent();             
+            this._bindTapEvent();
+            this._bindSubmitEvent();
         },
 
-        // 绑定Input事件
+
         _bindInputEvent: function() {
-            var me = this;
-            me.$element.on('input focus', debounce(function() {
+            var callback = debounce(function() {
                 // 获得Input输入
-                var query = me._getInput().trim();
-
-                // 解析输入并显示结果
+                var query = this.$element.val().trim();
                 if(query == '') {
-                    me._renderStorageHistory();
+                    var data = this._getStorageData();
+                    this._updateSuggest(data, {showClear: true});
                 }
-                else if(me._inHistory(query)) {
-                    me._renderList(me._getHistoryData(query));
+            
+                else if(this._history[query]){
+                    var data = this._history[query]; 
+                    this._updateSuggest(data);
                 }
+
+                // 输入不为空，且未缓存，则发送请求数据
                 else {
-                    me._request(query);
+                    this._request(query);
                 }
-            }), me.get('lazySuggestInterval_ms'));
+
+            }, this.get('lazy_ms'));
+
+            this.delegateEvents('input', callback); 
+            this.delegateEvents('focus', callback); 
         },
 
-        // 绑定Touch事件
-        _bindTouchEvent: function() {
-            var me = this;
-
-            // 点击内容，Submit
-            me.$suggest.delegate('.' + me.get('classNames.content'), 'tap', function(e) {
-                var $sugg = $(this), 
-                    query = $sugg.data('cont');
-                me._setInput(query);    
-
-                /* Hide suggest */
-                me.$suggest.removeClass(me.get('classNames.visible'));
-
-                me._submit();
-            });
-
-            // 点击复制，将Suggest内容复制到Input
-            me.$suggest.delegate('.' + me.get('classNames.copyControl'), 'tap', function(e) {
-                var $sugg = $(this), 
-                    query = $sugg.data('cont');
-                me._setInput(query);
-
-                /* Hide suggest */
-                me.$suggest.removeClass(me.get('classNames.visible'));
-
-                me.$element.trigger('input');
-            });
-
-            // 点击清理历史记录
-            me.$suggest.delegate('.' + me.get('classNames.historyClearControl'), 'tap', function(e) {
-                me.storageData.length = 0;
-                localStorage.removeItem(me.get('storageKeyName')); 
-
-                /* Hide suggest */
-                me.$suggest.removeClass(me.get('classNames').visible);
+        _bindTapEvent: function() {
+            // 点击复制到输入框
+            this.delegateEvents(this.$suggest, 'tap .' + this.get('classNames.copy'), function(ev) {
+                this.$element.val($(ev.target).siblings('.' + this.get('classNames.content')).html()); 
+                this.$element.trigger('input');
             });
 
             // 点击关闭
-            me.$suggest.delegate('.' + me.get('classNames.closeControl'), 'tap', function(e) {
-                /* Hide suggest */
-                me.$suggest.removeClass(me.get('classNames.visible'));
+            this.delegateEvents(this.$suggest, 'tap .' + this.get('classNames.close'), function(ev) {
+                this.$suggest.hide();
             });
 
-            $(document.body).on('tap', function(ev) {
+            // 点击清除历史
+            this.delegateEvents(this.$suggest, 'tap .' + this.get('classNames.clearHistory'), function(ev) {
+                localStorage.removeItem(this.get('storageKeyName')); 
+                this.$suggest.hide();
+            });
+
+            // 点击单条suggest
+            this.delegateEvents(this.$suggest, 'tap .' + this.get('classNames.content'), function(ev) {
+                this.$element.val($(ev.target).html()); 
+                if(this.get('autocommit')) {
+                    this.$form.submit();
+                }
+            });
+
+            // 点击suggest以外，关闭suggest
+            this.delegateEvents(document.body, 'tap', function(ev) {
                 var target = ev.target;
-                //alert('@');
-                if(me.$element[0] != target && me.$suggest[0] != target && !$.contains(me.$suggest[0], target)) {
-                    me.$suggest.removeClass(me.get('classNames.visible'));
+                if(this.$element[0] != target && this.$suggest[0] != target && !$.contains(this.$suggest[0], target)) {
+                    this.$suggest.hide();
                 }
             });
         },
 
-        // 绑定提交事件
         _bindSubmitEvent: function() {
-            var me = this;
-            me.$form.on('submit', function() {
-                // 保存查询记录
-                var query = me._getInput().trim();
-                if(me.get('isStorable') && query.trim() && me.storageData.indexOf(query) == -1) {
-                    me.storageData.push(query);
-                    localStorage.setItem(me.get('storageKeyName'), JSON.stringify(me.storageData));
+            this.delegateEvents(this.$form, 'submit', function(ev) {
+                var query = this.$element.val().trim();
+                // 将查询记录保存到localStorage
+                if(query && this.get('isStorable')) {
+                    var list = JSON.parse(localStorage.getItem(this.get('storageKeyName'))) || [];
+                    if(list.indexOf(query) == -1) {
+                        list.push(query);
+                        localStorage.setItem(this.get('storageKeyName'), JSON.stringify(list));
+                    }
                 }
             });
-        }, 
+        },
 
-        // 向服务端请求数据
         _request: function(query) {
             var me = this, 
-                param = me.get('param');
-            param.word = query;
+                param = me.get('param'), 
+                requestId = -1;
+
+            this.keyName = this.get('keyName') || this.$element.attr('name');
+
+            param[this.keyName] = query;
             $.ajax({
                 method: 'GET',  
                 url: me.get('url'), 
                 data: param, 
                 dataType: me.get('method'), 
-                success: function(data, status, xhr) {
-                    me._processSuggests(query, data);
-                } 
+                jsonp: me.get('jsonp'),
+
+                success: (function(rid) {
+                    return function(data, status, xhr) {
+                        // 若返回数据不是最新请求的suggest, 则不刷新sugget
+                        if(rid != requestId) { return; }
+                        me.get('preprocess') && (data = me.get('preprocess')(data));
+                        me._updateSuggest(data);
+                        me._history[query] = data;
+                    } 
+                })(++requestId)
             }); 
-        }, 
-
-        // 处理服务端返回数据并渲染
-        _processSuggests: function(query, data) {
-            var preprocess = this.get('preprocess');
-            preprocess && (data = preprocess(data));
-            this._renderList(data);
-            this.history[query] = data;
         },
 
-        // 显示查询历史
-        _renderStorageHistory: function() {
-            var me = this;
-            if(me.storageData.length > 0) {
-                me._renderList(me.storageData);
-                me.$suggest.find('.' + me.get('classNames.control')).remove();
-                me.$suggest.append(me.historyControlTemplate);
-                me._parse();
-            }
-            else {
-                me.$suggest && me.$suggest.removeClass(me.get('classNames.visible'));
-            }
+        _getStorageData: function() {
+            var list = JSON.parse(localStorage.getItem(this.get('storageKeyName'))) || [];
+            return list;
         },
 
-        /*
-         * @method _renderList 渲染Suggest列表
-         * @param {Array} data Suggest数据
-         * */
-        _renderList: function(data) {
-            var me = this, 
-                containerClass = me.get('classNames.container'), 
-                count = me.get('listCount'), 
-                html = '';
-
-            /* 数据为空则隐藏list */
-            if(data.length <= 0) {
-                me.$suggest.removeClass(me.get('classNames.visible'));
+        _updateSuggest: function(data, options) {
+            if(data.length == 0) {
+                this.$suggest.hide();
                 return;
             }
+            this.renderSuggest(data, options);
+            this.$suggest.show();
+        },
 
-            // 第一次调用，添加Suggest到Dom树中
-            if(!me.$suggest) {
-                // 添加suggest dom
-                me.$form.append('<div class="' + containerClass + '"></div>');
-                me.$suggest = me.$form.find('.' + containerClass);
-                me._bindTouchEvent();
-            }
-            // 遍历data，读取suggest内容
+        // 渲染Suggest
+        renderSuggest: function(data, options) {
+            // 将每一条suggest模板填充数据，添加到suggest list
+            var html = '',
+                count = this.get('listCount');
             for(var i = 0, len = data.length; i < len && i < count; i++) {
-                html += me._getSuggestHtml(data[i]);
+                html += template(this.itemTpl, {suggest: data[i]});
             }
+            this.$list.html(html);
 
-            html += me.controlTemplate;
-
-            // 添加到Dom
-            me.$suggest.html(html);
-            me._parse();
-
-            // 设置Suggest为可视
-            me.$suggest.addClass(me.get('classNames.visible'));
+            this.$suggest.find('.' + this.get('classNames.clearHistory')).toggle(options && options.showClear || false);
         },
 
-
-        // 解析suggest html的data-role，添加对应class
-        _parse: function() {
-            var classNames = this.get('classNames');
-            $('[data-role=suggest]').addClass(classNames.suggest);
-            $('[data-role=control]').addClass(classNames.control);
-            $('[data-role=content]').addClass(classNames.content);
-            $('[data-role=copy-control]').addClass(classNames.copyControl);
-            if(this.get('closeText')) {
-                $('[data-role=close]').addClass(classNames.closeControl);
-            }
-            if(this.get('clearHistoryText')) {
-                $('[data-role=clear-history]').addClass(classNames.historyClearControl);
-            }
-        },
-
-        // 从localStorage获取查询历史
-        _initStorageData: function() {
-            var list = JSON.parse(localStorage.getItem(this.get('storageKeyName'))) || [];
-            this.storageData = list;
-        },
-
-        // 获得单条Suggest的html
-        _getSuggestHtml: function(data) {
-            var html = template(this._getSuggestTempFun(), {suggest: data});
-            return html;
-        },
-
-        // 获得单条Suggest模板的方法
-        _getSuggestTempFun: function() {
-            return this.suggestTemplate;
-        },
-
-        // 获取查询字符串
-        _getInput: function() {
-            return this.$element.val(); 
-        }, 
-
-        // 设置查询字符串
-        _setInput: function(value) {
-           this.$element.val(value);        
-        }, 
-
-        // 提交表单
-        _submit: function(query) {
-            this.$form.submit();
-        },
-
-        // 检测是否缓存查询
-        _inHistory: function(query) {
-            return !!this.history[query];
-        },
-
-        // 获得缓存数据
-        _getHistoryData: function(query) {
-            return this.history[query]; 
-        }
+         
     });
 
     // Helpers
@@ -306,12 +250,6 @@
             timerId = setTimeout(delayed, threshold || 100);
         };
     }
-    !this.requireMode && (this.Suggest = Suggest);
+
+    this.Suggest = Suggest;
 })();
-
-
-
-
-
-
-

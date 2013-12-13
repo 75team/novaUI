@@ -51,7 +51,7 @@ layout: widget
             -webkit-appearance: none;
         }
 
-        .nova-suggest {
+        .suggest {
             top: 30px;
         }
     </style>
@@ -71,10 +71,11 @@ layout: widget
 
     var suggest = new Suggest({
         element: '#search_input',
+        keyName: 'word',
         url: 'http://sug.so.360.cn/suggest/word', 
         param: {encodeout: 'utf-8', encodein: 'utf-8'}, 
         method: 'jsonp', 
-        preprocessFun: function(data) {
+        preprocess: function(data) {
             var suggestlist = data['s']; 
             return suggestlist;
         }
@@ -82,11 +83,12 @@ layout: widget
 </script>
 
 
+## 文件
 ### CSS
 
-    <link rel="stylesheet" href="link[slide.css]({{site.baseurl}}nova/suggest/suggest.css?t={{site.time | date: "%H%M%S"}})">
+    <link rel="stylesheet" href="link[suggest.css]({{site.baseurl}}nova/suggest/suggest.css?t={{site.time | date: "%H%M%S"}})">
 
-Include nova.suggest.css or copy the required styles from it.
+引入carousel.css，或者拷贝carousel.css中的必备(Required)样式。
 
 ### Javascript
 
@@ -95,8 +97,9 @@ Include nova.suggest.css or copy the required styles from it.
     <script src="link[widget.js]({{site.baseurl}}nova/widget.js?t={{site.time | date: "%H%M%S"}})"></script>
     <script src="link[suggest.js]({{site.baseurl}}nova/suggest/suggest.js?t={{site.time | date: "%H%M%S"}})"></script>
 
-### Usage
+## 使用方法
 
+    <!-- HTML 结构 -->
     <form action="http://www.so.com/s" id="search_form" charset="gbk">
         <div class="search">
             <input type="text" name="q" id="search_input" autocomplete="off"/>
@@ -104,108 +107,124 @@ Include nova.suggest.css or copy the required styles from it.
         </div>
     </form>
 
+    <!-- Javascript -->
     <script type="text/javascript">
         var input = $('#search_input');    
 
         var suggest = new Suggest({
             element: '#search_input',
+            keyName: 'word';
             url: 'http://sug.so.360.cn/suggest/word', 
             param: {encodeout: 'utf-8', encodein: 'utf-8'}, 
             method: 'jsonp', 
-            preprocessFun: function(data) {
+            preprocess: function(data) {
                 var suggestlist = data['s']; 
                 return suggestlist;
             }
         });
     </script>
 
-### Configuration
+## 配置
 
-     var config = {
-            // Required
-            url: '',                                    // request URL
-            param: {},                                  // request parameters
-            preprocessFun: null,                        // proprocess the return data from server
+    var config = {
+            // 请求数据
+            url: '',                                    // Suggest请求的url
+            param: {},                                  // 请求的参数
+            keyName: null,                              // 查询关键词在请求中的字段名, 默认为input的name属性
+            method: 'jsonp',                            // 请求方法，支持jsonp和ajax
+            jsonp: 'callback',                          // jsonp callback字段名 
+            
+            // 自定义方法
+            preprocess: null,                           // 服务端返回数据的预处理方法
+            renderList: null,                           // 渲染Suggest的方法
 
-            // Optional
-            method: 'jsonp',                            // request method
-            listCount: 5,                               // max number of listed suggestions
-            formID: undefined,                          // identify which form the input belongs to, defaultly its closet parent form
-            isStorable: true,                           // whether enable local storage of search history
-            storageKeyName: 'nova-search-history',      // local storage key of search history 
-            lazySuggestInterval_ms: 100,                // decounce interval
-            showClose: true,                            // whether to show close button
-            showClearHistory: true,                     // whether to show clear history button
-            closeText: 'Close',                         // close button text
-            clearHistoryText: 'Clear history',          // clear history button text
+            // 功能定制
+            lazy_ms: 100,                               // 当输入框内容超过n秒未改变，才发送请求 
+            isStorable: true,                           // 是否通过localStorage保存搜索记录 
+            storageKeyName: 'nova-search-history',      // 通过localStorage保存历史记录的key
+            autocommit: true,                           // 点击内容区域是否自动submit
 
-            renderSuggestListFun: null,                 // method to render suggestion list
-            getSuggestTemplateFun: null,                // method to get template of single suggestion
+            // 显示
+            formId: null,                               // 若为空，则默认为input所在的form
+            parentNode: null,                           // 若parentNode不为空，则将suggest插入到parentNode. 否则插入到所属的form中
+            listCount: 5,                               // 最多显示suggestions个数 
+            closeText: 'Close',                         // 关闭按钮的文字
+            clearHistoryText: 'Clear history',          // 清除历史记录的文字
 
+            // 类名
+            classNames: {
+                container: 'suggest',                   // Suggest Wrap
 
-            className: {
-                container: 'nova-suggest',              // suggestion list
-                visible: 'nova-is-visible',             // status visible
-                suggest: 'sugg-item',                   // single suggestion
-                content: 'sugg-cont',                   // content of single suggestion
-                copyControl: 'sugg-copy',               // copy button of single suggestion
-                control: 'sugg-control',                // control bar
-                closeControl: 'sugg-close',             // close button
-                historyClearControl: 'sugg-clear'       // clear history button
-            }
-        },
+                list: 'sugg-list',                      // Suggest列表
+                item: 'sugg-item',                      // 单条Suggest
+                content: 'sugg-item-cont',              // 单条Suggest的内容
+                copy: 'sugg-item-copy',                 // 单条Suggest的复制到输入框按钮
 
-### Configuration - preprocessFun **Required**
+                control: 'sugg-control',                // Suggest列表下方的控制栏
+                clearHistory: 'sugg-clear',             // 清除历史按钮
+                close: 'sugg-close'                     // 关闭按钮
+            },
 
-Parse the data from server and return an Array of suggest strings.
+            // 完整模板
+            template: '<div class="{$classNames.container}">' 
+                        + '<div class="{$classNames.list}">'
+                            // 单条suggest模板
+                            + '<div class="{$classNames.item}">' 
+                                + '<span class="{$classNames.content}">{{suggest}}</span>'
+                                + '<span class="{$classNames.copy}"></span>'
+                            + '</div>'
+                        + '</div>'
+                        + '<div class="{$classNames.control}">'
+                            + '<span class="{$classNames.clearHistory}">{$clearHistoryText}</span>'
+                            + '<span class="{$classNames.close}">{$closeText}</span>'
+                        + '</div>'
+                    + '</div>'
+    };
 
-    /*
-     * @method preprocessFun Proprocess the return data from server
-     * @param {Object} data Return data from server
-     * @return {Array} eg: ['real time pcr', 'real time ling']
-     * */
-     function preprocessFun(data) {//...}
-
-### Configuration - renderSuggestListFun **Optional**
-
-Render the suggestion list in your own way.
-
-    /*
-     * @method renderSuggestListFun Render suggestion list
-     * @param {Array} data Suggestion data
-     * */
-     function renderSuggestListFun(data) {//...}
-
-### Configuration - getSuggestTemplateFun **Optional**
-
-Define your template of single suggest
-
-This template support if, else, for, while, etc.   
-See template documents [here](http://360.75team.com/~quguangyu/qwrap/js/_docs/_qiwu/index.htm#/qw/stringh/s.tmpl_.htm)
+### preprocess 预处理方法
+必须定义此方法，保证返回格式为Suggest数组。
 
     /*
-     * @method getSuggestTemplateFun
-     * @return {String} template of single suggest
-     **/
-     function getSuggestTemplate() {//...}
+     * 服务端返回数据预处理方法
+     * @param {Object} data 服务端返回数据
+     * @return {Array} 处理后的Suggest list, eg. ['阿拉蕾', '阿拉蕾帽子']
+     */
+    function preprocess(data) { 
+        // Dealing with data
+        return data;
+    }
 
+### renderList 渲染Suggest列表
+如果需要自定义渲染方法，可以在config中传入renderList方法
 
-#### template restrictions
+    /*
+     * 渲染列表, 生成html插入到list中
+     * @param {Array} data Suggest数组
+     */
+    function renderList(data) {
+        // ...
+        this.$list.html(html);
+    }
 
-1. You need to add attribute *data-role* to DOM elements to support functionalities.
-2. Use {$suggest} as a placeholder for suggestion string
+### 自定义模板
 
-| Data-role         |  DOM  |
-|-------------------|---------|
-| suggest           | Single suggest element   |
-| content           | Suggest content element    |
-| copy-control      | Copy control element   |
+    // 当前模板
+    template: '<div class="{$classNames.container}">' 
+                + '<div class="{$classNames.list}">'
+                    // 单条suggest模板
+                    + '<div class="{$classNames.item}">' 
+                        + '<span class="{$classNames.content}">{{suggest}}</span>'
+                        + '<span class="{$classNames.copy}"></span>'
+                    + '</div>'
+                + '</div>'
+                + '<div class="{$classNames.control}">'
+                    + '<span class="{$classNames.clearHistory}">{$clearHistoryText}</span>'
+                    + '<span class="{$classNames.close}">{$closeText}</span>'
+                + '</div>'
+            + '</div>'
 
+1. 模板中可通过{$attrName}获得属性，效果如同widget.get('attrName')
+2. {{suggest}}表示单条suggest的内容
+3. 如不需要Close, Clear History等按钮，可在模板中删除
 
-See example:
-
-    <div data-role="suggest">
-        <span data-role="content">{$suggest}</span>
-        <span data-role="copy-control"></span>
-    </div>
 
