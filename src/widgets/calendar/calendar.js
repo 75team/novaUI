@@ -110,9 +110,9 @@
              */
             yearChangeable: false,
             /**
-             * @property {Boolean} [container=null] 生成的日历元素的父元素
+             * @property {Boolean} [parentNode=null] 生成的日历元素的父元素
              */
-            container: null,
+            parentNode: null,
             /**
              * @property {Boolean} [template='<div>'] 日历元素的模板
              */
@@ -141,13 +141,6 @@
             opts.swipeable && el.on('swipeLeft swipeRight', eventHandler);
 
             this.render();
-        },
-
-        render: function() {
-            var opts = this.get();
-            var ele = this.$element;
-
-            ele.appendTo(opts['container'] || (ele.parent().length ? '' : document.body));
         },
 
         _eventHandler: function(e) {
@@ -283,7 +276,7 @@
             $('.ui-calendar-calendar td:not(.ui-state-disabled)', el).highlight();
             $('.ui-calendar-header select', el).off('change', eventHandler);
             el.remove();
-            return this.$super('destroy');
+            return Calendar.superclass.destroy.call(this);
         },
 
         /**
