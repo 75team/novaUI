@@ -176,7 +176,7 @@
                         this.set('selectedDate',
                         date = new Date(cell.attr('data-year'), cell.attr('data-month'), match.text()));
 
-                        this.trigger('select', date, $.calendar.formatDate(date), this);
+                        this.trigger('select', [date, $.calendar.formatDate(date), this]);
                         this.refresh();
                     } else if ((match = $(target).closest('.ui-calendar-prev, .ui-calendar-next', root)) && match.length) {
 
@@ -231,7 +231,7 @@
             year = tmpDate.getFullYear();
 
             if (month != _drawDate.month || year != _drawDate.year) {
-                this.trigger('monthchange', month, year, this);
+                this.trigger('monthchange', [month, year, this]);
 
                 this.set('_drawDate', {month: month, year: year});
 
@@ -251,7 +251,7 @@
                 el = this.$element,
                 eventHandler = $.proxy(this._eventHandler, this);
 
-            //如果数据没有变化厕不重绘了
+            //如果数据没有变化则不重绘了
             if (!this._invalid) {
                 return;
             }
