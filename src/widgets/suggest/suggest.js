@@ -20,7 +20,7 @@
             getData: null,                              // 获取Suggest list的方法
 
             // 功能定制
-            lazy_ms: 100,                               // 当输入框内容超过n秒未改变，才发送请求 
+            lazy_ms: 100,                               // 当输入框内容超过n毫秒未改变，才发送请求 
             isStorable: true,                           // 是否通过localStorage保存搜索记录 
             storageKeyName: 'nova-search-history',      // 通过localStorage保存历史记录的key
             autocommit: true,                           // 点击内容区域是否自动submit
