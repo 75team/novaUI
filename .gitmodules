@@ -1,6 +1,3 @@
-[submodule "src/core"]
-	path = src/core
-	url = git@github.com:novawidgets/sidebar.git
 [submodule "src/widgets/switchable"]
 	path = src/widgets/switchable
 	url = git@github.com:novawidgets/switchable.git
@@ -13,3 +10,6 @@
 [submodule "src/widgets/suggest"]
 	path = src/widgets/suggest
 	url = git@github.com:novawidgets/suggest.git
+[submodule "src/core"]
+	path = src/core
+	url = git@github.com:novawidgets/widgetcore.git
