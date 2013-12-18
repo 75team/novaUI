@@ -1,0 +1,15 @@
+[submodule "src/core"]
+	path = src/core
+	url = git@github.com:novawidgets/sidebar.git
+[submodule "src/widgets/switchable"]
+	path = src/widgets/switchable
+	url = git@github.com:novawidgets/switchable.git
+[submodule "src/widgets/sidebar"]
+	path = src/widgets/sidebar
+	url = git@github.com:novawidgets/sidebar.git
+[submodule "src/widgets/calendar"]
+	path = src/widgets/calendar
+	url = git@github.com:novawidgets/calendar.git
+[submodule "src/widgets/suggest"]
+	path = src/widgets/suggest
+	url = git@github.com:novawidgets/suggest.git
