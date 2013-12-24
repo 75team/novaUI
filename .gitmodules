@@ -14,3 +14,6 @@
 	path = src/core
     #url = git@github.com:novawidgets/widgetcore.git
     url = https://github.com/novawidgets/widgetcore.git
+[submodule "src/widgets/calendar"]
+	path = src/widgets/calendar
+	url = https://github.com/novawidgets/calendar.git
