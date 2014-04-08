@@ -1,0 +1,344 @@
+.doc a {
+  color: #4183C4;
+}
+.doc a.absent {
+  color: #cc0000;
+}
+.doc a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+.doc h1,
+.doc h2,
+.doc h3,
+.doc h4,
+.doc h5,
+.doc h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative;
+}
+.doc h1:hover a.anchor,
+.doc h2:hover a.anchor,
+.doc h3:hover a.anchor,
+.doc h4:hover a.anchor,
+.doc h5:hover a.anchor,
+.doc h6:hover a.anchor {
+  background: url("../../images/modules/styleguide/para.png") no-repeat 10px center;
+  text-decoration: none;
+}
+.doc h1 tt,
+.doc h1 code {
+  font-size: inherit;
+}
+.doc h2 tt,
+.doc h2 code {
+  font-size: inherit;
+}
+.doc h3 tt,
+.doc h3 code {
+  font-size: inherit;
+}
+.doc h4 tt,
+.doc h4 code {
+  font-size: inherit;
+}
+.doc h5 tt,
+.doc h5 code {
+  font-size: inherit;
+}
+.doc h6 tt,
+.doc h6 code {
+  font-size: inherit;
+}
+.doc h1 {
+  font-size: 28px;
+  color: black;
+}
+.doc h2 {
+  font-size: 24px;
+  color: black;
+}
+.doc h3 {
+  font-size: 18px;
+}
+.doc h4 {
+  font-size: 16px;
+}
+.doc h5 {
+  font-size: 14px;
+}
+.doc h6 {
+  color: #777777;
+  font-size: 14px;
+}
+.doc p,
+.doc blockquote,
+.doc ul,
+.doc ol,
+.doc dl,
+.doc li,
+.doc table,
+.doc pre {
+  margin: 15px 0;
+}
+.doc hr {
+  background: transparent url("../../images/modules/pulls/dirty-shade.png") repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+.doc body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+.doc body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+.doc body > h1:first-child + h2 {
+  margin-top: 0;
+  padding-top: 0;
+}
+.doc body > h3:first-child,
+.doc body > h4:first-child,
+.doc body > h5:first-child,
+.doc body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+.doc a:first-child h1,
+.doc a:first-child h2,
+.doc a:first-child h3,
+.doc a:first-child h4,
+.doc a:first-child h5,
+.doc a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+.doc h1 p,
+.doc h2 p,
+.doc h3 p,
+.doc h4 p,
+.doc h5 p,
+.doc h6 p {
+  margin-top: 0;
+}
+.doc li p.first {
+  display: inline-block;
+}
+.doc ul,
+.doc ol {
+  padding-left: 30px;
+}
+.doc ul :first-child,
+.doc ol :first-child {
+  margin-top: 0;
+}
+.doc ul :last-child,
+.doc ol :last-child {
+  margin-bottom: 0;
+}
+.doc dl {
+  padding: 0;
+}
+.doc dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+.doc dl dt:first-child {
+  padding: 0;
+}
+.doc dl dt > :first-child {
+  margin-top: 0;
+}
+.doc dl dt > :last-child {
+  margin-bottom: 0;
+}
+.doc dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+.doc dl dd > :first-child {
+  margin-top: 0;
+}
+.doc dl dd > :last-child {
+  margin-bottom: 0;
+}
+.doc blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777;
+}
+.doc blockquote > :first-child {
+  margin-top: 0;
+}
+.doc blockquote > :last-child {
+  margin-bottom: 0;
+}
+.doc table {
+  padding: 0;
+}
+.doc table tr {
+  border-top: 1px solid #cccccc;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+.doc table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+.doc table tr th {
+  font-weight: bold;
+  border: 1px solid #cccccc;
+  text-align: left;
+  margin: 0;
+  padding: 6px 13px;
+}
+.doc table tr td {
+  border: 1px solid #cccccc;
+  text-align: left;
+  margin: 0;
+  padding: 6px 13px;
+}
+.doc table tr th :first-child,
+.doc table tr td :first-child {
+  margin-top: 0;
+}
+.doc table tr th :last-child,
+.doc table tr td :last-child {
+  margin-bottom: 0;
+}
+.doc img {
+  max-width: 100%;
+}
+.doc span.frame {
+  display: block;
+  overflow: hidden;
+}
+.doc span.frame > span {
+  border: 1px solid #dddddd;
+  display: block;
+  float: left;
+  overflow: hidden;
+  margin: 13px 0 0;
+  padding: 7px;
+  width: auto;
+}
+.doc span.frame span img {
+  display: block;
+  float: left;
+}
+.doc span.frame span span {
+  clear: both;
+  color: #333333;
+  display: block;
+  padding: 5px 0 0;
+}
+.doc span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+.doc span.align-center > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px auto 0;
+  text-align: center;
+}
+.doc span.align-center span img {
+  margin: 0 auto;
+  text-align: center;
+}
+.doc span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+.doc span.align-right > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px 0 0;
+  text-align: right;
+}
+.doc span.align-right span img {
+  margin: 0;
+  text-align: right;
+}
+.doc span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left;
+}
+.doc span.float-left span {
+  margin: 13px 0 0;
+}
+.doc span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right;
+}
+.doc span.float-right > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px auto 0;
+  text-align: right;
+}
+.doc code,
+.doc tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #F5F2F0;
+  border-radius: 3px;
+}
+.doc pre code {
+  font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+.doc .highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+.doc pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+.doc pre code,
+.doc pre tt {
+  background-color: transparent;
+  border: none;
+}
+.doc strong {
+  font-weight: bold;
+}

@@ -1,0 +1,114 @@
+/* Variable */
+@import url(variable.less);
+
+/* Base */
+html {
+    height: 100%;
+}
+
+body {
+    font: normal 14px/1.6 "Helvetica neue", "Segoe UI", Arial, "Microsoft Jhenghei", "Microsoft Yahei", Sans-serif;
+    background: #272330;
+    min-width: @content-width;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+
+}
+
+.hd {
+    background: @color-main;
+}
+
+.bd {
+    background: #F0F0F0;
+}
+
+.ft {
+    background: #272330;
+    color: #999;
+    padding: 30px 0;
+}
+
+/* Layout */
+.container {
+    width: @content-width;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.clearfix:after {
+    content: ''; 
+    display: block;
+    font-size: 0;
+    line-height: 0;
+    clear: both;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.center-block {
+    display: block;
+    margin: auto;
+}
+
+.list-inline {
+    padding-left: 0;
+    list-style: none;
+    li {
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
+.heart {
+    display: inline-block;
+    color: #f44;
+    font-size: 24px;
+    -webkit-animation: pulse 1.4s infinite;
+    padding-right: 1px;
+    position: relative;
+    top: 2px;
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-transform: scale(0.75);
+    }
+    50% {
+        -webkit-transform: scale(1);
+    }
+    100% {
+        -webkit-transform: scale(0.75);
+    }
+}
+
+@-webkit-keyframes mymove 
+{
+0%   {top:0px;}
+25%  {top:200px;}
+50%  {top:100px;}
+75%  {top:200px;}
+100% {top:0px;}
+}
+
+
