@@ -51,6 +51,7 @@ body {
 }
 
 .doc-wrap {
+    max-width: 100%;
     .doc {
         overflow: hidden;
     }
@@ -116,6 +117,19 @@ body {
 }
 
 @media screen and (max-width: 970px) {
+    body {
+        min-width: 240px;
+    }
+
+    .hd .logo {
+        margin-left: 8px;
+    }
+
+    .bd .container {
+        width: 100%;
+        padding: 0 8px;
+    }
+
     .side {
         display: none;
     }

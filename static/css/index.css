@@ -110,3 +110,62 @@ body {
   font-size: 20px;
   margin-bottom: 20px;
 }
+@media screen and (max-width: 970px) {
+  body {
+    min-width: 240px;
+  }
+  .hd {
+    height: auto;
+    padding: 30px 0;
+  }
+  .hd .logo {
+    font-size: 54px;
+  }
+  .hd .desc {
+    font-size: 20px;
+  }
+  .bd .container {
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  .comp-list {
+    margin-right: -40px;
+    padding: 10px 0;
+    margin-right: 0;
+    text-align: justify;
+  }
+  .comp-list li {
+    vertical-align: top;
+    height: auto;
+    min-height: 360px;
+    margin-right: 0;
+    float: none;
+  }
+  .comp-list li img {
+    width: 100%;
+    height: 170px;
+    margin-top: 12px;
+  }
+  .comp-list li .detail {
+    display: block;
+    opacity: 1;
+    background: none;
+    position: static;
+    height: auto;
+    line-height: inherit;
+    margin-top: 48px;
+  }
+  .comp-list:after {
+    content: 'x';
+    display: inline-block;
+    width: 100%;
+    height: 1px;
+    visibility: invisible;
+  }
+}
+@media screen and (max-width: 567px) {
+  .comp-list {
+    text-align: center;
+  }
+}

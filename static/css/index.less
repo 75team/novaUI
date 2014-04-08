@@ -1,4 +1,6 @@
 @import url(variable.less);
+
+
 body {
     position: relative;
     background: #272330;
@@ -128,3 +130,70 @@ body {
     }
 }
 
+@media screen and (max-width: 970px) {
+    body {
+        min-width: 240px;
+    }
+
+    .hd {
+        height: auto;
+        padding: 30px 0;
+        .logo {
+            font-size: 54px;
+        }
+
+        .desc {
+            font-size: 20px;
+        }
+    }
+
+    .bd .container {
+        width: 100%;
+        padding: 0 8px;
+        box-sizing: border-box;
+    }
+
+    .comp-list {
+        margin-right: -40px;
+        padding: 10px 0;
+        margin-right: 0;
+        text-align: justify;
+        li {
+            vertical-align: top;
+            height: auto;
+            min-height: 360px;
+            margin-right: 0;
+            float: none;
+
+            img {
+                width: 100%;
+                height: 170px;
+                margin-top: 12px;
+            }
+
+            .detail {
+                display: block;
+                opacity: 1;
+                background: none;
+                position: static;
+                height: auto;
+                line-height: inherit;
+                margin-top: 48px;
+            }
+        }
+    }
+
+    .comp-list:after {
+        content: 'x';
+        display: inline-block;
+        width: 100%;
+        height: 1px;
+        visibility: invisible;
+    }
+}
+
+@media screen and (max-width: 567px) {
+    .comp-list {
+        text-align: center;
+    }
+}
