@@ -1,0 +1,18 @@
+{
+    "sidebar": {
+        "version": "1.0.0",
+        "files" : {
+            "build/sidebar.1.0.0.js" : [
+                "src/sidebar.js"
+            ],
+            "build/sidebar.1.0.0.css" : [
+                "src/sidebar.css"
+            ]
+        },
+        "module": "Nova.sidebar",
+        "src": "src/sidebar.js",
+        "requires": {
+            "widget": "module/widget/1.0.2/widget"
+        }
+    }
+}
