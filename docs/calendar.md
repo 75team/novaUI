@@ -159,9 +159,8 @@ function selectedDate(date) { //... }
  * @param e{Object} Event对象
  * @param date{Number} 当前选中日期的时间戳
  * @param dateStr{String} 当前选中日期格式化字符串
- * @param instance{Object} 当前日历实例
  */
-calendar.on('select', function(e, date, dateStr, instance) {
+calendar.on('select', function(e, date, dateStr) {
     // ...
 });
 
@@ -170,9 +169,8 @@ calendar.on('select', function(e, date, dateStr, instance) {
  * @param e{Object} Event对象
  * @param month{Number} 当前月份
  * @param year{String} 当前年份
- * @param instance{Object} 当前日历实例
  */
-calendar.on('monthchange', function(e, month, year, instance) {
+calendar.on('monthchange', function(e, month, year) {
     // ...
 });
 
