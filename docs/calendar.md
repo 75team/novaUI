@@ -44,6 +44,7 @@ _loader.use('widget, calendar', function() {
 </div>
 ```
 
+需先引入依赖的文件：Zepto基础库，Zepto touch模块 
 ### Javascript
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
