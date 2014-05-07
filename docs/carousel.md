@@ -4,7 +4,7 @@
 
 ## Demo
 **注意：**PC用户请使用开发者工具模拟Touch行为
-<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.1.css" />
+<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.2.css" />
 
 <style type="text/css">
     .nova-carousel {
@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('carousel', 'http://s3.qhimg.com/static/d75a87326f51ecf5/carousel.1.0.1.js');
+    _loader.add('carousel', 'http://s0.qhimg.com/static/0afcde3f6abe272c/carousel.1.0.2.js');
     _loader.use('widget, carousel', function() { 
         var carousel = new Carousel({
             element: '.nova-carousel'
@@ -82,7 +82,7 @@
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块 
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s3.qhimg.com/static/d75a87326f51ecf5/carousel.1.0.1.js"></script>
+<script type="text/javascript" src="http://s0.qhimg.com/static/0afcde3f6abe272c/carousel.1.0.2.js"></script>
 <script type="text/javascript">
         var carousel = new Carousel({
             element: '.nova-carousel'
@@ -91,7 +91,7 @@
 ```
 ### CSS
 ```markup
-<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.1.css" />
+<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.2.css" />
 ```
 使用默认样式，请引入以上文件。若需自定义样式，仅复制未压缩版文件中/\* Required \*/注释下的样式即可。
 
@@ -149,8 +149,15 @@ carousel.after('next', function() {
 ```
 
 ## 日志
+### 1.0.2  
 
-1.0.1 升级依赖widget.js版本为1.0.2
+1. 当切换内容数小于或等于2个时，关闭循环轮播  
+2. 当切换内容数为1时，关闭滑动  
+3. 新增refresh方法，当显示，或尺寸更改时调用  
 
-1.0.0 首次发布
+### 1.0.1 
+升级依赖widget.js版本为1.0.2
+
+### 1.0.0 
+首次发布
 

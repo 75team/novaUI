@@ -134,6 +134,12 @@
 .doc h6 p {
   margin-top: 0;
 }
+.doc ol li {
+  list-style: decimal;
+}
+.doc ul li {
+  list-style: disc;
+}
 .doc li p.first {
   display: inline-block;
 }

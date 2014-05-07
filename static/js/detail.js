@@ -18,6 +18,13 @@
         // 监听滚动
         var tocOffset = tocWrap.offset();
         $(window).on('scroll', debounce(function(e) {
+            // 若发现tocOffset值不合理，重新取
+            if(tocOffset.top == 0) {
+                tocOffset = tocWrap.offset();
+                console.log(1);
+                return;
+            }
+
             var scrollTop = $(window).scrollTop();
             if(scrollTop - tocOffset.top >= 0) {
                 tocWrap.addClass('toc-fixed'); 
@@ -26,6 +33,7 @@
                 tocWrap.removeClass('toc-fixed'); 
             }
         }, 1000/60));
+
 
         function debounce(func, wait, immediate) {
             var timeout;

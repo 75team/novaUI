@@ -179,7 +179,10 @@ calendar.on('monthchange', function(e, month, year) {
 
 ## 日志
 
-1.0.1 升级依赖widget.js版本为1.0.2
+### 1.0.1 
+升级依赖widget.js版本为1.0.2
 
-1.0.0 首次发布
+### 1.0.0 
+首次发布
+
 
