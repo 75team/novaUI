@@ -132,11 +132,9 @@
             function drag(e) {
                 var x, y, pos, delta;
 
-                /*
                 if(e.targetTouches[0] != touch) {
                     return;
                 }
-                */
 
                 if(me.isVertical) {
                     e.preventDefault();
@@ -170,12 +168,10 @@
                 pressed = false;
                 var bound;
 
-                /*
                 if(e.changedTouches[0] != touch) {
                     alert();
                     return;
                 }
-                */
 
                 $body.off('touchmove', throttleDrag);
                 $body.off('touchend', release);
