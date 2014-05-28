@@ -127,20 +127,24 @@
         </ul>
     </div>
 
+</body>
     <script type="text/javascript">
+        /*
         var iScroll = new IScroll('.wrap', {
             scrollX: true
         });
+        */
 
-        var myScroll = new Swipable({
-            element: '.wrap2',
-            dir: 'horizontal'
+        $(document).ready(function() {
+            var myScroll = new Swipable({
+                element: '.wrap2',
+                dir: 'horizontal'
 
-        });
+            });
 
-        var myVScroll= new Swipable({
-            element: '.wrap3'
+            var myVScroll= new Swipable({
+                element: '.wrap3'
+            });
         });
     </script>
-</body>
 </html>

@@ -15,6 +15,34 @@
               };
     })(); 
 
+
+    function has3d() {
+        var el = document.createElement('p'), 
+        has3d,
+        transforms = {
+            'webkitTransform':'-webkit-transform',
+            'OTransform':'-o-transform',
+            'msTransform':'-ms-transform',
+            'MozTransform':'-moz-transform',
+            'transform':'transform'
+        };
+
+        // Add it to the body to get the computed style.
+        document.body.insertBefore(el, null);
+
+        for (var t in transforms) {
+            if (el.style[t] !== undefined) {
+                el.style[t] = "translate3d(1px,1px,1px)";
+                has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+            }
+        }
+
+        document.body.removeChild(el);
+
+        return (has3d !== undefined && has3d.length > 0 && has3d !== "none");
+    }
+
+
     var throttle = function (func, threshold, alt) { 
         var last = Date.now(); 
         threshold = threshold || 100; 
@@ -104,9 +132,11 @@
             function drag(e) {
                 var x, y, pos, delta;
 
+                /*
                 if(e.targetTouches[0] != touch) {
                     return;
                 }
+                */
 
                 if(me.isVertical) {
                     e.preventDefault();
@@ -140,10 +170,12 @@
                 pressed = false;
                 var bound;
 
+                /*
                 if(e.changedTouches[0] != touch) {
                     alert();
                     return;
                 }
+                */
 
                 $body.off('touchmove', throttleDrag);
                 $body.off('touchend', release);
@@ -231,10 +263,15 @@
             function scroll(pos) {
                 //offset = pos > me.max ? me.max : (pos < me.min) ? me.min : pos;
                 offset = pos;
-                //var translate = me.isVertical ? 'translateY' : 'translateX';
-                //me.$view.css(xForm, translate + '(' + offset +'px)');
-                var translate = me.isVertical ? 'translate3d(0, ' + offset + 'px, 0)': 'translate3d(' + offset + 'px, 0, 0)';
-                me.$view.css({'-webkit-transform': translate});
+    var support3d = has3d();
+
+                if(support3d) {
+                    var translate = me.isVertical ? 'translate3d(0, ' + offset + 'px, 0)': 'translate3d(' + offset + 'px, 0, 0)';
+                    me.$view.css({'-webkit-transform': translate});
+                } else {
+                    var translate = me.isVertical ? 'translateY' : 'translateX';
+                    me.$view.css(xForm, translate + '(' + offset +'px)');
+                }
 
             }
 
