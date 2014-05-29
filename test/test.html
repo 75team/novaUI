@@ -84,6 +84,7 @@
 
     <div class="wrap3">
         <ul class="nav-ver">
+            <a href="http://www.baidu.com">baidu</a>
             <li>HOME</li>
             <li>Blog</li>
             <li>Gallery</li>
@@ -129,16 +130,15 @@
 
 </body>
     <script type="text/javascript">
-        /*
         var iScroll = new IScroll('.wrap', {
             scrollX: true
         });
-        */
 
         $(document).ready(function() {
             var myScroll = new Swipable({
                 element: '.wrap2',
-                dir: 'horizontal'
+                dir: 'horizontal',
+                speed: 0.5 
 
             });
 

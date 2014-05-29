@@ -15,26 +15,16 @@
               };
     })(); 
 
-
     function has3d() {
         var el = document.createElement('p'), 
-        has3d,
-        transforms = {
-            'webkitTransform':'-webkit-transform',
-            'OTransform':'-o-transform',
-            'msTransform':'-ms-transform',
-            'MozTransform':'-moz-transform',
-            'transform':'transform'
-        };
+            has3d;
 
         // Add it to the body to get the computed style.
         document.body.insertBefore(el, null);
 
-        for (var t in transforms) {
-            if (el.style[t] !== undefined) {
-                el.style[t] = "translate3d(1px,1px,1px)";
-                has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-            }
+        if(el.style[xForm] != undefined) {
+            el.style[xForm] = 'translate3d(1px, 1px, 1px)';
+            has3d = window.getComputedStyle(el).getPropertyValue(xForm);
         }
 
         document.body.removeChild(el);
@@ -43,7 +33,8 @@
     }
 
 
-    var throttle = function (func, threshold, alt) { 
+
+    function throttle(func, threshold, alt) { 
         var last = Date.now(); 
         threshold = threshold || 100; 
         return function () { 
@@ -59,24 +50,26 @@
         }; 
     }; 
 
-    var xForm = prefix['css'] + 'transform';
-
     var reqAnimFrame = window.requestAnimationFrame || window[prefix['js'] + 'requestAnimationFrame'] || function(callback) {
         setTimeout(callback, 1000/60);
     };
 
-    var timeConstant = 325;     // 越大动画越快 425
-    var smoothConstant = 0.5;   // 越大越光滑
+    var xForm = prefix['css'] + 'transform';            // transform css属性名
+    var support3d;
+    var timeConstant = 325;                             // 时间系数，越大动画越快 425
 
     var Swipable = Widget.extend({
         /* 默认配置 */
         attrs: {
-            dir: 'vertical'   // 可取值vertical, horizontal
+            dir: 'vertical',    // 可取值vertical, horizontal
+            speed: 0.5          // 滑动速度 
         },
 
         /* 初始化 */
         setup: function() {
             this._initEvents();
+
+            (support3d === undefined) && (support3d = has3d());
 
             // 滑动方向
             this.isVertical = this.get('dir') === 'vertical' ? 1 : 0;
@@ -95,14 +88,12 @@
                 offset = 0,             // 初始偏移量
                 pressed,
                 velocity,
-                ticker,
                 frame,
                 timeStamp,
                 amplitude,
                 reference,
                 referenceX,
-                referenceY,
-                touch;
+                referenceY;
 
             $ele.on('touchstart', tap);
 
@@ -114,9 +105,8 @@
                     dir = undefined;
 
                     reference = me._pos(e);
-                    referenceX = e.targetTouches[0].clientX;
-                    referenceY = e.targetTouches[0].clientY;
-                    touch = e.targetTouches[0];
+                    referenceX = e.touches[0].clientX;
+                    referenceY = e.touches[0].clientY;
 
                     $body.on('touchmove', throttleDrag);
                     $body.on('touchend', release);
@@ -125,24 +115,19 @@
                     timeStamp = (new Date()).getTime();
                     velocity = 0;
                     amplitude = 0;
-                    //ticker = setInterval(track, 80);
                 }
             }
 
             function drag(e) {
                 var x, y, pos, delta;
 
-                if(e.targetTouches[0] != touch) {
-                    return;
-                }
-
                 if(me.isVertical) {
                     e.preventDefault();
                 } 
                 else {
                     if(dir === undefined) {
-                        x = e.targetTouches[0].clientX;
-                        y = e.targetTouches[0].clientY;
+                        x = e.touches[0].clientX;
+                        y = e.touches[0].clientY;
                         dir = Math.abs(y - referenceY) > Math.abs(x - referenceX) ? 1 : 0;
                     }
 
@@ -168,15 +153,8 @@
                 pressed = false;
                 var bound;
 
-                if(e.changedTouches[0] != touch) {
-                    alert();
-                    return;
-                }
-
                 $body.off('touchmove', throttleDrag);
                 $body.off('touchend', release);
-
-                //clearInterval(ticker);
 
                 if(offset < me.min ||  offset > me.max) {
                     target = offset < me.min ? me.min : me.max;
@@ -186,7 +164,7 @@
                 }
                 
                 else if(Math.abs(velocity) > 80) {
-                    amplitude = smoothConstant * velocity;
+                    amplitude = me.get('speed') * velocity;
                     target = Math.round(offset + amplitude);
                     timeStamp = (new Date).getTime();
                     reqAnimFrame(autoScroll);
@@ -259,7 +237,6 @@
             function scroll(pos) {
                 //offset = pos > me.max ? me.max : (pos < me.min) ? me.min : pos;
                 offset = pos;
-    var support3d = has3d();
 
                 if(support3d) {
                     var translate = me.isVertical ? 'translate3d(0, ' + offset + 'px, 0)': 'translate3d(' + offset + 'px, 0, 0)';
@@ -274,7 +251,7 @@
         },
 
         _pos: function(e) {
-            return this.isVertical ? e.targetTouches[0].clientY : e.targetTouches[0].clientX;
+            return this.isVertical ? e.touches[0].clientY : e.touches[0].clientX;
         },
 
     });
