@@ -93,7 +93,9 @@
                 amplitude,
                 reference,
                 referenceX,
-                referenceY;
+                referenceY, 
+                moveOffsetX,                 // 从touchstart到touchend在X轴的总偏移
+                moveOffsetY;
 
             $ele.on('touchstart', tap);
 
@@ -103,6 +105,8 @@
                 if(!pressed) {
                     pressed = true;
                     dir = undefined;
+                    moveOffsetX = 0;
+                    moveOffsetY = 0;
 
                     reference = me._pos(e);
                     referenceX = e.touches[0].clientX;
@@ -119,15 +123,15 @@
             }
 
             function drag(e) {
-                var x, y, pos, delta;
+                var x = e.touches[0].clientX, 
+                    y = e.touches[0].clientY, 
+                    pos, delta;
 
                 if(me.isVertical) {
                     e.preventDefault();
                 } 
                 else {
                     if(dir === undefined) {
-                        x = e.touches[0].clientX;
-                        y = e.touches[0].clientY;
                         dir = Math.abs(y - referenceY) > Math.abs(x - referenceX) ? 1 : 0;
                     }
 
@@ -139,6 +143,8 @@
                 }
 
                 pos = me._pos(e);
+                moveOffsetY = y - referenceY;
+                moveOffsetX = x - referenceX;
 
                 delta = pos - reference;
                 reference = pos;
@@ -151,7 +157,8 @@
             
             function release(e) {
                 pressed = false;
-                var bound;
+                var bound, 
+                    touch = e.touches[0];
 
                 $body.off('touchmove', throttleDrag);
                 $body.off('touchend', release);
@@ -174,6 +181,10 @@
                     }
                 }
 
+                console.log(moveOffsetX, moveOffsetY);
+                if(Math.abs(moveOffsetX) > 5 || Math.abs(moveOffsetY) > 5) {
+                    e.preventDefault();
+                }
             }
 
             function track() {
@@ -183,8 +194,6 @@
                 var t = d - timeStamp;
                 var v = 1000 * delta / (1 + t);
 
-
-                //velocity = 0.2 * velocity + 0.8 * v;
                 velocity = 0.05 * velocity + 0.95 * v;
 
                 frame = offset;
