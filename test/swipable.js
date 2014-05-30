@@ -57,6 +57,7 @@
     var xForm = prefix['css'] + 'transform';            // transform css属性名
     var support3d;
     var timeConstant = 325;                             // 时间系数，越大动画越快 425
+    var pressed;                                        // 是否以有手指在操作
 
     var Swipable = Widget.extend({
         /* 默认配置 */
@@ -104,7 +105,6 @@
                 $ele = me.$element,
                 $body = $('body'),
                 dir,                    // 用户试图滑动的方向，1垂直，0水平
-                pressed,                // 是否以有手指在操作
                 velocity,               // 滑动速度
                 frame,                  // 每一帧偏移
                 timeStamp,              // 每一帧时间
@@ -113,7 +113,8 @@
                 startX,                 // touchstart的X偏移
                 startY,                 
                 moveOffsetX,            // 从touchstart到touchend在X轴的总偏移
-                moveOffsetY;            
+                moveOffsetY,
+                target;            
 
             me.offset = 0;
 

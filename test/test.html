@@ -12,7 +12,7 @@
         html, body {
             height: 100%;
         }
-        .wrap, .wrap2 {
+        .wrap, .wrap2, .wrap5, .wrap4 {
             overflow: hidden;
         }
 
@@ -82,6 +82,35 @@
         </ul>
     </div>
 
+    <div class="wrap4">
+        <ul class="nav">
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+    </div>
+    <div class="wrap5">
+        <ul class="nav">
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+    </div>
+
     <div class="wrap3">
         <a href="http://www.baidu.com" target="_blank" style="display:block">
         <ul class="nav-ver">
@@ -131,11 +160,20 @@
 
 </body>
     <script type="text/javascript">
-        var iScroll = new IScroll('.wrap', {
+        var iScroll = new IScroll('.wrap4', {
+            scrollX: true
+        });
+        var iScroll = new IScroll('.wrap5', {
             scrollX: true
         });
 
         $(document).ready(function() {
+            var myScroll = new Swipable({
+                element: '.wrap',
+                dir: 'horizontal',
+                speed: 0.5 
+
+            });
             var myScroll = new Swipable({
                 element: '.wrap2',
                 dir: 'horizontal',
