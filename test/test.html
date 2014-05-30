@@ -147,5 +147,13 @@
                 element: '.wrap3'
             });
         });
+
+        var nav = $('.wrap2 .nav');
+        $('.wrap2 li').tap(function() {
+            offset = -this.offsetLeft;
+            nav.animate({
+                '-webkit-transform': 'translate3d(' + offset + 'px, 0, 0)'
+                }, 1000);
+        });
     </script>
 </html>

@@ -67,7 +67,7 @@
 
         /* 初始化 */
         setup: function() {
-            this._initEvents();
+            var me = this;
 
             (support3d === undefined) && (support3d = has3d());
 
@@ -78,6 +78,25 @@
             this.$view = this.$element.children();   // view是滑动区域中的内容
             this.min = this.isVertical ? this.$element.height() - this.$view.height() : this.$element.width() - this.$view.width();
             this.max = 0;
+
+            this._initEvents();
+
+            $(window).on('resize', function() {
+                me.refresh(); 
+            });
+        },
+
+        refresh: function() {
+            this.min = this.isVertical ? this.$element.height() - this.$view.height() : this.$element.width() - this.$view.width();
+            this.max = 0;
+
+            if(this.offset !== undefined) {
+                if(this.offset > this.max) {
+                    this._scroll(this.max);
+                } if(this.offset < this.min) {
+                    this._scroll(this.min);
+                }
+            }
         },
 
         _initEvents: function() {
@@ -85,22 +104,24 @@
                 $ele = me.$element,
                 $body = $('body'),
                 dir,                    // 用户试图滑动的方向，1垂直，0水平
-                offset = 0,             // 初始偏移量
-                pressed,
-                velocity,
-                frame,
-                timeStamp,
-                amplitude,
-                reference,
-                referenceX,
-                referenceY, 
-                moveOffsetX,                 // 从touchstart到touchend在X轴的总偏移
-                moveOffsetY;
+                pressed,                // 是否以有手指在操作
+                velocity,               // 滑动速度
+                frame,                  // 每一帧偏移
+                timeStamp,              // 每一帧时间
+                amplitude,              // 振幅
+                reference,              // 当前偏移
+                startX,                 // touchstart的X偏移
+                startY,                 
+                moveOffsetX,            // 从touchstart到touchend在X轴的总偏移
+                moveOffsetY;            
+
+            me.offset = 0;
 
             $ele.on('touchstart', tap);
 
             var throttleDrag = throttle(drag, 1000/70);
 
+            // touchstart
             function tap(e) {
                 if(!pressed) {
                     pressed = true;
@@ -109,19 +130,20 @@
                     moveOffsetY = 0;
 
                     reference = me._pos(e);
-                    referenceX = e.touches[0].clientX;
-                    referenceY = e.touches[0].clientY;
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
 
                     $body.on('touchmove', throttleDrag);
                     $body.on('touchend', release);
 
-                    frame = offset;
+                    frame = me.offset;
                     timeStamp = (new Date()).getTime();
                     velocity = 0;
                     amplitude = 0;
                 }
             }
 
+            // touchmove handler
             function drag(e) {
                 var x = e.touches[0].clientX, 
                     y = e.touches[0].clientY, 
@@ -132,7 +154,7 @@
                 } 
                 else {
                     if(dir === undefined) {
-                        dir = Math.abs(y - referenceY) > Math.abs(x - referenceX) ? 1 : 0;
+                        dir = Math.abs(y - startY) > Math.abs(x - startX) ? 1 : 0;
                     }
 
                     if(dir === 1) {
@@ -143,18 +165,19 @@
                 }
 
                 pos = me._pos(e);
-                moveOffsetY = y - referenceY;
-                moveOffsetX = x - referenceX;
+                moveOffsetY = y - startY;
+                moveOffsetX = x - startX;
 
                 delta = pos - reference;
                 reference = pos;
-                if(offset < me.min || offset > me.max) {
+                if(me.offset < me.min || me.offset > me.max) {
                     delta /= 4;
                 }
-                scroll(offset + delta);
+                me._scroll(me.offset + delta);
                 track();
             }
             
+            // touchend handler
             function release(e) {
                 pressed = false;
                 var bound, 
@@ -163,16 +186,18 @@
                 $body.off('touchmove', throttleDrag);
                 $body.off('touchend', release);
 
-                if(offset < me.min ||  offset > me.max) {
-                    target = offset < me.min ? me.min : me.max;
-                    amplitude = target - offset;
+                // 超出边界，回弹
+                if(me.offset < me.min ||  me.offset > me.max) {
+                    target = me.offset < me.min ? me.min : me.max;
+                    amplitude = target - me.offset;
                     timeStamp = (new Date).getTime();
                     reqAnimFrame(rebound);
                 }
                 
+                // 速度足够大，则惯性移动
                 else if(Math.abs(velocity) > 80) {
                     amplitude = me.get('speed') * velocity;
-                    target = Math.round(offset + amplitude);
+                    target = Math.round(me.offset + amplitude);
                     timeStamp = (new Date).getTime();
                     reqAnimFrame(autoScroll);
 
@@ -181,25 +206,27 @@
                     }
                 }
 
-                console.log(moveOffsetX, moveOffsetY);
+                // 偏移大，则视为移动，而非tap，因此阻止默认行为
                 if(Math.abs(moveOffsetX) > 5 || Math.abs(moveOffsetY) > 5) {
                     e.preventDefault();
                 }
             }
 
+            // 跟踪速度
             function track() {
                 var d = (new Date()).getTime();
 
-                var delta = offset - frame;
+                var delta = me.offset - frame;
                 var t = d - timeStamp;
                 var v = 1000 * delta / (1 + t);
 
                 velocity = 0.05 * velocity + 0.95 * v;
 
-                frame = offset;
+                frame = me.offset;
                 timeStamp = d;
             }
 
+            // 惯性滑动的每一帧
             function autoScroll() {
                 var elapsed, delta, bound, boundTarget;
                 if(amplitude) {
@@ -208,55 +235,53 @@
                     if(Math.abs(delta) > 0.5) {
 
                         // rebound
-                        if(offset > me.max || offset < me.min) {
+                        if(me.offset > me.max || me.offset < me.min) {
                             bound = target < me.min ? me.min : me.max;
                             boundTarget = Math.round(bound + (target - bound) / 8);
                             if(Math.abs(target + delta) > Math.abs(boundTarget)) {
-                            //if(Math.abs(delta) < Math.abs(amplitude) / 2) {
-                                target = offset < me.min ? me.min : me.max;
-                                amplitude = target - offset;
+                                target = me.offset < me.min ? me.min : me.max;
+                                amplitude = target - me.offset;
                                 timeStamp = (new Date).getTime();
                                 reqAnimFrame(rebound);
                                 return;
                             }
                         }
-                        scroll(target + delta);
+                        me._scroll(target + delta);
                         reqAnimFrame(autoScroll);
                     } else {
-                        scroll(target);
+                        me._scroll(target);
                     }
                 }
             }
 
+            // 回弹的每一帧
             function rebound() {
-                //me.$view.animate({'-webkit-transform': 'translateX(0)'}, 1000, 'ease', function() {offset=0;});
                 var elapsed, delta;
                 if(amplitude) {
                     elapsed = (new Date()).getTime() - timeStamp;
                     delta = -amplitude * Math.exp(-elapsed / 100);
                     if(Math.abs(delta) > 0.5) {
-                        scroll(target + delta);
+                        me._scroll(target + delta);
                         reqAnimFrame(rebound);
                     } else {
-                        scroll(target);
+                        me._scroll(target);
                     }
                 }
             }
 
-            function scroll(pos) {
-                //offset = pos > me.max ? me.max : (pos < me.min) ? me.min : pos;
-                offset = pos;
+        },
 
-                if(support3d) {
-                    var translate = me.isVertical ? 'translate3d(0, ' + offset + 'px, 0)': 'translate3d(' + offset + 'px, 0, 0)';
-                    me.$view.css({'-webkit-transform': translate});
-                } else {
-                    var translate = me.isVertical ? 'translateY' : 'translateX';
-                    me.$view.css(xForm, translate + '(' + offset +'px)');
-                }
+        _scroll: function(pos) {
+            var me = this;
+            me.offset = pos;
 
+            if(support3d) {
+                var translate = me.isVertical ? 'translate3d(0, ' + me.offset + 'px, 0)': 'translate3d(' + me.offset + 'px, 0, 0)';
+                me.$view.css({'-webkit-transform': translate});
+            } else {
+                var translate = me.isVertical ? 'translateY' : 'translateX';
+                me.$view.css(xForm, translate + '(' + me.offset +'px)');
             }
-
         },
 
         _pos: function(e) {
