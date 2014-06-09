@@ -106,8 +106,8 @@
 </form>
 ```
 
-需先引入依赖的文件：Zepto基础库，Zepto touch模块 
 ### Javascript
+需先引入依赖的文件：Zepto基础库，Zepto touch模块 
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
 <script type="text/javascript" src="http://s3.qhimg.com/static/d371ef039746e269/suggest.1.0.1.js"></script>
