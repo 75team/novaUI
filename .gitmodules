@@ -17,3 +17,6 @@
 [submodule "src/widgets/calendar"]
 	path = src/widgets/calendar
 	url = https://github.com/novawidgets/calendar.git
+[submodule "src/widgets/swipable"]
+	path = src/widgets/swipable
+	url = https://github.com/novawidgets/swipable.git
