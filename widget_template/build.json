@@ -12,7 +12,7 @@
         "module": "Nova.sidebar",
         "src": "src/sidebar.js",
         "requires": {
-            "widget": "module/widget/1.0.2/widget"
+            "Widget": "module/widget/1.0.2/widget"
         }
     }
 }
