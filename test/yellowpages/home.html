@@ -1,0 +1,1136 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<title>查号</title>
+<style>
+html,body,form,input,div,ul,li,dl,dt,dd,h4,h3,h5,span,p,a,em{margin:0;padding:0;}
+ul,li{list-style-type:none;}
+em{font-style:normal;}
+body{
+    -webkit-text-size-adjust:none;
+}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{display:inline-block}
+.fl{float:left;display:inline}
+.fr{float:right;display:inline}
+.por{position:relative}
+.poa{position:absolute}
+*html clearfix{height:1%}
+.clearfix{display:block}
+.wrap{width:100%;overflow:hidden;}
+.hidden{display:none}
+.c{width:100%;}
+.search{padding:7px 0 7px 10px;background:#f4f5f6;border-bottom:1px solid #bcbcbc;}
+.cityChoice{float: left;height: 33px;line-height: 33px;width: 75px;text-align: center;color: #999;background: #fff;border: #bcbcbc solid 1px;border-radius: 19px 0 0 19px;}
+.searchBtn{padding: 0 10px;float: right;}
+.searchBtn input{width: 45px;height: 35px;background: url('img/search_btn.png') no-repeat left top;border: 0 none;cursor: pointer;background-size: 45px 35px;}
+.searchInput{overflow: hidden;height: 33px;line-height:33px;border: 1px solid #bcbcbc;border-left: 0;background: #fff;padding:0 10px;border-radius: 0 19px 19px 0;}
+.searchInput input{border:0 none;margin:0; color:#999;font-size:14px;height:100%;width:100%;border-radius: 0 19px 19px 0;}
+
+#city{cursor:pointer;white-space: nowrap;text-overflow:ellipsis;overflow: hidden;padding:0 20px 0 10px;border-radius: 19px 0 0 19px;background: url('img/down.png') no-repeat right center;background-size: 13px 6px;}
+
+#cityChoice{background:#f7f7f7;width:100%;color:#a8a8a8;}
+.citylist{}
+.citylist h5{
+    height: 25px;
+    font-size:14px;position:relative;padding-left:10px;line-height:25px;
+    background-color: #dedede;
+    border-bottom:#d6d6d6 solid 1px;
+    background-image: -webkit-linear-gradient(bottom, #f2f4f5, #fafbfc);
+}
+.citylist p{overflow:hidden;padding:9px 0 9px 16px;line-height:42px;border-bottom:#e0e0e0 solid 1px;}
+.citylist .btn{position:absolute;right:16px;top:16px;width:12px;height:8px;line-height:8px;background:url('img/city-down.png') no-repeat; background-size:12px 8px;}
+.citylist .hidden_lis p{display:none;}
+.citylist .show_lis p{display:block;}
+.citylist .show_lis .btn{-webkit-transform: rotate(180deg);}
+.citylist .letter h5{height:40px;line-height:40px;cursor:pointer;}
+.citylist a,.citylist a:hover{float:left;font-weight:700;border-bottom:#ddd;margin-right:34px;color:#000;text-decoration:none;}
+.citylist .current a{background:url('img/cur-city.png') no-repeat right center;padding-right:20px;background-size:15px 10px;}
+
+
+.con1{margin-top:-1px;}
+
+.nav_1{
+    font-size:14px;
+    color:#a8a8a8;
+    height:25px;
+    line-height:25px;
+    padding-left:16px;
+    border-top:#e0e0e0 solid 1px;
+    border-bottom:#d6d6d6 solid 1px;
+    background-color: #dedede;
+    background-image: -webkit-linear-gradient(bottom, #f2f4f5, #fafbfc);
+}
+.list_1{
+    padding:17px 4px;
+    overflow:hidden;
+}
+.list_1 li{
+    float:left;
+    width:50%;
+}
+.list_1 li a{
+    color:#fff;
+    display:block;
+    margin:auto;
+    width:145px;
+    height:60px;
+    line-height:60px;
+    text-align:center;
+    text-decoration:none;
+    background:url('img/bg1.jpg') no-repeat 0 0;
+    background-size:145px 60px;
+}
+.list_1 .phone a em{
+    -webkit-border-radius:10px;
+    padding-left: 32px;
+}
+.list_1 .express a{
+    background:url('img/bg2.jpg') no-repeat 0 0;
+    background-size:145px 60px;
+}
+.list_1 .express a em{
+    padding-left: 38px;
+}
+
+.list_2{padding:17px 4px;overflow:hidden;}
+.list_2 li{
+    float:left;
+    width:25%;
+    padding-bottom:20px;
+}
+.list_2 li a{
+    color:#333;
+    text-decoration:none;
+    text-align:center;
+    display:block;    
+}
+
+.list_2 li a .bg{
+    display:block;
+    margin:auto;
+    width:60px;
+    height:60px;    
+    -webkit-border-radius: 10px;    
+}
+
+.list_2 .my .bg{
+    background:url('img/bg3.jpg');
+    background-size:60px 60px;
+}
+.list_2 .food .bg{
+    background:url('img/bg4.jpg');
+    background-size:60px 60px;
+}
+.list_2 .operators .bg{
+    background:url('img/bg5.jpg');
+    background-size:60px 60px;
+}
+.list_2 .express .bg{
+    background:url('img/bg6.jpg');
+    background-size:60px 60px;
+}
+.list_2 .taxi .bg{
+    background:url('img/bg7.jpg');
+    background-size:60px 60px;
+}
+.list_2 .bank .bg{
+    background:url('img/bg8.jpg');
+    background-size:60px 60px;
+}
+.list_2 .ticket .bg{
+    background:url('img/bg9.jpg');
+    background-size:60px 60px;
+}
+.list_2 .train .bg{
+    background:url('img/bg10.jpg');
+    background-size:60px 60px;
+}
+.list_2 .customer .bg{
+    background:url('img/bg11.jpg');
+    background-size:60px 60px;
+}
+.list_2 .safety .bg{
+    background:url('img/bg12.jpg');
+    background-size:60px 60px;
+}
+.list_2 .public .bg{
+    background:url('img/bg13.jpg');
+    background-size:60px 60px;
+}
+
+
+/*.yuan{
+    display: block;
+    position: relative;
+    left: -15px;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    -webkit-transform: rotate(-45deg);
+    overflow: hidden;
+}
+.yuan:before{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    content: '';
+    background: #ffd200 url('img/star1.png') no-repeat center center;
+    background-size:14px 14px;
+    -webkit-transform: rotate(45deg);
+    left: 0;
+    top: 22px;
+    border-radius: 10px 0 0;
+}*/
+.yuan{
+    display: block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: url('img/star1.png') no-repeat 0 0;
+    background-size:30px 30px;
+    overflow: hidden;
+}
+
+.wrap {
+    background: #ededed;
+}
+
+/* 分类显示 */
+.category-wrap {
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 26px;
+    background: white;
+    padding: 18px; 
+    padding-bottom: 0;
+}
+
+
+/* 服务列表 */
+.service-list {
+    overflow: hidden;
+    margin-bottom: -10px;
+}
+
+.service-list li {
+    width: 25%;
+    box-sizing: border-box;
+    text-align: center;
+    float: left;
+    margin-bottom: 28px;
+}
+
+
+.service-icon, .category-icon {
+    display: block;
+    margin: auto;
+    width: 54px;
+    height: 54px;
+    background: url(img/icon_recent.png) no-repeat center center;
+    background-size: 54px;
+    margin-bottom: 5px;
+}
+
+.category-icon {
+    margin-bottom: 0;
+    width: 52px;
+    background-size: 52px 54px;
+}
+
+.service-list a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    position: relative;
+    //-webkit-tap-highlight-color: transparent;
+}
+
+.active-icon::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 28px;
+    top: 0;
+    left: 50%;
+    margin-left: -28px;
+}
+
+/* 子分类列表 */
+.subcategory-wrap {
+    font-size: 16px;
+    padding: 0;
+    border-bottom: 0;
+    display: table;
+    width: 100%;
+}
+
+.subcategory-wrap.last {
+    padding-bottom: 26px;
+    margin-bottom: 0;
+}
+
+
+.subcategory-title {
+    box-sizing: border-box;
+    width: 34%;
+    padding: 10px;
+    vertical-align: top;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    display: table-cell;
+}
+
+.subcategory-title .category-icon {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+.subcategory-list {
+    overflow: hidden;
+    display: table-cell;
+}
+
+.subcategory-list li {
+    width: 50%;
+    box-sizing: border-box;
+    border-left: 1px solid #cccccc;
+    border-bottom: 1px solid #ccc;
+    float: left;
+}
+
+.subcategory-list li a {
+    display: block;
+    padding: 12px 0;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+}
+
+/* icons */
+.recharge .service-icon {
+    background-image: url(img/icon_recharge.png);
+}
+
+.express .service-icon {
+    background-image: url(img/icon_express.png);
+}
+
+.takeout .service-icon {
+    background-image: url(img/icon_takeout.png);
+}
+
+.hotel .service-icon {
+    background-image: url(img/icon_hotel.png);
+}
+
+.karaoke .service-icon {
+    background-image: url(img/icon_karaoke.png);
+}
+
+.bank .service-icon {
+    background-image: url(img/icon_bank.png);
+}
+
+.desinated .service-icon {
+    background-image: url(img/icon_desinated.png);
+}
+
+.aftersale .service-icon {
+    background-image: url(img/icon_aftersale.png);
+}
+
+.trafficticket .service-icon {
+    background-image: url(img/icon_trafficticket.png);
+}
+
+.health .service-icon {
+    background-image: url(img/icon_health.png);
+}
+
+.subcategory-travel .category-icon {
+    background-image: url(img/icon_travel.png);
+}
+
+.subcategory-life .category-icon {
+    background-image: url(img/icon_life.png);
+}
+
+.subcategory-entertainment .category-icon {
+    background-image: url(img/icon_entertainment.png);
+}
+
+.subcategory-money .category-icon {
+    background-image: url(img/icon_money.png);
+}
+
+.subcategory-service .category-icon {
+    background-image: url(img/icon_service.png);
+}
+
+.subcategory-government .category-icon {
+    background-image: url(img/icon_government.png);
+}
+
+</style>
+</head>
+
+<body>    
+<div class="wrap">
+    <form class="search clearfix" id="search_from">
+        <div class="cityChoice"><p id="city"></p></div>
+        <div class="searchBtn">
+            <input type="submit" value="" id="s" />
+        </div>
+        <div class="searchInput">
+            <input type="text" value="" placeholder="试试搜索肯德基" defvalue="肯德基" id="q" name="q" autoComplete="off"/>
+            <input type="hidden" id="_lat" value="" /> 
+            <input type="hidden" id="_lng" value="" /> 
+        </div>
+    </form>
+
+    <div class="con1">
+        <h3 class="nav_1">快捷服务</h3>
+        <ul class="log_list list_1">
+            <li class="phone"><a href="javascript:;" data-action="clickTelCharge" data-log="1-1"><em>电话充值</em></a></li>
+            <li class="express"><a href="javascript:;" data-action="clickExpress" data-log="1-2" data-value="http://m.so.com/s?q=%E5%BF%AB%E9%80%92%E6%9F%A5%E8%AF%A2&src=hy_app"><em>快递查询</em></a></li>
+        </ul>
+    </div>
+    <div>
+        <h3 class="nav_1">常用</h3>
+        <ul class="log_list list_2" id="icon_list">
+            <li class="my"><a href="javascript:;" data-action="clickMyTel" data-log="2-0"><em class="bg"></em>我的</a></li>
+            <li class="food"><a href="javascript:;" title="美食" data-log="2-1"><em class="bg"></em>美食</a></li>
+            <li class="operators"><a href="javascript:;" title="运营商" data-log="2-2"><em class="bg"></em>运营商</a></li>
+            <li class="express"><a href="javascript:;" title="快递" data-log="2-3"><em class="bg"></em>快递</a></li>
+            <li class="taxi"><a href="javascript:;" title="打车代驾" data-log="2-4"><em class="bg"></em>打车代驾</a></li>
+            <li class="bank"><a href="javascript:;" title="银行" data-log="2-5"><em class="bg"></em>银行</a></li>
+            <li class="ticket"><a href="javascript:;" title="票务" data-log="2-6"><em class="bg"></em>票务</a></li>
+            <li class="train"><a href="javascript:;" title="机票火车票" data-log="2-7"><em class="bg"></em>机票 火车票</a></li>
+            <li class="customer"><a href="javascript:;" title="客服电话" data-log="2-8"><em class="bg"></em>客服电话</a></li>
+            <li class="safety"><a href="javascript:;" title="保险" data-log="2-9"><em class="bg"></em>保险</a></li>
+            <li class="public"><a href="javascript:;" title="公共服务" data-log="2-10"><em class="bg"></em>公共服务</a></li>
+        </ul>
+    </div>
+
+    <div class="category-wrap">
+        <ul class="service-list">
+            <li class="recent">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    最近查看
+                </a>
+            </li>
+            <li class="recharge">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    话费充值
+                </a>
+            </li>
+            <li class="express">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    快递查询
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="category-wrap">
+        <ul class="service-list">
+            <li class="takeout">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    外卖订餐
+                </a>
+            </li>
+            <li class="hotel">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    酒店
+                </a>
+            </li>
+            <li class="karaoke">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    KTV
+                </a>
+            </li>
+            <li class="bank">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    银行
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    打车代驾
+                </a>
+            </li>
+            <li class="aftersale">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    售后
+                </a>
+            </li>
+            <li class="trafficticket">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    飞机票 火车票
+                </a>
+            </li>
+            <li class="health">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    <em class="service-icon"></em>
+                    医疗健康
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="category-wrap subcategory-wrap">
+        <div class="subcategory-title subcategory-travel">
+            <em class="category-icon"></em>
+            旅行
+        </div>
+        <ul class="subcategory-list">
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    打车代驾
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    火车票
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    飞机票
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    酒店预订
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="category-wrap subcategory-wrap">
+        <div class="subcategory-title subcategory-life">
+            <em class="category-icon"></em>
+            生活服务
+        </div>
+        <ul class="subcategory-list">
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    开锁
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    宠物
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    维修
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    洗衣
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    物业
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    疏通
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    搬家
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    家政
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="category-wrap subcategory-wrap">
+        <div class="subcategory-title subcategory-entertainment">
+            <em class="category-icon"></em>
+            休闲娱乐
+        </div>
+        <ul class="subcategory-list">
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    KTV
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    电影院
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    酒吧
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    咖啡馆
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    桌游
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    洗浴
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    足疗
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    按摩
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="category-wrap subcategory-wrap">
+        <div class="subcategory-title subcategory-money">
+            <em class="category-icon"></em>
+            金融理财
+        </div>
+        <ul class="subcategory-list">
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    银行
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    保险
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    证券
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    投资理财
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="category-wrap subcategory-wrap">
+        <div class="subcategory-title subcategory-service">
+            <em class="category-icon"></em>
+            客服电话
+        </div>
+        <ul class="subcategory-list">
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    电商客服
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    游戏客服
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    品牌售后
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###">&nbsp</a>
+            </li>
+        </ul>
+    </div>
+    <div class="category-wrap subcategory-wrap last">
+        <div class="subcategory-title subcategory-government">
+            <em class="category-icon"></em>
+            政府机关
+        </div>
+        <ul class="subcategory-list">
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    人民政府
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    大使馆
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    法院
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    福利院
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    派出所
+                </a>
+            </li>
+            <li class="desinated">
+                <a href="###" data-action="clickMyTel" data-log="2-0">
+                    居委会
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="cityChoice" class="hidden">
+
+</div>
+</body>
+<script type="text/javascript">
+
+(function(){if(typeof window.monitor!="undefined")return;var a="V1.2.2(2012.8.7)",b="360.cn",c=function(d,e){var f=document,g=navigator,h=d.screen,j=document.domain.toLowerCase(),k=g.userAgent.toLowerCase(),l={trim:function(a){return a.replace(/^[\s\xa0\u3000]+|[\u3000\xa0\s]+$/g,"")}},m={on:function(a,b,c){a.addEventListener?a&&a.addEventListener(b,c,!1):a&&a.attachEvent("on"+b,c)},parentNode:function(a,b,c){c=c||5,b=b.toUpperCase();while(a&&c-->0){if(a.tagName===b)return a;a=a.parentNode}return null}},n={fix:function(a){if(!("target"in a)){var b=a.srcElement||a.target;b&&b.nodeType==3&&(b=b.parentNode),a.target=b}return a}},o=function(){function a(a){return a!=null&&a.constructor!=null?Object.prototype.toString.call(a).slice(8,-1):""}return{isArray:function(b){return a(b)=="Array"},isObject:function(a){return a!==null&&typeof a=="object"},mix:function(a,b,c){for(i in b)if(c||!(a[i]||i in a))a[i]=b[i];return a},encodeURIJson:function(a){var b=[];for(var c in a){if(a[c]==null)continue;b.push(encodeURIComponent(c)+"="+encodeURIComponent(a[c]))}return b.join("&")}}}(),p={get:function(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=f.cookie.match(c))?unescape(b[2]):""},set:function(a,b,c){c=c||{};var d=c.expires;typeof d=="number"&&(d=new Date,d.setTime(d.getTime()+c.expires)),f.cookie=a+"="+escape(b)+(d?";expires="+d.toGMTString():"")+(c.path?";path="+c.path:"")+(c.domain?"; domain="+c.domain:"")}},q={getProject:function(){return""},getReferrer:function(){return f.referrer},getBrowser:function(){var a={"360se-ua":"360se",TT:"tencenttraveler",Maxthon:"maxthon",GreenBrowser:"greenbrowser",Sogou:"se 1.x / se 2.x",TheWorld:"theworld"};for(i in a)if(k.indexOf(a[i])>-1)return i;var b=!1;try{+external.twGetVersion(external.twGetSecurityID(d)).replace(/\./g,"")>1013&&(b=!0)}catch(c){}if(b)return"360se-noua";var e=k.match(/(msie|chrome|safari|firefox|opera)/);return e=e?e[0]:"",e=="msie"&&(e=k.match(/msie[^;]+/)),e},getLocation:function(){var a="";try{a=location.href}catch(b){a=f.createElement("a"),a.href="",a=a.href}return a=a.replace(/[?#].*$/,""),a=/\.(s?htm|php)/.test(a)?a:a.replace(/\/$/,"")+"/",a},getGuid:function(){function a(a){var b=0,c=0,d=a.length-1;for(d;d>=0;d--){var e=parseInt(a.charCodeAt(d),10);b=(b<<6&268435455)+e+(e<<14),(c=b&266338304)!=0&&(b^=c>>21)}return b}function c(){var b=[g.appName,g.version,g.language||g.browserLanguage,g.platform,k,h.width,"x",h.height,h.colorDepth,f.referrer].join(""),c=b.length,e=d.history.length;while(e)b+=e--^c++;return(Math.round(Math.random()*2147483647)^a(b))*2147483647}var e="__guid",i=p.get(e);if(!i){i=[a(f.domain),c(),+(new Date)+Math.random()+Math.random()].join(".");var l={expires:2592e7,path:"/"};if(b){var m="."+b;if(j.indexOf(m)>0&&j.lastIndexOf(m)==j.length-m.length||j==m)l.domain=m}p.set(e,i,l)}return function(){return i}}(),getCount:function(){var a="count",b=p.get(a);return b=(parseInt(b)||0)+1,p.set(a,b,{expires:864e5,path:"/"}),function(){return b}}(),getFlashVer:function(){var a=-1;if(g.plugins&&g.mimeTypes.length){var b=g.plugins["Shockwave Flash"];b&&b.description&&(a=b.description.replace(/([a-zA-Z]|\s)+/,"").replace(/(\s)+r/,".")+".0")}else if(d.ActiveXObject&&!d.opera)for(var c=16;c>=2;c--)try{var e=new ActiveXObject("ShockwaveFlash.ShockwaveFlash."+c);if(e){var f=e.GetVariable("$version");a=f.replace(/WIN/g,"").replace(/,/g,".")}}catch(h){}return a=parseInt(a,10),function(){return a}}(),getContainerId:function(a){var b=s.areaIds;if(b){var c,d=new RegExp("^("+b.join("|")+")$","ig");while(a){if(a.id&&d.test(a.id))return(a.getAttribute("data-desc")||a.id).substr(0,100);a=a.parentNode}}return""},getText:function(a){return l.trim((a.getAttribute("text")||a.innerText||a.textContent||a.title||"").substr(0,100))}},r={getBase:function(){return{p:q.getProject(),u:q.getLocation(),id:q.getGuid(),guid:q.getGuid()}},getTrack:function(){return{b:q.getBrowser(),c:q.getCount(),r:q.getReferrer(),fl:q.getFlashVer()}},getClick:function(a){a=n.fix(a||event);var b=a.target,c=b.tagName,d=q.getContainerId(b);if(b.type!="submit"){if(c=="AREA")return{f:b.href,c:"area:"+b.parentNode.name,cId:d};var j,k;return c=="IMG"&&(j=b),b=m.parentNode(b,"A"),b?(k=q.getText(b),{f:b.href,c:k?k:j.src.match(/[^\/]+$/),cId:d}):!1}var e=m.parentNode(b,"FORM");if(e){var f=e.id||"",g=b.id,h={f:e.action,c:"form:"+(e.name||f),cId:d};if((f=="search-form"||f=="searchForm")&&(g=="searchBtn"||g=="search-btn")){var i=t("kw")||t("search-kw")||t("kw1");h.w=i?i.value:""}return h}},getKeydown:function(a){a=n.fix(a||event);if(a.keyCode!=13)return!1;var b=a.target,c=b.tagName,d=q.getContainerId(b);if(c=="INPUT"){var e=m.parentNode(b,"FORM");if(e){var f=e.id||"",g=b.id,h={f:e.action,c:"form:"+(e.name||f),cId:d};if(g=="kw"||g=="search-kw"||g=="kw1")h.w=b.value;return h}}return!1}},s={trackUrl:null,clickUrl:null,areaIds:null},t=function(a){return document.getElementById(a)};return{version:a,util:q,data:r,config:s,sendLog:function(){return d.__monitor_imgs={},function(a){var b="log_"+ +(new Date),c=d.__monitor_imgs[b]=new Image;c.onload=c.onerror=function(){d.__monitor_imgs[b]=null,delete d.__monitor_imgs[b]},c.src=a}}(),buildLog:function(){var a="";return function(b,c){if(b===!1)return;b=b||{};var d=r.getBase();b=o.mix(d,b,!0);var e=o.encodeURIJson(b);if(e==a)return;a=e,setTimeout(function(){a=""},500),e+="&t="+ +(new Date),c=c.indexOf("?")>-1?c+"&"+e:c+"?"+e,this.sendLog(c)}}(),log:function(a,b){b=b||"click";var c=s[b+"Url"];c||alert("Error : the "+b+"url does not exist!"),this.buildLog(a,c)},setConf:function(a,b){var c={};return o.isObject(a)?c=a:c[a]=b,this.config=o.mix(this.config,c,!0),this},setUrl:function(a){return a&&(this.util.getLocation=function(){return a}),this},setProject:function(a){return a&&(this.util.getProject=function(){return a}),this},setId:function(){var a=[],b=0,c;while(c=arguments[b++])o.isArray(c)?a=a.concat(c):a.push(c);return this.setConf("areaIds",a),this},getTrack:function(){var a=this.data.getTrack();return this.log(a,"track"),this},getClickAndKeydown:function(){var a=this;return m.on(f,"click",function(b){var c=a.data.getClick(b);a.log(c,"click")}),m.on(f,"keydown",function(b){var c=a.data.getKeydown(b);a.log(c,"click")}),c.getClickAndKeydown=function(){return a},this}}}(window);c.setConf({trackUrl:"http://s.360.cn/w360/s.htm",clickUrl:"http://s.360.cn/w360/c.htm",wpoUrl:"http://s.360.cn/w360/p.htm"}),window.monitor=c})();
+
+function popwindow(id, name, tel, addr) {
+    if (typeof window.contactPopWindow == "undefined"){
+        //alert('popwindow(' + id + '\n' + name + '\n' + tel + '\n' + addr + ")");
+    }else{
+        window.contactPopWindow.popwindow(id, name, tel, addr);
+    }
+}
+
+function setCity(city) {
+   if (typeof window.contactPopWindow == "undefined") {
+        //alert("setCity(" + city + ")");
+    } else {
+        window.contactPopWindow.selectCity(city)
+    }
+}
+
+var contactPopWindow = contactPopWindow || {
+    selectCity: function(){
+        //alert('selectCity');
+        //alert(arguments);
+    },
+    popwindow: function(){
+        //alert('popwindow');
+        //alert(arguments);
+    },
+    clickTelCharge: function(){
+        //alert('clickTelCharge');
+        //alert(arguments[0]);
+    },
+    clickExpress: function(){
+        //alert('clickExpress');
+        //alert(arguments[0]);
+    },
+    clickMyTel: function(){
+        //alert('clickMyTel');
+        //alert(arguments[0]);
+    }
+};
+
+(function(global){
+    var hp = {
+        get: function(query){
+            return document.querySelector(query) || {};
+        },
+        getAll: function(query){
+            return document.querySelectorAll(query) || [];
+        },
+        each: function(obj,iterator,context){
+            var nativeForEach = Array.prototype.forEach;
+            if (obj == null) return obj;
+            if (nativeForEach && obj.forEach === nativeForEach) {
+                obj.forEach(iterator, context);
+            } else if (obj.length === +obj.length) {
+                for (var i = 0, length = obj.length; i < length; i++) {
+                    if (iterator.call(context, obj[i], i, obj) === {}) return;
+                }
+            } else {
+                for (var i in obj) {
+                    if (iterator.call(context, obj[i], i, obj) === {}) return;
+                }
+            }
+            return obj;
+        },
+        trim: function(str){
+            return str.replace(/^\s+|\s+$/g,'');
+        },
+        hasClass: function(dom, cls){
+            if(!(dom && dom.className && cls)){
+                return;
+            }
+            return dom.className.indexOf(cls) >= -1;
+        },
+        addClass: function(dom, cls){
+            if(!(dom && dom.className && cls)){
+                return;
+            }
+            var new_cls = hp.trim(dom.className + ' ' + cls);
+            dom.className = new_cls;
+        },
+        removeClass: function(dom, cls){
+            if(!(dom && dom.className && cls)){
+                return;
+            }
+            var reg = new RegExp(cls, 'g'),
+                new_cls = dom.className.replace(reg, '');
+            dom.className = new_cls;
+        },
+        urltojson: function(url){
+            var a = url.split("?"),
+                a = a[1] ? a[1].split("&") : [],
+                b = {};
+            hp.each(a, function(item, index) {
+                item = item.split("=");
+
+                if (2 == item.length) {
+                    try {
+                        b[item[0]] = hp.trim(decodeURIComponent(item[1]));
+                    } catch(e) {
+                        b[item[0]] = hp.trim(item[1]);
+                    }
+                }
+            });
+
+            return b;
+        }
+    }
+
+    global.hp = hp;
+})(window);
+
+(function(){
+    var cityArray = [{
+            "name": "当前城市",
+            "className": 'current',
+            "cities": ["北京"]
+        }, {
+            "name": "热门城市",
+            "cities": ["北京", "上海", "天津", "重庆", "成都", "海口", "广州", "深圳", "珠海", "长沙", "合肥", "南昌", "南京", "杭州", "大连"]
+        }, {
+            "name": "安徽",
+            "cities": ["合肥", "蚌埠", "芜湖", "马鞍山", "安庆", "黄山", "巢湖", "亳州", "六安", "宣城", "宿州", "池州", "淮北", "淮南", "滁州", "铜陵", "阜阳"]
+        }, {
+            "name": "福建",
+            "cities": ["福州", "厦门", "宁德", "莆田", "泉州", "漳州", "三明", "南平", "龙岩"]
+        }, {
+            "name": "广东",
+            "cities": ["广州", "深圳", "珠海", "佛山", "肇庆", "汕头", "湛江", "中山", "潮州", "东莞", "汕尾", "阳江", "揭阳", "茂名", "江门", "韶关", "惠州", "梅州", "云浮", "河源", "清远"]
+        }, {
+            "name": "广西",
+            "cities": ["南宁", "柳州", "桂林", "北海", "防城港", "崇左", "来宾", "梧州", "河池", "玉林", "贵港", "贺州", "钦州", "百色"]
+        }, {
+            "name": "贵州",
+            "cities": ["贵阳", "安顺", "毕节市", "遵义", "铜仁市", "黔东南苗族侗族自治州", "黔南布依族苗族自治州", "六盘水", "黔西南布依族苗族自治州"]
+        }, {
+            "name": "甘肃",
+            "cities": ["兰州", "天水", "定西", "平凉", "庆阳", "张掖", "武威", "白银", "酒泉", "金昌", "陇南", "临夏回族自治州", "甘南藏族自治州", "嘉峪关"]
+        }, {
+            "name": "河北",
+            "cities": ["邯郸", "石家庄", "保定", "张家口", "承德", "唐山", "廊坊", "秦皇岛", "沧州", "衡水", "邢台"]
+        }, {
+            "name": "河南",
+            "cities": ["郑州", "安阳", "新乡", "许昌", "平顶山", "开封", "洛阳", "焦作", "三门峡", "信阳", "南阳", "周口", "商丘", "济源", "漯河", "濮阳", "驻马店", "鹤壁"]
+        }, {
+            "name": "湖北",
+            "cities": ["武汉", "襄阳", "鄂州", "黄石", "荆州", "宜昌", "十堰", "荆门", "仙桃", "咸宁", "天门", "孝感", "潜江", "随州", "黄冈", "神农架林区", "恩施土家族苗族自治州"]
+        }, {
+            "name": "湖南",
+            "cities": ["岳阳", "长沙", "湘潭", "株洲", "衡阳", "常德", "张家界", "娄底", "怀化", "永州", "益阳", "邵阳", "郴州", "湘西土家族苗族自治州"]
+        }, {
+            "name": "黑龙江",
+            "cities": ["哈尔滨", "齐齐哈尔", "牡丹江", "大庆", "佳木斯", "七台河", "伊春", "双鸭山", "大兴安岭地区", "绥化", "鸡西", "鹤岗", "黑河"]
+        }, {
+            "name": "海南",
+            "cities": ["海口", "三亚", "白沙黎族自治县", "保亭黎族苗族自治县", "昌江黎族自治县", "澄迈县", "定安县", "东方", "东沙群岛", "乐东黎族自治县", "临高县", "陵水黎族自治县", "南沙群岛", "琼海", "琼中黎族苗族自治县", "屯昌县", "万宁", "文昌", "五指山", "西沙群岛", "中沙群岛", "儋州"]
+        }, {
+            "name": "吉林",
+            "cities": ["长春", "吉林", "四平", "延边朝鲜族自治州", "松原", "白城", "白山", "辽源", "通化"]
+        }, {
+            "name": "江苏",
+            "cities": ["南京", "无锡", "镇江", "苏州", "南通", "扬州", "盐城", "徐州", "连云港", "常州", "泰州", "宿迁", "淮安"]
+        }, {
+            "name": "江西",
+            "cities": ["南昌", "九江", "景德镇", "吉安", "宜春", "抚州", "新余", "萍乡", "赣州", "鹰潭", "上饶"]
+        }, {
+            "name": "辽宁",
+            "cities": ["沈阳", "大连", "鞍山", "抚顺", "本溪", "丹东", "锦州", "营口", "辽阳", "盘锦", "葫芦岛", "朝阳", "铁岭", "阜新"]
+        }, {
+            "name": "内蒙",
+            "cities": ["呼和浩特", "包头", "乌兰察布", "乌海", "兴安盟", "呼伦贝尔", "赤峰", "通辽", "鄂尔多斯", "阿拉善盟", "巴彦淖尔市", "锡林郭勒盟"]
+        }, {
+            "name": "宁夏",
+            "cities": ["银川", "中卫", "吴忠", "石嘴山", "固原"]
+        }, {
+            "name": "青海",
+            "cities": ["西宁", "海东地区", "海北藏族自治州", "海南藏族自治州", "果洛藏族自治州", "黄南藏族自治州", "玉树藏族自治州", "海西蒙古族藏族自治州"]
+        }, {
+            "name": "山西",
+            "cities": ["太原", "临汾", "吕梁", "大同", "忻州", "晋中", "晋城", "朔州", "运城", "长治", "阳泉"]
+        }, {
+            "name": "山东",
+            "cities": ["济南", "青岛", "淄博", "德州", "烟台", "潍坊", "泰安", "东营", "威海", "临沂", "日照", "枣庄", "济宁", "滨州", "聊城", "莱芜", "菏泽"]
+        }, {
+            "name": "陕西",
+            "cities": ["西安", "咸阳", "延安", "宝鸡", "商洛", "安康", "榆林", "汉中", "渭南", "铜川"]
+        }, {
+            "name": "四川",
+            "cities": ["成都", "自贡", "绵阳", "泸州", "宜宾", "内江", "资阳", "乐山", "眉山", "凉山彝族自治州", "南充", "巴中", "广元", "广安", "德阳", "攀枝花", "甘孜藏族自治州", "达州", "遂宁", "阿坝藏族羌族自治州", "雅安"]
+        }, {
+            "name": "新疆",
+            "cities": ["乌鲁木齐", "伊犁哈萨克自治州", "克拉玛依", "博尔塔拉蒙古自治州", "吐鲁番地区", "塔城地区", "昌吉回族自治州", "石河子", "阿克苏地区", "阿勒泰地区", "巴音郭楞蒙古自治州", "哈密地区", "和田地区", "喀什地区", "克孜勒苏柯尔克孜自治州", "阿拉尔市", "图木舒克市", "五家渠市"]
+        }, {
+            "name": "西藏",
+            "cities": ["拉萨", "山南地区", "日喀则地区", "阿里地区", "昌都地区", "林芝地区", "那曲地区"]
+        }, {
+            "name": "云南",
+            "cities": ["昆明", "玉溪", "大理白族自治州", "昭通", "曲靖", "楚雄彝族自治州", "红河哈尼族彝族自治州", "西双版纳傣族自治州", "保山", "德宏傣族景颇族自治州", "迪庆藏族自治州", "丽江", "临沧市", "怒江傈僳族自治州", "普洱", "文山壮族苗族自治州"]
+        }, {
+            "name": "浙江",
+            "cities": ["杭州", "嘉兴", "绍兴", "湖州", "宁波", "台州", "温州", "金华", "舟山", "丽水", "衢州"]
+        }, {
+            "name": "其他",
+            "cities": ["香港", "澳门", "台湾"]
+        }];
+
+    var url_data;
+    var app = {
+        _hasInit: false,
+        init: function(){
+            if(app._hasInit){
+                return;
+            }
+            app.bindEvent();
+            app.initLog();
+            monitor.log({},'srp');
+            app._hasInit = true;
+        },
+        initLog: function(){
+            monitor.data.getBase = function() {
+
+                var base = {
+                    pro : 'yp_chahao',
+                    pid: 'home',
+                    guid : monitor.util.getGuid(),
+                    mid: url_data.mid,
+                    lat: url_data.lat,
+                    lng: url_data.lng
+                };
+
+                return base;
+            };
+            monitor.setConf('srpUrl', 'http://s.360.cn/so/srp.gif').setConf('dispUrl', 'http://s.360.cn/so/disp.gif').setConf('clickUrl', 'http://s.360.cn/so/click.gif');
+        },
+        getUrl: function(opts){
+            opts = opts || {};
+
+            opts['q'] = opts['q'] || hp.get('#q').value;
+            opts['q'] = hp.trim(opts['q']);
+            opts['city'] = app.getCurCity();
+            opts['lat'] = url_data.lat || '';
+            opts['lng'] = url_data.lng || '';
+            opts['mid'] = url_data.mid || '';
+
+            var ags = [];
+            hp.each(opts, function(value, key){
+                value && ags.push(key + '=' + encodeURIComponent(value));
+            });
+
+            return 'search.html?' + ags.join('&');
+        },
+        setCurCity: function(name, opts){
+            if(!name){
+                return;
+            }
+            opts = opts || {};
+            var nocallApp = opts.nocallApp || false;
+            hp.get('#city').innerHTML = name;
+            cityArray[0]['cities'][0] = name;
+            !nocallApp && setCity(name);
+        },
+        getCurCity: function(){
+            return cityArray[0]['cities'][0];
+        },
+        getInfoFromUrl: function(){
+            var data =  hp.urltojson(window.location.href);
+            if(data.city){
+                app.initInfo(data);
+            }
+        },
+        initInfo: function(data){
+            data = data && typeof data == 'string' && JSON.parse(data) || data || {};
+            //url_data = hp.urltojson(window.location.href);
+            url_data = data;
+            var str = '';
+            for(var i in url_data){
+                str += i + ':' + url_data[i] + '\n';
+            }
+            var city = data.city || '北京';
+            if(city){
+                app.setCurCity(city, {nocallApp: true});
+            }
+
+            app.init();
+        },
+        citychoice: function(){
+            if(!city._hasInit){
+                city.init();
+            }
+            var nowCityName = app.getCurCity();
+            hp.get(".wrap").style.display = 'none';
+            hp.get("#cityChoice").style.display = 'block';
+            hp.get("#cityChoice .current p a").innerHTML = nowCityName;
+        },
+        bindEvent: function(){
+            hp.get(".cityChoice p").onclick = function(){                
+                app.citychoice();
+                monitor.log({'mod':'navi','type':'0'},'click');
+            }
+
+            hp.get("#search_from").onsubmit = function(){
+                var val = hp.trim(hp.get('#q').value) || hp.get('#q').getAttribute('defvalue');
+                if(!val){
+                    hp.get('#q').focus();
+                    return false;
+                }
+                window.location.href = app.getUrl({q:val});
+                return false;
+            };
+
+            hp.each(hp.getAll('.log_list a'), function(item, index){
+                if(!item){
+                    return;
+                }
+                var _action = item.getAttribute && item.getAttribute('data-action');
+                var _value = item.getAttribute && item.getAttribute('data-value');
+                var _log_id = item.getAttribute && item.getAttribute('data-log');
+                var clickFun = function(){
+                    window.location.href = app.getUrl({q:this.getAttribute('title'),src:'icon'});
+                };
+
+                if(_action){
+                    if(_value){
+                        clickFun = function(){
+                            window['contactPopWindow'][_action] && window['contactPopWindow'][_action](_value);
+                        }
+                    }else{
+                        clickFun = function(){
+                            window['contactPopWindow'][_action] && window['contactPopWindow'][_action]();
+                        }
+                    }
+                }
+
+                item.onclick = clickFun;
+                item.onmousedown = function(){
+                    monitor.log({'mod':'cat','type': _log_id},'click');
+                };
+            });
+        }
+    };
+    app.getInfoFromUrl();
+
+    var city = {
+        _hasInit: false,
+        init: function(){
+            if(city._hasInit){
+                return;
+            }
+            city.createCityList();
+            city.bindEvent();
+            city._hasInit = true;
+        },
+        createCityList: function(){
+            var html = ['<ul class="citylist">'];
+            var num = 1;
+            var style_1 = '',
+                style_2 = '',
+                _btn_str = '';
+            hp.each(cityArray, function(item, index){
+                var item_class = item.className ? ' ' + item.className : '';
+                if(num > 2){
+                    style_1 = ' hidden_lis';
+                    style_2 = ' letter';
+                    _btn_str = '<span class="btn"></span>'
+                }
+                html.push(
+                        '<li class="'+ style_2 + style_1 + item_class + '">',
+                        '<h5>' + (item.name) + _btn_str + '</h5>',
+                        '<p>',
+                        '<a href="javascript:;">',
+                        item.cities.join('</a><a href="javascript:;">'),
+                        '</a>',
+                        '</p>',
+                        '</li>'
+                    );
+                num ++;
+            });
+            html.push('</ul>');
+            hp.get('#cityChoice').innerHTML = html.join('');
+        },
+        bindEvent: function(){
+            hp.each(hp.getAll('#cityChoice .letter h5'),function(item, index){
+                item.onclick = function(){
+                    var li = this.parentElement;
+                    if(li.className.indexOf('show_lis') > -1){
+                        hp.removeClass(li,'show_lis');
+                        return;
+                    }
+                    hp.each(hp.getAll('#cityChoice .letter'),function(item, index){
+                        hp.removeClass(item,'show_lis');
+                        !hp.hasClass(item,'hidden_lis') && hp.addClass(item,'hidden_lis');
+                    });
+                    hp.addClass(li,'show_lis');
+                }
+            });
+
+            hp.each(hp.getAll("#cityChoice a"),function(item, index){
+                item.onclick = function(){
+                    var nowCityChoiceName = this.innerHTML;
+                    hp.get("#cityChoice").style.display = 'none';
+                    hp.get(".wrap").style.display = 'block';
+                    app.setCurCity(nowCityChoiceName);
+                }
+            });
+        }
+    };
+
+    window.setInfo = app.initInfo;
+    window.citychoice = app.citychoice;
+})();
+
+</script>
+
+
+</html>
