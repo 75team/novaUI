@@ -1048,6 +1048,9 @@ var contactPopWindow = contactPopWindow || {
             //hp.get("#cityChoice").style.display = 'block';
             hp.get("#cityChoice .current p a").innerHTML = nowCityName;
 
+            hp.get("#cityChoice").style.display = 'block';
+            hp.get(".wrap").style.display = 'none';
+
             app.tagOpenStatus(true); 
         },
         tagOpenStatus: function(isOpen) {
@@ -1164,6 +1167,8 @@ var contactPopWindow = contactPopWindow || {
                 item.onclick = function(e){
                     e.preventDefault();
                     var nowCityChoiceName = this.innerHTML;
+                    hp.get("#cityChoice").style.display = 'none';
+                    hp.get(".wrap").style.display = 'block';
                     // 设置hash
                     history.back();
 
