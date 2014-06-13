@@ -22,7 +22,7 @@ body{
 .wrap{width:100%;overflow:hidden;}
 .hidden{display:none}
 .c{width:100%;}
-.search{padding:7px 0 7px 10px;background:#f4f5f6;border-bottom:1px solid #bcbcbc;}
+.search{padding:7px 0 7px 10px;background:#f4f5f6;}
 .cityChoice{float: left;height: 33px;line-height: 33px;width: 75px;text-align: center;color: #999;background: #fff;border: #bcbcbc solid 1px;border-radius: 19px 0 0 19px;}
 .searchBtn{padding: 0 10px;float: right;}
 .searchBtn input{width: 45px;height: 35px;background: url('img/search_btn.png') no-repeat left top;border: 0 none;cursor: pointer;background-size: 45px 35px;}
@@ -204,7 +204,7 @@ body{
     border-bottom: 1px solid #cccccc;
     margin-bottom: 26px;
     background: white;
-    padding: 18px; 
+    padding: 18px 0; 
     padding-bottom: 0;
 }
 
@@ -396,6 +396,7 @@ body{
         </div>
     </form>
 
+<!--
     <div class="con1">
         <h3 class="nav_1">快捷服务</h3>
         <ul class="log_list list_1">
@@ -419,6 +420,7 @@ body{
             <li class="public"><a href="javascript:;" title="公共服务" data-log="2-10"><em class="bg"></em>公共服务</a></li>
         </ul>
     </div>
+    -->
 
     <div class="category-wrap">
         <ul class="service-list">
@@ -429,13 +431,13 @@ body{
                 </a>
             </li>
             <li class="recharge">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" data-action="clickTelCharge" data-log="2-0">
                     <em class="service-icon"></em>
                     话费充值
                 </a>
             </li>
             <li class="express">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" data-action="clickExpress" data-value="http://m.so.com/s?q=%E5%BF%AB%E9%80%92%E6%9F%A5%E8%AF%A2&src=hy_app" data-log="2-0">
                     <em class="service-icon"></em>
                     快递查询
                 </a>
@@ -446,49 +448,49 @@ body{
     <div class="category-wrap">
         <ul class="service-list">
             <li class="takeout">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     <em class="service-icon"></em>
                     外卖订餐
                 </a>
             </li>
             <li class="hotel">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="酒店" data-log="2-1">
                     <em class="service-icon"></em>
                     酒店
                 </a>
             </li>
             <li class="karaoke">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="KTV" data-log="2-1">
                     <em class="service-icon"></em>
                     KTV
                 </a>
             </li>
             <li class="bank">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="银行" data-log="2-1">
                     <em class="service-icon"></em>
                     银行
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="代驾" data-log="2-1">
                     <em class="service-icon"></em>
                     打车代驾
                 </a>
             </li>
             <li class="aftersale">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="售后" data-log="2-1">
                     <em class="service-icon"></em>
                     售后
                 </a>
             </li>
             <li class="trafficticket">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="飞机票 火车票" data-log="2-1">
                     <em class="service-icon"></em>
                     飞机票 火车票
                 </a>
             </li>
             <li class="health">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="医疗健康" data-log="2-1">
                     <em class="service-icon"></em>
                     医疗健康
                 </a>
@@ -502,22 +504,22 @@ body{
         </div>
         <ul class="subcategory-list">
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     打车代驾
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     火车票
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     飞机票
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     酒店预订
                 </a>
             </li>
@@ -530,42 +532,42 @@ body{
         </div>
         <ul class="subcategory-list">
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     开锁
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     宠物
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     维修
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     洗衣
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     物业
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     疏通
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     搬家
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     家政
                 </a>
             </li>
@@ -577,42 +579,42 @@ body{
         </div>
         <ul class="subcategory-list">
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     KTV
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     电影院
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     酒吧
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     咖啡馆
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     桌游
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     洗浴
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     足疗
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     按摩
                 </a>
             </li>
@@ -624,22 +626,22 @@ body{
         </div>
         <ul class="subcategory-list">
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     银行
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     保险
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     证券
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     投资理财
                 </a>
             </li>
@@ -651,18 +653,18 @@ body{
         </div>
         <ul class="subcategory-list">
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     电商客服
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
-                    游戏客服
+                <a href="###" title="外卖订餐" data-log="2-1">
+                    手机客服
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
-                    品牌售后
+                <a href="###" title="外卖订餐" data-log="2-1">
+                    电脑售后
                 </a>
             </li>
             <li class="desinated">
@@ -676,32 +678,32 @@ body{
         </div>
         <ul class="subcategory-list">
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     人民政府
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     大使馆
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     法院
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     福利院
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     派出所
                 </a>
             </li>
             <li class="desinated">
-                <a href="###" data-action="clickMyTel" data-log="2-0">
+                <a href="###" title="外卖订餐" data-log="2-1">
                     居委会
                 </a>
             </li>
@@ -820,6 +822,32 @@ var contactPopWindow = contactPopWindow || {
             });
 
             return b;
+        },
+        hashtojson: function(hash) {
+            var a = hash.split('#'),
+                a = a[1] ? a[1].split('&') : [],
+                b = {};
+            hp.each(a, function(item, index) {
+                item = item.split('=');
+                if(item.length === 2) {
+                    try {
+                        b[item[0]] = hp.trim(decodeURIComponent(item[1]));
+                    } catch(e) {
+                        b[item[0]] = hp.trim(item[1]);
+                    }
+                }
+            });
+
+            return b;
+        },
+        serialize: function(data) {
+            var items = [];
+            for(var prop in data) {
+                if(data.hasOwnProperty(prop)) {
+                    items[items.length] = encodeURIComponent(prop) + '=' + encodeURIComponent(data[prop]);
+                }
+            }
+            return items.join('&');
         }
     }
 
@@ -931,12 +959,23 @@ var contactPopWindow = contactPopWindow || {
             app.initLog();
             monitor.log({},'srp');
             app._hasInit = true;
+
+            window.onhashchange = function() {
+                var hash = hp.hashtojson(window.location.hash);
+                if(parseInt(hash.cityChoice) === 1) {
+                    hp.get("#cityChoice").style.display = 'block';
+                    hp.get(".wrap").style.display = 'none';
+                } else {
+                    hp.get("#cityChoice").style.display = 'none';
+                    hp.get(".wrap").style.display = 'block';
+                }
+            }
         },
         initLog: function(){
             monitor.data.getBase = function() {
 
                 var base = {
-                    pro : 'yp_chahao',
+                    pro : 'txl_yp_chahao',
                     pid: 'home',
                     guid : monitor.util.getGuid(),
                     mid: url_data.mid,
@@ -963,7 +1002,8 @@ var contactPopWindow = contactPopWindow || {
                 value && ags.push(key + '=' + encodeURIComponent(value));
             });
 
-            return 'search.html?' + ags.join('&');
+            //return 'search.html?' + ags.join('&');
+            return 'http://map.so.com/yp/search.html?' + ags.join('&');
         },
         setCurCity: function(name, opts){
             if(!name){
@@ -979,7 +1019,7 @@ var contactPopWindow = contactPopWindow || {
             return cityArray[0]['cities'][0];
         },
         getInfoFromUrl: function(){
-            var data =  hp.urltojson(window.location.href);
+            var data =  hp.urltojson(window.location.search);
             if(data.city){
                 app.initInfo(data);
             }
@@ -1004,9 +1044,17 @@ var contactPopWindow = contactPopWindow || {
                 city.init();
             }
             var nowCityName = app.getCurCity();
-            hp.get(".wrap").style.display = 'none';
-            hp.get("#cityChoice").style.display = 'block';
+            //hp.get(".wrap").style.display = 'none';
+            //hp.get("#cityChoice").style.display = 'block';
             hp.get("#cityChoice .current p a").innerHTML = nowCityName;
+
+            app.tagOpenStatus(true); 
+        },
+        tagOpenStatus: function(isOpen) {
+            var hash = hp.hashtojson(window.location.hash);
+            hash.cityChoice = isOpen ? 1 : 0;
+            window.location.hash = hp.serialize(hash);
+            console.log('tag', isOpen);
         },
         bindEvent: function(){
             hp.get(".cityChoice p").onclick = function(){                
@@ -1024,24 +1072,27 @@ var contactPopWindow = contactPopWindow || {
                 return false;
             };
 
-            hp.each(hp.getAll('.log_list a'), function(item, index){
+            hp.each(hp.getAll('.service-list a, .subcategory-list a'), function(item, index){
                 if(!item){
                     return;
                 }
                 var _action = item.getAttribute && item.getAttribute('data-action');
                 var _value = item.getAttribute && item.getAttribute('data-value');
                 var _log_id = item.getAttribute && item.getAttribute('data-log');
-                var clickFun = function(){
+                var clickFun = function(e){
+                    e.preventDefault();
                     window.location.href = app.getUrl({q:this.getAttribute('title'),src:'icon'});
                 };
 
                 if(_action){
                     if(_value){
-                        clickFun = function(){
+                        clickFun = function(e){
+                            e.preventDefault();
                             window['contactPopWindow'][_action] && window['contactPopWindow'][_action](_value);
                         }
                     }else{
-                        clickFun = function(){
+                        clickFun = function(e){
+                            e.preventDefault();
                             window['contactPopWindow'][_action] && window['contactPopWindow'][_action]();
                         }
                     }
@@ -1054,7 +1105,6 @@ var contactPopWindow = contactPopWindow || {
             });
         }
     };
-    app.getInfoFromUrl();
 
     var city = {
         _hasInit: false,
@@ -1096,7 +1146,8 @@ var contactPopWindow = contactPopWindow || {
         },
         bindEvent: function(){
             hp.each(hp.getAll('#cityChoice .letter h5'),function(item, index){
-                item.onclick = function(){
+                item.onclick = function(e){
+                    e.preventDefault();
                     var li = this.parentElement;
                     if(li.className.indexOf('show_lis') > -1){
                         hp.removeClass(li,'show_lis');
@@ -1111,10 +1162,15 @@ var contactPopWindow = contactPopWindow || {
             });
 
             hp.each(hp.getAll("#cityChoice a"),function(item, index){
-                item.onclick = function(){
+                item.onclick = function(e){
+                    e.preventDefault();
                     var nowCityChoiceName = this.innerHTML;
-                    hp.get("#cityChoice").style.display = 'none';
-                    hp.get(".wrap").style.display = 'block';
+                    // 隐藏city panel
+                    //hp.get("#cityChoice").style.display = 'none';
+                    //hp.get(".wrap").style.display = 'block';
+                    // 设置hash
+                    history.back();
+
                     app.setCurCity(nowCityChoiceName);
                 }
             });
@@ -1123,6 +1179,8 @@ var contactPopWindow = contactPopWindow || {
 
     window.setInfo = app.initInfo;
     window.citychoice = app.citychoice;
+
+    app.getInfoFromUrl();
 })();
 
 </script>
