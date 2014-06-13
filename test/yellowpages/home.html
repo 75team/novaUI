@@ -225,7 +225,7 @@ body{
 }
 
 
-.service-icon, .category-icon {
+.service-icon {
     display: block;
     margin: auto;
     width: 54px;
@@ -287,14 +287,10 @@ body{
     position: relative;
     border-bottom: 1px solid #ccc;
     display: table-cell;
-    background: red;
+    background: url(img/icon_travel.png) no-repeat 90% 90%;
+    background-size: 52px 54px;
 }
 
-.subcategory-title .category-icon {
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-}
 
 .subcategory-list {
     overflow: hidden;
@@ -359,27 +355,27 @@ body{
     background-image: url(img/icon_health.png);
 }
 
-.subcategory-travel .category-icon {
+.subcategory-travel {
     background-image: url(img/icon_travel.png);
 }
 
-.subcategory-life .category-icon {
+.subcategory-life {
     background-image: url(img/icon_life.png);
 }
 
-.subcategory-entertainment .category-icon {
+.subcategory-entertainment {
     background-image: url(img/icon_entertainment.png);
 }
 
-.subcategory-money .category-icon {
+.subcategory-money {
     background-image: url(img/icon_money.png);
 }
 
-.subcategory-service .category-icon {
+.subcategory-service {
     background-image: url(img/icon_service.png);
 }
 
-.subcategory-government .category-icon {
+.subcategory-government {
     background-image: url(img/icon_government.png);
 }
 
@@ -502,7 +498,6 @@ body{
 
     <div class="category-wrap subcategory-wrap">
         <div class="subcategory-title subcategory-travel">
-            <em class="category-icon"></em>
             旅行
         </div>
         <ul class="subcategory-list">
@@ -528,8 +523,7 @@ body{
             </li>
         </ul>
     </div>
-    <div class="category-wrap subcategory-wrap" style="display:table">
-        <div style="display:table-row">
+    <div class="category-wrap subcategory-wrap">
         <div class="subcategory-title subcategory-life">
             <em class="category-icon"></em>
             生活服务
@@ -576,11 +570,9 @@ body{
                 </a>
             </li>
         </ul>
-        </div>
     </div>
     <div class="category-wrap subcategory-wrap">
         <div class="subcategory-title subcategory-entertainment">
-            <em class="category-icon"></em>
             休闲娱乐
         </div>
         <ul class="subcategory-list">
@@ -628,7 +620,6 @@ body{
     </div>
     <div class="category-wrap subcategory-wrap">
         <div class="subcategory-title subcategory-money">
-            <em class="category-icon"></em>
             金融理财
         </div>
         <ul class="subcategory-list">
@@ -656,7 +647,6 @@ body{
     </div>
     <div class="category-wrap subcategory-wrap">
         <div class="subcategory-title subcategory-service">
-            <em class="category-icon"></em>
             客服电话
         </div>
         <ul class="subcategory-list">
@@ -682,7 +672,6 @@ body{
     </div>
     <div class="category-wrap subcategory-wrap last">
         <div class="subcategory-title subcategory-government">
-            <em class="category-icon"></em>
             政府机关
         </div>
         <ul class="subcategory-list">
