@@ -1075,60 +1075,34 @@ var contactPopWindow = contactPopWindow || {
                 return false;
             };
 
-            hp.each(hp.getAll('.service-list a, .subcategory-list a'), function(item, index){
-                if(!item){
-                    return;
-                }
+            $('body').delegate('.service-list a, .subcategory-list a', 'tap', function(e) {
+                e.preventDefault();
+
+                var item = this;
                 var _action = item.getAttribute && item.getAttribute('data-action');
                 var _value = item.getAttribute && item.getAttribute('data-value');
                 var _log_id = item.getAttribute && item.getAttribute('data-log');
 
-                var tapFun = function(e){
-                    var me = this;
-                    e.preventDefault();
-                    monitor.log({'mod':'cat','type': _log_id},'click');
+                monitor.log({'mod':'cat','type': _log_id},'click');
 
-                    if(_action) {
-                        setTimeout(function() {
-                            window['contactPopWindow'][_action] && window['contactPopWindow'][_action](_value || undefined);
-                        }, 50);
-                    } else {
-                        setTimeout(function() {
-                            window.location.href = app.getUrl({q:me.getAttribute('title'),src:'icon'});
-                        }, 50);
-                    }
-                };
-
-                /*
-                if(_action){
-                    if(_value){
-                        clickFun = function(e){
-                            e.preventDefault();
-                            monitor.log({'mod':'cat','type': _log_id},'click');
-                            setTimeout(function() {
-                                window['contactPopWindow'][_action] && window['contactPopWindow'][_action](_value);
-                            }, 50);
-                        }
-                    }else{
-                        clickFun = function(e){
-                            e.preventDefault();
-                            monitor.log({'mod':'cat','type': _log_id},'click');
-                            setTimeout(function() {
-                                window['contactPopWindow'][_action] && window['contactPopWindow'][_action]();
-                            }, 50);
-                        }
-                    }
+                if(_action) {
+                    setTimeout(function() {
+                        window['contactPopWindow'][_action] && window['contactPopWindow'][_action](_value || undefined);
+                    }, 50);
+                } else {
+                    setTimeout(function() {
+                        window.location.href = app.getUrl({q:item.getAttribute('title'),src:'icon'});
+                    }, 50);
                 }
-                */
-
-                $(item).on('tap', tapFun);
-
-                /* 注释均为原来代码 
-                item.onmousedown = function(){
-                    monitor.log({'mod':'cat','type': _log_id},'click');
-                };
-                */
             });
+
+            $('body').delegate('.service-list a', 'touchstart', function(e) {
+                $(this).addClass('active-icon');
+            });
+            $('body').on('touchend', function(e) {
+                $('.service-list a').removeClass('active-icon');
+            })
+
         }
     };
 
@@ -1171,6 +1145,7 @@ var contactPopWindow = contactPopWindow || {
             hp.get('#cityChoice').innerHTML = html.join('');
         },
         bindEvent: function(){
+            /* 原来的实现
             hp.each(hp.getAll('#cityChoice .letter h5'),function(item, index){
                 $(item).on('tap', function(e){
                     e.preventDefault();
@@ -1186,16 +1161,28 @@ var contactPopWindow = contactPopWindow || {
                     hp.addClass(li,'show_lis');
                 });
             });
+            */
+            $('body').delegate('#cityChoice .letter h5', 'tap', function(e) {
+                e.preventDefault();
+                var ele = $(this),
+                    li = ele.parent();
 
-            hp.each(hp.getAll("#cityChoice a"),function(item, index){
-                $(item).on('tap', function(e){
-                    e.preventDefault();
-                    var nowCityChoiceName = this.innerHTML;
-                    // 设置hash
-                    history.back();
+                if(li.hasClass('show_lis')) {
+                    li.removeClass('show_lis');
+                    return;
+                } 
 
-                    app.setCurCity(nowCityChoiceName);
-                });
+                $('#cityChoice .letter').removeClass('show_lis').addClass('.hidden_lis');
+                li.addClass('show_lis');
+                
+            });
+
+            $('body').delegate('#cityChoice a', 'tap', function(e) {
+                e.preventDefault();
+                var nowCityChoiceName = this.innerHTML;
+                // 设置hash
+                history.back();
+                app.setCurCity(nowCityChoiceName);
             });
         }
     };
