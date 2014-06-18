@@ -42,7 +42,7 @@ body{
 }
 .citylist p{overflow:hidden;padding:9px 0 9px 16px;line-height:42px;border-bottom:#e0e0e0 solid 1px;}
 .citylist .btn{position:absolute;right:16px;top:16px;width:12px;height:8px;line-height:8px;background:url('img/city-down.png') no-repeat; background-size:12px 8px;}
-.citylist .hidden_lis p{display:none;}
+.citylist p {display:none;}
 .citylist .show_lis p{display:block;}
 .citylist .show_lis .btn{-webkit-transform: rotate(180deg);}
 .citylist .letter h5{height:40px;line-height:40px;cursor:pointer;}
@@ -231,17 +231,11 @@ body{
 .service-icon {
     display: block;
     margin: auto;
-    width: 54px;
-    height: 54px;
+    width: 55px;
+    height: 55px;
     background: url(img/icon_recent.png) no-repeat center center;
-    background-size: 54px;
+    background-size: 55px;
     margin-bottom: 5px;
-}
-
-.category-icon {
-    margin-bottom: 0;
-    width: 52px;
-    background-size: 52px 54px;
 }
 
 .service-list a {
@@ -256,8 +250,8 @@ body{
     content: '';
     display: block;
     position: absolute;
-    width: 54px;
-    height: 54px;
+    width: 55px;
+    height: 55px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 28px;
     top: 0;
@@ -290,7 +284,7 @@ body{
     border-bottom: 1px solid #ccc;
     display: table-cell;
     background: url(img/icon_travel.png) no-repeat 90% 90%;
-    background-size: 52px 54px;
+    background-size: 53px 56px;
 }
 
 
@@ -529,7 +523,6 @@ body{
     </div>
     <div class="category-wrap subcategory-wrap">
         <div class="subcategory-title subcategory-life">
-            <em class="category-icon"></em>
             生活服务
         </div>
         <ul class="subcategory-list">
@@ -1005,8 +998,8 @@ var contactPopWindow = contactPopWindow || {
                 value && ags.push(key + '=' + encodeURIComponent(value));
             });
 
-            return 'search.html?' + ags.join('&');
-            //return 'http://map.so.com/yp/search.html?' + ags.join('&');
+            //return 'search.html?' + ags.join('&');
+            return 'http://map.so.com/yp/search.html?' + ags.join('&');
         },
         setCurCity: function(name, opts){
             if(!name){
@@ -1087,7 +1080,11 @@ var contactPopWindow = contactPopWindow || {
 
                 if(_action) {
                     setTimeout(function() {
-                        window['contactPopWindow'][_action] && window['contactPopWindow'][_action](_value || undefined);
+                        if(_value) {
+                            window['contactPopWindow'][_action] && window['contactPopWindow'][_action](_value);
+                        } else {
+                            window['contactPopWindow'][_action] && window['contactPopWindow'][_action]();
+                        }
                     }, 50);
                 } else {
                     setTimeout(function() {
@@ -1115,6 +1112,7 @@ var contactPopWindow = contactPopWindow || {
             city.createCityList();
             city.bindEvent();
             city._hasInit = true;
+            city.lastCategory = $('#cityChoice .letter:last-child')[0];
         },
         createCityList: function(){
             var html = ['<ul class="citylist">'];
@@ -1128,6 +1126,8 @@ var contactPopWindow = contactPopWindow || {
                     style_1 = ' hidden_lis';
                     style_2 = ' letter';
                     _btn_str = '<span class="btn"></span>'
+                } else {
+                    style_1 = ' show_lis';
                 }
                 html.push(
                         '<li class="'+ style_2 + style_1 + item_class + '">',
@@ -1167,14 +1167,14 @@ var contactPopWindow = contactPopWindow || {
                 var ele = $(this),
                     li = ele.parent();
 
-                if(li.hasClass('show_lis')) {
-                    li.removeClass('show_lis');
-                    return;
-                } 
+                li.toggleClass('show_lis');
 
-                $('#cityChoice .letter').removeClass('show_lis').addClass('.hidden_lis');
-                li.addClass('show_lis');
-                
+                if(li[0] === city.lastCategory && li.hasClass('show_lis')) {
+                    !city.lastOffset && (city.lastOffset = li.offset().top);
+                    window.scrollTo(0, city.lastOffset + li.height() - window.innerHeight);
+                    //window.scrollBy(0, 100);
+                }
+
             });
 
             $('body').delegate('#cityChoice a', 'tap', function(e) {
