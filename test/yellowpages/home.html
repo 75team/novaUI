@@ -1103,6 +1103,7 @@ var contactPopWindow = contactPopWindow || {
         }
     };
 
+    var winHeight;
     var city = {
         _hasInit: false,
         init: function(){
@@ -1170,8 +1171,9 @@ var contactPopWindow = contactPopWindow || {
                 li.toggleClass('show_lis');
 
                 if(li[0] === city.lastCategory && li.hasClass('show_lis')) {
-                    !city.lastOffset && (city.lastOffset = li.offset().top);
-                    //window.scrollTo(0, city.lastOffset + li.height() - window.innerHeight);
+                    !city.lastOffset && (city.lastOffset = li.offset().top + li.height());
+                    !winHeight && (winHeight = window.innerHeight);
+                    window.scrollTo(0, city.lastOffset - winHeight);
                     //window.scrollBy(0, 100);
                 }
 
