@@ -15,7 +15,7 @@
             padding: 3em 2em;
             text-align: center;
             color: #fff;
-            background: #ccc;
+            background: #aaa;
         }
         section:nth-child(1) {
             background: #81C2D3;
@@ -56,8 +56,12 @@
         <p><em id="os_version"></em></p>
     </section>
     <section>
-        <h2>屏幕分辨率</h2>
+        <h2>物理分辨率</h2>
         <p><em id="screen_size"></em></p>
+    </section>
+    <section>
+        <h2>CSS分辨率</h2>
+        <p><em id="css_resolution"></em></p>
     </section>
     <section>
         <h2>屏幕像素密度</h2>
@@ -72,6 +76,9 @@
         function renderValue(id, value) {
             document.getElementById(id).innerHTML = value;
         }
+        function round(val) {
+            return Math.round(val);
+        }
         // os
         renderValue('os_name', detector.os.name);
         renderValue('os_version', detector.os.version);
@@ -80,11 +87,12 @@
         var height = screen.height;
         var pixelRatio = devicePixelRatio||webkitDevicePixelRatio||mozDevicePixelRatio||1;
         if (pixelRatio != 1 && width != window.innerWidth*pixelRatio) {
-            width = window.innerWidth * pixelRatio;
-            height = parseInt(width * screen.height / screen.width);
+            width = round(window.innerWidth * pixelRatio);
+            height = round(width * screen.height / screen.width);
         }
         renderValue('screen_size', width + ' X ' + height);
         renderValue('screen_density', pixelRatio);
+        renderValue('css_resolution', round(width/pixelRatio) + ' X ' + round(height/pixelRatio));
         //ua
         renderValue('ua', navigator.userAgent);
     </script>
