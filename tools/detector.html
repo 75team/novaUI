@@ -12,24 +12,25 @@
             margin: 0;
         }
         section {
-            padding: 2em;
+            padding: 3em 2em;
             text-align: center;
             color: #fff;
+            background: #ccc;
         }
         section:nth-child(1) {
-            background: #f44;
+            background: #81C2D3;
         }
         section:nth-child(2) {
-            background: #939;
+            background: #C1D634;
         }
         section:nth-child(3) {
-            background: #06c;
+            background: #F9AA3A;
         }
         section:nth-child(4) {
-            background: #690;
+            background: #EB6C5A;
         }
         section:nth-child(5) {
-            background: #f60;
+            background: #C87E99;
         }
         section h2 {
             font-size: 2em;
@@ -75,8 +76,15 @@
         renderValue('os_name', detector.os.name);
         renderValue('os_version', detector.os.version);
         // screen
-        renderValue('screen_size', screen.width + ' X ' + screen.height);
-        renderValue('screen_density', devicePixelRatio||webkitDevicePixelRatio||mozDevicePixelRatio||1);
+        var width = screen.width;
+        var height = screen.height;
+        var pixelRatio = devicePixelRatio||webkitDevicePixelRatio||mozDevicePixelRatio||1;
+        if (pixelRatio != 1 && width != window.innerWidth*pixelRatio) {
+            width = window.innerWidth * pixelRatio;
+            height = parseInt(width * screen.height / screen.width);
+        }
+        renderValue('screen_size', width + ' X ' + height);
+        renderValue('screen_density', pixelRatio);
         //ua
         renderValue('ua', navigator.userAgent);
     </script>
