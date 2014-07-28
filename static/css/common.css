@@ -108,8 +108,8 @@ a {
   text-align:center;
   font-weight:bold;
   padding:5px 40px;
-  font-size:1rem;
-  line-height:2rem;
+  font-size:16px;
+  line-height:2;
   position:relative;
   transition:0.5s;
 }
@@ -136,22 +136,21 @@ a {
   display:block;
   top:0;
   right:0;
-  width:200px;
+  width:160px;
   overflow:hidden;
-  height:200px;
+  height:160px;
   z-index:9999;
 }
 #fork-on-github a {
-  width:200px;
+  width:160px;
   position:absolute;
-  top:60px;
+  top:40px;
   right:-60px;
   transform:rotate(45deg);
   -webkit-transform:rotate(45deg);
   -ms-transform:rotate(45deg);
   -moz-transform:rotate(45deg);
   -o-transform:rotate(45deg);
-  box-shadow:4px 4px 10px rgba(0,0,0,0.8);
 }
 @media screen and (max-width:800px){
   #fork-on-github { display:none; }
