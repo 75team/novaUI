@@ -4,7 +4,7 @@
 
 ## Demo
 **注意：**PC用户请使用开发者工具模拟Touch行为
-<link rel="stylesheet" href="http://s4.qhimg.com/static/4959c856835b8d01/suggest.1.0.1.css" />
+<link rel="stylesheet" href="http://s4.qhimg.com/static/4959c856835b8d01/suggest.1.0.2.css" />
 
 <style type="text/css">
     #search_form {
@@ -65,7 +65,7 @@
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('tab', 'http://s3.qhimg.com/static/d371ef039746e269/suggest.1.0.1.js');
+    _loader.add('tab', 'http://s1.qhimg.com/static/3760a0632f738452/suggest.1.0.2.js');
     _loader.use('widget, tab', function() { 
         var input = $('#search_input');    
 
@@ -110,7 +110,7 @@
 需先引入依赖的文件：Zepto基础库，Zepto touch模块 
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s3.qhimg.com/static/d371ef039746e269/suggest.1.0.1.js"></script>
+<script type="text/javascript" src="http://s1.qhimg.com/static/3760a0632f738452/suggest.1.0.2.js"></script>
 <script type="text/javascript">
     var input = $('#search_input');    
 
@@ -129,7 +129,7 @@
 ```
 ### CSS
 ```markup
-<link rel="stylesheet" href="http://s4.qhimg.com/static/4959c856835b8d01/suggest.1.0.1.css" />
+<link rel="stylesheet" href="http://s4.qhimg.com/static/4959c856835b8d01/suggest.1.0.2.css" />
 ```
 使用默认样式，请引入以上文件。若需自定义样式，仅复制未压缩版文件中/\* Required \*/注释下的样式即可。
 
@@ -177,6 +177,7 @@ var config = {
     },
 
     // 完整模板
+    // 也可传dom或jquery/zepto dom对象。但此方式不支持{$attrName}占位符
     template: '<div class="{$classNames.container}">' 
                 + '<div class="{$classNames.list}">'
                     // 单条suggest模板
@@ -293,12 +294,18 @@ template: '<div class="{$classNames.container}">'
             + '</div>'
         + '</div>'
 
+/* template配置也可传入dom或jquery/zepto dom对象, 但此方式不支持{$attrName}占位符 */
+template: $('.suggest-template')
+
 ```
 
 
 
 
 ## 日志
+
+### 1.0.2 
+配置项template支持传dom元素
 
 ### 1.0.1 
 升级依赖widget.js版本为1.0.2
