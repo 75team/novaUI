@@ -18,7 +18,7 @@
 <button class="clear">自动刮</button>
 
 <script type="text/javascript">
-    _loader.add('scratchTicket', 'http://s0.qhimg.com/static/5e5b58f7026a6bba/scratchTicket.1.0.0.js');
+    _loader.add('scratchTicket', 'http://s0.qhimg.com/static/f384087a42f9214f/scratchTicket.1.0.0.js');
     _loader.use('scratchTicket', function() { 
         var scratchTicket = new ScratchTicket({
             element: '.scratch-ticket'
@@ -48,15 +48,17 @@
     }
 </style>
 <canvas class="scratch-ticket" width="246" height="80"></canvas>
+<img src="../img/scratch_ticket.png" class="scratch-front" alt="刮奖区域" crossOrigin="*"/>
 ```
 
 ### Javascript
 需先引入依赖的文件：Zepto基础库
 ```markup
-<script type="text/javascript" src="http://s0.qhimg.com/static/5e5b58f7026a6bba/scratchTicket.1.0.0.js"></script>
+<script type="text/javascript" src="http://s0.qhimg.com/static/f384087a42f9214f/scratchTicket.1.0.0.js"></script>
 <script type="text/javascript">
     var scratchTicket = new ScratchTicket({
-        element: '.scratch-ticket'
+        element: '.scratch-ticket',
+        img: $('.scratch-front')[0]         
     });
     scratchTicket.on('scratchoff', function() {
         alert('恭喜你，中奖啦！');
@@ -69,7 +71,7 @@
 ```javascript
 var config = {
     element: '#scratch_canvas',         // 刮奖canvas元素或选择器
-    img: '',                            // 刮奖区域图片, 可传图片地址或dom对象
+    img: '',                            // 刮奖区域图片, 可传图片地址或dom对象。注意，如果传dom对象，需要为dom对象设置crossOrigin属性为*
     color: '#7d838b',                   // 如无图片，可设置刮奖区域颜色
     fingerWidth: '30',                  // 手指宽(肥)度
     threshold: 0.5                      // 刮开面积到达此阈值时视为刮开。会在ele元素上触发scratchoff事件
