@@ -8,7 +8,7 @@ html {
 
 body {
     font: normal 14px/1.6 "Helvetica neue", "Segoe UI", Arial, "Microsoft Jhenghei", "Microsoft Yahei", Sans-serif;
-    background: #272330;
+    //background: #272330;
     min-width: @content-width;
     -webkit-font-smoothing: antialiased;
     min-height: 100%;
@@ -31,7 +31,7 @@ a:hover {
 }
 
 .ft {
-    background: #272330;
+    //background: #272330;
     color: #999;
     padding: 30px 0;
 }
@@ -111,4 +111,58 @@ a:hover {
 100% {top:0px;}
 }
 
+#fork-on-github a {
+  background:#fff;
+  color:#666;
+  text-decoration:none;
+  text-align:center;
+  font-weight:bold;
+  padding:5px 40px;
+  font-size:16px;
+  line-height:2;
+  position:relative;
+  transition:0.5s;
+}
+#fork-on-github a:hover {
+  background:#f88;
+  color:#fff;
+}
+#fork-on-github a::before,#fork-on-github a::after{
+  content:"";
+  width:100%;
+  display:block;
+  position:absolute;
+  top:1px;
+  left:0;
+  height:1px;
+  background:#fff;
+}
+#fork-on-github a::after{
+  bottom:1px;top:auto;
+}
+
+#fork-on-github {
+  position:absolute;
+  display:block;
+  top:0;
+  right:0;
+  width:160px;
+  overflow:hidden;
+  height:160px;
+  z-index:9999;
+}
+#fork-on-github a {
+  width:160px;
+  position:absolute;
+  top:40px;
+  right:-60px;
+  transform:rotate(45deg);
+  -webkit-transform:rotate(45deg);
+  -ms-transform:rotate(45deg);
+  -moz-transform:rotate(45deg);
+  -o-transform:rotate(45deg);
+}
+@media screen and (max-width:800px){
+  #fork-on-github { display:none; }
+}
 
