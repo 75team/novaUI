@@ -65,7 +65,7 @@
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('tab', 'http://s3.qhimg.com/static/45f4a2059e67697d/suggest.1.0.2.js');
+    _loader.add('tab', 'http://s4.qhimg.com/static/61188253d0733195/suggest.1.0.2.js');
     _loader.use('widget, tab', function() { 
         var input = $('#search_input');    
 
@@ -110,7 +110,7 @@
 需先引入依赖的文件：Zepto基础库，Zepto touch模块 
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s3.qhimg.com/static/45f4a2059e67697d/suggest.1.0.2.js"></script>
+<script type="text/javascript" src="http://s4.qhimg.com/static/61188253d0733195/suggest.1.0.2.js"></script>
 <script type="text/javascript">
     var input = $('#search_input');    
 
