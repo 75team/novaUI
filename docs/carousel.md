@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('carousel', 'http://s0.qhimg.com/static/0afcde3f6abe272c/carousel.1.0.2.js');
+    _loader.add('carousel', 'http://s2.qhimg.com/static/2c1d90bcd81b53d7/carousel.1.0.2.js');
     _loader.use('widget, carousel', function() { 
         var carousel = new Carousel({
             element: '.nova-carousel'
@@ -79,10 +79,10 @@
 ```
 
 ### Javascript
-需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块 
+需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s0.qhimg.com/static/0afcde3f6abe272c/carousel.1.0.2.js"></script>
+<script type="text/javascript" src="http://s2.qhimg.com/static/2c1d90bcd81b53d7/carousel.1.0.2.js"></script>
 <script type="text/javascript">
         var carousel = new Carousel({
             element: '.nova-carousel'
