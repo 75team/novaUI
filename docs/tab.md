@@ -4,7 +4,7 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 
 ## Demo
 **注意：**PC用户请使用开发者工具模拟Touch行为
-<link rel="stylesheet" href="http://s4.qhimg.com/static/5a1cbef7eeec2a2e/tab.1.0.2.css" />
+<link rel="stylesheet" href="http://s4.qhimg.com/static/5a1cbef7eeec2a2e/tab.1.0.3.css" />
 
 <style type="text/css">
     .nova-tab {
@@ -52,7 +52,7 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('tab', 'http://s4.qhimg.com/static/3c9af8c07aadde5b/tab.1.0.2.js');
+    _loader.add('tab', 'http://s1.qhimg.com/static/6b81ad934b1d6b33/tab.1.0.3.js');
     _loader.use('widget, tab', function() { 
         var tab = new Tab({
             element: '.nova-tab',
@@ -101,7 +101,7 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块 
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s4.qhimg.com/static/3c9af8c07aadde5b/tab.1.0.2.js"></script>
+<script type="text/javascript" src="http://s1.qhimg.com/static/6b81ad934b1d6b33/tab.1.0.3.js"></script>
 <script type="text/javascript">
     var tab = new Tab({
         element: '.nova-tab',
@@ -112,7 +112,7 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 ```
 ### CSS
 ```markup
-<link rel="stylesheet" href="http://s4.qhimg.com/static/5a1cbef7eeec2a2e/tab.1.0.2.css" />
+<link rel="stylesheet" href="http://s4.qhimg.com/static/5a1cbef7eeec2a2e/tab.1.0.3.css" />
 ```
 使用默认样式，请引入以上文件。若需自定义样式，仅复制未压缩版文件中/\* Required \*/注释下的样式即可。
 
@@ -129,6 +129,7 @@ var config = {
     autoplay: false,                    // 是否自动轮播 
     autoplay_interval_ms: 10000,        // 自动轮播时间间隔 
     swipable: true,                     // 是否可滑动
+    direction: 'horizontal',            // horizontal:水平，vertical:垂直
 
     selectors: {
         content: '.tab-cont',           // 切换内容容器
@@ -172,7 +173,12 @@ tab.after('next', function() {
 
 ## 日志
 
-### 1.0.2  
+## 1.0.3
+
+1. 支持垂直滑动
+2. 修复2.3滑动失效问题，bug原因是使用关键字switch作为方法ogz..
+
+### 1.0.2
 
 1. 当切换内容数小于或等于2个时，关闭循环轮播  
 2. 当切换内容数为1时，关闭滑动  
