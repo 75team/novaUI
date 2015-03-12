@@ -61,7 +61,7 @@ body {
 .board-wrap .board {
     background: #605a5a;
     text-align: center;
-    padding: 60px 0;
+    padding: 50px 0 60px 0;
 }
 
 .team-list {
@@ -77,11 +77,13 @@ body {
 }
 
 .team-list li h3 {
-    color: #8f9091;
-    font-size: 18px;
+    //color: #8f9091;
+    color: white;
+    font-size: 22px;
     text-align: center;
     margin-bottom: 10px;
 }
+
 
 .team-list li .avator {
     display: block;
@@ -115,7 +117,8 @@ body {
     line-height: 110px;
     background: #3b3b38;
     font-size: 72px;
-    color: #e44b86;
+    //color: #e44b86;
+    color: #e33f76;
     text-align: center;
     display: block;
     width: 110px;
@@ -125,12 +128,12 @@ body {
 
 .action-wrap a {
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 15px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
     color: #8f9091;
-    font-size: 30px;
+    font-size: 40px;
     font-weight: bold;
     background: #3b3b38;
     text-decoration: none;
@@ -140,9 +143,9 @@ body {
 }
 
 .action-wrap .reduce span {
-    font-size: 36px;
+    font-size: 48px;
     position: relative;
-    top: -1px;
+    top: -3px;
 }
 
 .action-wrap a {

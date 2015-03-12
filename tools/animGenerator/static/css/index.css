@@ -1,0 +1,24 @@
+html, body {
+    height: 100%;
+}
+
+.control-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    background: #f88;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.control-panel .generated-css {
+    width: 100%;
+    height: 200px;
+    resize: none;
+}
+
+.active {
+    outline: 1px solid red;
+}

@@ -19,22 +19,25 @@ $('.team-list').on('click', '.action-wrap a', function(e) {
         if(val < 10) {
             val = '0' + val;
         }
-        scoreNumEle.html(val);
     }
+    scoreNumEle.html(val);
 });
 
 var dialog = $('.dialog');
 
 // setting
-$('.btn-set').on('click', function() {
+$('.btn-set').on('click', function(e) {
+    e.preventDefault();
     dialog.show();
 });
 
-$('.btn-cancel').on('click', function() {
+$('.btn-cancel').on('click', function(e) {
+    e.preventDefault();
     dialog.hide();
 });
 
-$('.btn-confirm').on('click', function() {
+$('.btn-confirm').on('click', function(e) {
+    e.preventDefault();
     var d = parseInt($('.delta-input').val());
     if(d && d > 0) {
         delta = d;
