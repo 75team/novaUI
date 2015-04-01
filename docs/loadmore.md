@@ -1,6 +1,6 @@
 #Loadmore
 
-Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果，拖拽加载提示可配置，支持替换与拼接两种模式。
+Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果，拖拽加载提示可配置，支持替换(replace)与拼接(append)两种模式。
 
 ## Demo
 
