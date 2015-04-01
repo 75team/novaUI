@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title></title>
+    <script type="text/javascript" src="iscroll-lite.js"></script>
+    <script type="text/javascript" src="http://s0.qhimg.com/static/24fee17ef5eeefee/zepto_touch_fx.112.js"></script>
+    <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
+    <script type="text/javascript" src="swipable.js"></script>
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+        .wrap, .wrap2, .wrap5, .wrap4 {
+            overflow: hidden;
+        }
+
+        .nav {
+            width: 300%;
+            box-sizing: border: box;
+            height: 150px;
+            display: table;
+            background: #f88;
+            color: white;
+            padding: 0;
+        }
+
+        .nav li {
+            display: table-cell;
+            text-align: center;
+            text-decoration: none;
+            vertical-align: middle;
+            border-left: 1px solid white;
+        }
+
+        .wrap3 {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .nav-ver {
+            background: #f88;
+            font-size: 40px;
+            color: white;
+            margin: 0;
+        }
+
+        .nav-ver li {
+            border-bottom: 1px solid white;
+            padding: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <ul class="nav">
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+    </div>
+    <div class="wrap2">
+        <ul class="nav">
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+    </div>
+
+    <div class="wrap4">
+        <ul class="nav">
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+    </div>
+    <div class="wrap5">
+        <ul class="nav">
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+    </div>
+
+    <div class="wrap3">
+        <a href="http://www.baidu.com" target="_blank" style="display:block">
+        <ul class="nav-ver">
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>HOME</li>
+            <li>Blog</li>
+            <li>Gallery</li>
+            <li>About</li>
+            <li>Contact</li>
+        </ul>
+        </a>
+    </div>
+
+</body>
+    <script type="text/javascript">
+        var iScroll = new IScroll('.wrap4', {
+            scrollX: true
+        });
+        var iScroll = new IScroll('.wrap5', {
+            scrollX: true
+        });
+
+        $(document).ready(function() {
+            var myScroll = new Swipable({
+                element: '.wrap',
+                dir: 'horizontal',
+                speed: 0.5 
+
+            });
+            var myScroll = new Swipable({
+                element: '.wrap2',
+                dir: 'horizontal',
+                speed: 0.5 
+
+            });
+
+            var myVScroll= new Swipable({
+                element: '.wrap3'
+            });
+        });
+
+        var nav = $('.wrap2 .nav');
+        $('.wrap2 li').tap(function() {
+            offset = -this.offsetLeft;
+            nav.animate({
+                '-webkit-transform': 'translate3d(' + offset + 'px, 0, 0)'
+                }, 1000);
+        });
+    </script>
+</html>

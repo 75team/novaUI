@@ -1,0 +1,114 @@
+body {
+  background: red;
+}
+html {
+  min-height: 100%;
+}
+body {
+  min-height: 100%;
+  min-width: 970px;
+  background: white;
+}
+.container {
+  width: 970px;
+}
+.hd {
+  height: 50px;
+  overflow: hidden;
+}
+.hd .logo {
+  color: white;
+  font-size: 26px;
+  font-weight: bold;
+  background: url(../img/logo.png) no-repeat left 5px;
+  background-size: 112px;
+  padding-left: 28px;
+  margin-top: 6px;
+  width: 200px;
+  height: 50px;
+}
+.hd .desc {
+  color: #E8F8F7;
+  display: none;
+}
+.ft {
+  background: #f0f0f0;
+}
+.bd {
+  min-height: 820px;
+}
+.bd .container {
+  box-sizing: border-box;
+  padding: 0 20px 20px 20px;
+  background: white;
+  box-shadow: 0 0 10px 0 #ededed;
+}
+.doc-wrap {
+  max-width: 100%;
+}
+.doc-wrap .doc {
+  overflow: hidden;
+}
+.doc-wrap .side {
+  width: 200px;
+  margin-left: 20px;
+  min-height: 1px;
+  padding-top: 22px;
+}
+/* toc */
+.toc-wrap {
+  overflow: hidden;
+  width: 200px;
+}
+.toc-wrap h2 {
+  font-size: 16px;
+  color: #3FA2B8;
+  margin-top: 18px;
+  border-bottom: 1px solid #DEDEDB;
+  margin-bottom: 5px;
+}
+.toc-fixed {
+  position: fixed;
+  top: 0;
+}
+.toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.toc li {
+  padding: 0px 0px;
+}
+.toc a {
+  color: #666;
+  text-decoration: none;
+  display: block;
+}
+.toc .toc-h2 {
+  padding-left: 15px;
+}
+.toc .toc-h3 {
+  padding-left: 30px;
+}
+.toc .toc-h4 {
+  padding-left: 45px;
+}
+.toc .toc-active a {
+  font-weight: bold;
+  color: #333;
+}
+@media screen and (max-width: 970px) {
+  body {
+    min-width: 240px;
+  }
+  .hd .logo {
+    margin-left: 8px;
+  }
+  .bd .container {
+    width: 100%;
+    padding: 0 8px;
+  }
+  .side {
+    display: none;
+  }
+}

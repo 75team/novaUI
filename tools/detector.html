@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>手机设备信息检测</title>
+    <meta name="viewport" content="width=device-width,user-scalable=0,initial-scale=1,maximum-scale=1">
+    <style type="text/css">
+        body {
+            font-size: 10px;
+            font-family: Helvetica, "Microsoft Yahei", Sans-Serif;
+            padding: 0;
+            margin: 0;
+        }
+        section {
+            padding: 3em 2em;
+            text-align: center;
+            color: #fff;
+            background: #aaa;
+        }
+        section:nth-child(1) {
+            background: #81C2D3;
+        }
+        section:nth-child(2) {
+            background: #C1D634;
+        }
+        section:nth-child(3) {
+            background: #F9AA3A;
+        }
+        section:nth-child(4) {
+            background: #EB6C5A;
+        }
+        section:nth-child(5) {
+            background: #C87E99;
+        }
+        section h2 {
+            font-size: 2em;
+            font-weight: normal;
+        }
+        section p em {
+            font-size: 4em;
+            font-style: normal;
+        }
+        #ua {
+            font-size: 1.5em;
+        }
+    </style>
+    <script src="http://s4.qhimg.com/static/25061b4268820f56.js"></script>
+</head>
+<body>
+    <section>
+        <h2>操作系统</h2>
+        <p><em id="os_name">windows</em></p>
+    </section>
+    <section>
+        <h2>系统版本</h2>
+        <p><em id="os_version"></em></p>
+    </section>
+    <section>
+        <h2>物理分辨率</h2>
+        <p><em id="screen_size"></em></p>
+    </section>
+    <section>
+        <h2>CSS分辨率</h2>
+        <p><em id="css_resolution"></em></p>
+    </section>
+    <section>
+        <h2>屏幕像素密度</h2>
+        <p><em id="screen_density"></em></p>
+    </section>
+    <section>
+        <h2>完整userAgent</h2>
+        <p><em id="ua"></em></p>
+    </section>
+
+    <script type="text/javascript">
+        function renderValue(id, value) {
+            document.getElementById(id).innerHTML = value;
+        }
+        function round(val) {
+            return Math.round(val);
+        }
+        // os
+        renderValue('os_name', detector.os.name);
+        renderValue('os_version', detector.os.fullVersion);
+        // screen
+        var width = screen.width;
+        var height = screen.height;
+        var pixelRatio = devicePixelRatio||webkitDevicePixelRatio||mozDevicePixelRatio||1;
+        if (pixelRatio != 1 && width != window.innerWidth*pixelRatio) {
+            width = round(window.innerWidth * pixelRatio);
+            height = round(width * screen.height / screen.width);
+        }
+        renderValue('screen_size', width + ' X ' + height);
+        renderValue('screen_density', pixelRatio);
+        renderValue('css_resolution', round(width/pixelRatio) + ' X ' + round(height/pixelRatio));
+        //ua
+        renderValue('ua', navigator.userAgent);
+    </script>
+</body>
+</html>

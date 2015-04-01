@@ -1,0 +1,204 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:400}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:400}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:text-top}sub{vertical-align:text-bottom}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: url(img/bg.jpg);
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.board-wrap {
+    background-size: cover;
+    width: 900px;
+    margin: auto;
+    margin-top: 80px;
+    position: relative;
+    box-shadow: 0 0 40px 0 white;
+    animation:drump 3s;
+    -webkit-animation:drump 3s;
+}
+
+@-webkit-keyframes drump {
+    0%   { transform: translate3d(0, -980px, 0); }
+    20%   { transform: translate3d(0, 20px, 0); }
+    25%   { transform: translate3d(0, -10px, 0); }
+    30%   { transform: translate3d(0, 8px, 0); }
+    35%   { transform: translate3d(0, -3px, 0); }
+    40%   { transform: translate3d(0, 0, 0); }
+}
+
+.board-wrap:before, .board-wrap:after {
+    content: '';
+    display: block;
+    width: 15px;
+    height: 100px;
+    position: absolute;
+    top: -100px;
+    left: 80px;
+    background: #3b3b38;
+}
+
+.board-wrap:after {
+    left: auto;
+    right: 80px;
+}
+
+.board-wrap h1 {
+    background: url(img/title.png) no-repeat center center #e33f76;
+    height: 70px;
+    text-align: center;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.board-wrap .board {
+    background: #605a5a;
+    text-align: center;
+    padding: 50px 0 60px 0;
+}
+
+.team-list {
+    display: inline-block;
+}
+
+.team-list li {
+    display: inline-block;
+}
+
+.team-list li+li {
+    margin-left: 10px;
+}
+
+.team-list li h3 {
+    //color: #8f9091;
+    color: white;
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+
+.team-list li .avator {
+    display: block;
+    width: 110px;
+    height: 110px;
+    background: url(img/sheep.png) no-repeat center center #3b3b38;
+    margin-bottom: 10px;
+}
+
+.team-list li:nth-child(2) .avator {
+    background-image: url(img/bear.png);
+}
+
+.team-list li:nth-child(3) .avator {
+    background-image: url(img/dog.png);
+}
+
+.team-list li:nth-child(4) .avator {
+    background-image: url(img/cat.png);
+}
+
+.team-list li:nth-child(5) .avator {
+    background-image: url(img/penguin.png);
+}
+
+.team-list li:nth-child(6) .avator {
+    background-image: url(img/pig.png);
+}
+
+.team-list li .score-num {
+    line-height: 110px;
+    background: #3b3b38;
+    font-size: 72px;
+    //color: #e44b86;
+    color: #e33f76;
+    text-align: center;
+    display: block;
+    width: 110px;
+    height: 110px;
+    margin-bottom: 10px;
+}
+
+.action-wrap a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    color: #8f9091;
+    font-size: 40px;
+    font-weight: bold;
+    background: #3b3b38;
+    text-decoration: none;
+    vertical-align: middle;
+    padding-top: 1px;
+    box-sizing: border-box;
+}
+
+.action-wrap .reduce span {
+    font-size: 48px;
+    position: relative;
+    top: -3px;
+}
+
+.action-wrap a {
+    vertical-align: middle;
+}
+
+
+.action-wrap a:hover {
+    color: white;
+}
+
+.btn-set {
+    color: white;
+    font-size: 18px;
+    font-style: italic;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    text-decoration: none;
+}
+
+.dialog {
+    position: fixed;
+    width: 400px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    box-sizing: border-box;
+    padding: 40px;
+    display: none;
+}
+
+.btn {
+    display: inline-block;
+    font-size: 14px;
+    color: white;
+    background: #e33f76;
+    border-radius: 3px;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.submit-wrap {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.dialog dt, .dialog dd {
+    display: inline-block;
+}
