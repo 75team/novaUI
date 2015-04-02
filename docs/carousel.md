@@ -13,6 +13,7 @@
 
     .nova-carousel img{
         height: 300px;
+        -webkit-user-drag: none;
     }
 </style>
 
