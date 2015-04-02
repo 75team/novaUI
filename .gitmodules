@@ -22,4 +22,4 @@
 	url = https://github.com/novawidgets/swipable.git
 [submodule "src/widgets/scratchTicket"]
 	path = src/widgets/scratchTicket
-	url = git@github.com:novawidgets/scratchTicket.git
+	url = https://github.com:novawidgets/scratchTicket.git
