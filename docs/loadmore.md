@@ -29,32 +29,32 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
     }
 
     .load-wrap {
-  position: absolute;
-  left: 17px;
-  top: 62px;
-  bottom: 77px;
-  width: 292px;
-  box-sizing: border-box;
-  overflow: hidden;
-  z-index: 1;
-  border-radius: 4px;
-  -webkit-user-select: none;
-}
+        position: absolute;
+        left: 17px;
+        top: 62px;
+        bottom: 77px;
+        width: 292px;
+        box-sizing: border-box;
+        overflow: hidden;
+        z-index: 1;
+        border-radius: 4px;
+        -webkit-user-select: none;
+    }
 
-.load-wrap .load-cont{
-    min-height: 100%;
-}
+    .load-wrap .load-cont{
+        min-height: 100%;
+    }
 
-.hint {
-  color: #333;
-  font-weight: 700;
-  font-size: 14px;
-  height: 40px;
-  left: 50%;
-  line-height: 40px;
-  margin-left: -5px;
-  text-align: center;
-}
+    .hint {
+      color: #333;
+      font-weight: 700;
+      font-size: 14px;
+      height: 40px;
+      left: 50%;
+      line-height: 40px;
+      margin-left: -5px;
+      text-align: center;
+    }
 </style>
 
 <div class='wrap'>
@@ -94,24 +94,24 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
     $('.load-wrap').on('touchmove',function(e){
         e.preventDefault();
     });
-            var page = 0;
+    var page = 0;
 
-            var loadmore = new Loadmore({
-element: '.load-wrap'
-});
-            loadmore.after('prePage',function(){
-                page--;
-                $('.load-wrap .load-cont').append($("#poem"+page).html());
-                loadmore.refresh();
-                });
-            loadmore.after('nextPage',function(){
-                page++
-                $('.load-wrap .load-cont').append($("#poem"+page).html());
-                loadmore.refresh();
-                if(page == 3){
-                loadmore.set('isLastPage',true);
-                }
-                });
+    var loadmore = new Loadmore({
+        element: '.load-wrap'
+    });
+    loadmore.after('prePage',function(){
+        page--;
+        $('.load-wrap .load-cont').append($("#poem"+page).html());
+        loadmore.refresh();
+    });
+    loadmore.after('nextPage',function(){
+        page++;
+        $('.load-wrap .load-cont').append($("#poem"+page).html());
+        loadmore.refresh();
+        if(page == 3){
+            loadmore.set('isLastPage',true);
+        }
+    });
 
     window.loadmore = loadmore;
 });
@@ -187,7 +187,6 @@ element: '.load-wrap'
     <li>举头望明月，低头思故乡。</li>
 </script>
 
-
 ## 使用方法
 
 ### HTML
@@ -223,7 +222,9 @@ element: '.load-wrap'
 ```
 
 ### Javascript
+
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块, Widget模块, Swipable模块
+
 ```markup
 <script src="http://s0.qhimg.com/static/24fee17ef5eeefee/zepto_touch_fx.112.js"></script>
 <script src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
@@ -247,7 +248,9 @@ element: '.load-wrap'
 </script>
 ```
 ### CSS
+
 容器的样式需符合如下规则
+
 ```css
 .load-wrap {
   position: absolute;
@@ -303,6 +306,7 @@ var config = {
 
 
 ## 方法
+
 ```javascript
 
 // 1. 每次加载之后必须手动调用refresh函数
@@ -314,6 +318,7 @@ loadmore.set('isLastPage',true);
 ```
 
 ## 扩展
+
 ```javascript
 // 1. 在加载前一页时执行代码
 loadmore.after('prePage', function() {
@@ -332,4 +337,5 @@ loadmore.after('nextPage', function() {
 ## 日志
 
 ### 1.0.0
+
 首次发布
