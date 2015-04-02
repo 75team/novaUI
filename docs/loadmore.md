@@ -12,7 +12,7 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
         height:667px;
         position:relative;
         margin:40px;
-        background:url(../novaui/img/iphone.png) no-repeat 0px 0px;
+        background:url(novaui/img/iphone.png) no-repeat 0px 0px;
         background-size: 100% 100%;
     }
     .load-wrap .load-cont{
