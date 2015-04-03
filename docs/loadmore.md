@@ -229,7 +229,7 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
 <script src="http://s0.qhimg.com/static/24fee17ef5eeefee/zepto_touch_fx.112.js"></script>
 <script src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
 <script src="http://s2.qhimg.com/!6c098979/swipable.1.0.1.js"></script>
-<script src="http://http://s5.qhimg.com/!2f9178e8/loadmore.js"></script>
+<script src="http://s5.qhimg.com/!2f9178e8/loadmore.js"></script>
 <script type="text/javascript">
     var loadmore = new Loadmore({
         element: '.load-wrap'
