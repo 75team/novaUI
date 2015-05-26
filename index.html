@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -12,12 +12,12 @@
     <link rel="stylesheet" href="static/css/font-awesome.css" />
 </head>
 <body>
-    <div class="hd text-center">
+    <div id="hd" class="text-center">
         <a href="" class="logo">NovaUI</a>
         <p class="desc">高性能的移动端组件库</p>
         <span id="fork-on-github"><a href="https://github.com/75team/novaUI/"><i class="fa fa-github"></i> Fork on Github</a></span>
     </div> 
-    <div class="bd">
+    <div id="bd">
         <div class="container center-block comp-wrap">
             <h2>Components</h2>
             <ul class="comp-list clearfix list-inline">
@@ -46,13 +46,13 @@
                     </a>
                 </li>
                 <li class="pull-left">
-                    <h3><a href="detail.html?doc=sidebar">Sidebar</a></h3>
-                    <a href="https://github.com/novawidgets/sidebar" class="star fa fa-github"></a>
-                    <a href="detail.html?doc=sidebar">
-                        <img src="http://p8.qhimg.com/t0187e1076949e1986c.png" alt="Sidebar组件图" />
+                    <h3><a href="detail.html?doc=dialog">Dialog</a></h3>
+                    <a href="https://github.com/novawidgets/dialog" class="star fa fa-github"></a>
+                    <a href="detail.html?doc=dialog">
+                        <img src="http://p1.qhimg.com/t0178e995496233cf42.png" alt="Sidebar组件图" />
                         <div class="detail">
                             <p class="desc">
-                                侧边栏组件，使用硬件加速实现流畅滑动，支持三种显示方式。
+                                Dialog组件。提供alert, confirm, toast等移动端常见的弹窗形式。同时支持完全自定义弹窗模板的高级定制。
                             </p>
                         </div>
                     </a>
@@ -65,6 +65,18 @@
                         <div class="detail">
                             <p class="desc">
                                 搜索提示组件。
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                <li class="pull-left">
+                    <h3><a href="detail.html?doc=sidebar">Sidebar</a></h3>
+                    <a href="https://github.com/novawidgets/sidebar" class="star fa fa-github"></a>
+                    <a href="detail.html?doc=sidebar">
+                        <img src="http://p8.qhimg.com/t0187e1076949e1986c.png" alt="Sidebar组件图" />
+                        <div class="detail">
+                            <p class="desc">
+                                侧边栏组件，使用硬件加速实现流畅滑动，支持三种显示方式。
                             </p>
                         </div>
                     </a>
@@ -123,7 +135,7 @@
             <!-- 多说评论框 end -->
         </div>
     </div>
-    <div class="ft text-center">
+    <div id="ft" class="text-center">
         Handcrafted with <span class="heart">&hearts;</span> by Melon.H
     </div>
 

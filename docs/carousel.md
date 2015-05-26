@@ -3,7 +3,6 @@
 跑马灯组件。使用硬件加速实现切换，动画流畅且tab之间无缝，支持循环，自动轮播，切换事件监听，回弹效果等。
 
 ## Demo
-**注意：**PC用户请使用开发者工具模拟Touch行为
 <link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.3.css" />
 
 <style type="text/css">

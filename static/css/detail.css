@@ -12,11 +12,11 @@ body {
 .container {
   width: 970px;
 }
-.hd {
+#hd {
   height: 50px;
   overflow: hidden;
 }
-.hd .logo {
+#hd .logo {
   color: white;
   font-size: 26px;
   font-weight: bold;
@@ -27,17 +27,17 @@ body {
   width: 200px;
   height: 50px;
 }
-.hd .desc {
+#hd .desc {
   color: #E8F8F7;
   display: none;
 }
-.ft {
+#ft {
   background: #f0f0f0;
 }
-.bd {
+#bd {
   min-height: 820px;
 }
-.bd .container {
+#bd .container {
   box-sizing: border-box;
   padding: 0 20px 20px 20px;
   background: white;
@@ -101,10 +101,10 @@ body {
   body {
     min-width: 240px;
   }
-  .hd .logo {
+  #hd .logo {
     margin-left: 8px;
   }
-  .bd .container {
+  #bd .container {
     width: 100%;
     padding: 0 8px;
   }

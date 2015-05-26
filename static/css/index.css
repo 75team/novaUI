@@ -5,26 +5,26 @@ body {
   position: relative;
   background: #272330;
 }
-.hd {
+#hd {
   height: 350px;
   box-sizing: border-box;
   padding-top: 60px;
 }
-.hd .logo {
+#hd .logo {
   color: white;
   font-size: 108px;
 }
-.hd .desc {
+#hd .desc {
   color: #E8F8F7;
   font-size: 24px;
 }
-.bd {
+#bd {
   padding-top: 40px;
   padding-bottom: 80px;
   padding-bottom: 98px;
   box-sizing: border-box;
 }
-.ft {
+#ft {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -114,17 +114,17 @@ body {
   body {
     min-width: 240px;
   }
-  .hd {
+  #hd {
     height: auto;
     padding: 30px 0;
   }
-  .hd .logo {
+  #hd .logo {
     font-size: 54px;
   }
-  .hd .desc {
+  #hd .desc {
     font-size: 20px;
   }
-  .bd .container {
+  #bd .container {
     width: 100%;
     padding: 0 8px;
     box-sizing: border-box;
