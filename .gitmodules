@@ -23,3 +23,6 @@
 [submodule "src/widgets/scratchTicket"]
 	path = src/widgets/scratchTicket
 	url = git@github.com:novawidgets/scratchTicket.git
+[submodule "dialog"]
+	path = src/widgets/dialog
+	url = git@github.com:novawidgets/dialog.git
