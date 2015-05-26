@@ -197,18 +197,18 @@ dialog.refresh();                                   // 刷新弹窗(未支持2.3
 ## 扩展
 ```javascript
 // 1. 在show()方法前或后执行一段代码, 回调函数的参数为show方法的参数
-sidebar.before('show', function(ev) {
+dialog.before('show', function(ev) {
     // ....
 });
-sidebar.after('show', function(ev) {
+dialog.after('show', function(ev) {
     // ....
 });
 
 // 2. 在hide()方法前或后执行一段代码
-sidebar.before('hide', function(ev) {
+dialog.before('hide', function(ev) {
     // ....
 });
-sidebar.after('hide', function(ev) {
+dialog.after('hide', function(ev) {
     // ....
 });
 ```
