@@ -26,3 +26,6 @@
 [submodule "dialog"]
 	path = src/widgets/dialog
 	url = git@github.com:novawidgets/dialog.git
+[submodule "src/widgets/loadmore"]
+	path = src/widgets/loadmore
+	url = https://github.com/novawidgets/loadmore.git

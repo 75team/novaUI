@@ -1,4 +1,4 @@
-# NovaUI
+# :lollipop: NovaUI
 **Home**: http://75team.github.io/novaUI/
 
 专注移动端Web UI组件  
