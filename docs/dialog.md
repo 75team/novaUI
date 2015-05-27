@@ -21,6 +21,9 @@ Dialog组件。提供alert, confirm, toast等移动端常见的弹窗形式。�
         cursor: pointer;
         margin-bottom: 10px;
     }
+    .my-dialog .btn {
+        display: inline-block;
+    }
     .my-dialog .btn+.btn {
         margin-left: 20px;
     }
