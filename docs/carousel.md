@@ -3,7 +3,7 @@
 跑马灯组件。使用硬件加速实现切换，动画流畅且tab之间无缝，支持循环，自动轮播，切换事件监听，回弹效果等。
 
 ## Demo
-<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.3.css" />
+<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.4.css" />
 
 <style type="text/css">
     .nova-carousel {
@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('carousel', 'http://s3.qhimg.com/static/b8a04cf323346fd2/carousel.1.0.4.js');
+    _loader.add('carousel', 'http://s1.qhimg.com/static/f3ed1d80cae8ef8b/carousel.1.0.4.js');
     _loader.use('widget, carousel', function() { 
         var carousel = new Carousel({
             element: '.nova-carousel',
@@ -84,7 +84,7 @@
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s3.qhimg.com/static/b8a04cf323346fd2/carousel.1.0.4.js"></script>
+<script type="text/javascript" src="http://s1.qhimg.com/static/f3ed1d80cae8ef8b/carousel.1.0.4.js"></script>
 <script type="text/javascript">
         var carousel = new Carousel({
             element: '.nova-carousel'
@@ -93,7 +93,7 @@
 ```
 ### CSS
 ```markup
-<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.3.css" />
+<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.4.css" />
 ```
 使用默认样式，请引入以上文件。若需自定义样式，仅复制未压缩版文件中/\* Required \*/注释下的样式即可。
 
@@ -157,7 +157,8 @@ carousel.after('next', function() {
 1. 修复新版webkit动画渲染问题
 2. 支持两个滑动项循环滑动
 3. 新增current类，当前切换到的滑动项上会有此类
-3. 将配置recursive名称改为recyclable
+4. 将配置recursive名称改为recyclable
+5. 支持多个Carousel嵌套
 
 ## 1.0.3
 
