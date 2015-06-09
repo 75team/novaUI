@@ -52,7 +52,7 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('tab', 'http://s1.qhimg.com/static/6b81ad934b1d6b33/tab.1.0.3.js');
+    _loader.add('tab', 'http://s3.qhimg.com/static/1b30dc3825a7faf3/tab.1.0.4.js');
     _loader.use('widget, tab', function() { 
         var tab = new Tab({
             element: '.nova-tab',
@@ -71,7 +71,8 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 | control-item      | 单个控制器 |
 | tab-cont          | tab容器    |
 | cont-item         | 单个tab    |
-| active            | 当前tab或控制器    |
+| active            | 当前tab和其左右相邻tab |
+| current            | 当前tab或控制器    |
 
 ```markup
 <div class="nova-tab">
@@ -101,7 +102,7 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块 
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s1.qhimg.com/static/6b81ad934b1d6b33/tab.1.0.3.js"></script>
+<script type="text/javascript" src="http://s3.qhimg.com/static/1b30dc3825a7faf3/tab.1.0.4.js"></script>
 <script type="text/javascript">
     var tab = new Tab({
         element: '.nova-tab',
@@ -123,7 +124,7 @@ var config = {
     element: '.nova-tab'                // Tab元素
 
     index: 0,                           // 初始index 
-    recursive: false,                   // 是否可循环
+    recyclable: false,                  // 是否可循环
     animate: true,                      // 是否使用动画
     duration_ms: 200,                   // 切换动画时长 
     autoplay: false,                    // 是否自动轮播 
@@ -172,6 +173,12 @@ tab.after('next', function() {
 ```
 
 ## 日志
+
+## 1.0.4
+1. 修复新版webkit动画渲染问题
+2. 支持两个滑动项循环滑动
+3. 新增current类，当前切换到的滑动项上会有此类
+3. 将配置recursive名称改为recyclable
 
 ## 1.0.3
 

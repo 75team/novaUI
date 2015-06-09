@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('carousel', 'http://s4.qhimg.com/static/5060d63c9d713b56/carousel.1.0.3.js');
+    _loader.add('carousel', 'http://s3.qhimg.com/static/b8a04cf323346fd2/carousel.1.0.4.js');
     _loader.use('widget, carousel', function() { 
         var carousel = new Carousel({
             element: '.nova-carousel',
@@ -56,7 +56,8 @@
 | control-item      | 单个触发器 |
 | carousel-cont     | 切换内容容器    |
 | cont-item         | 单个切换内容    |
-| active            | 当前内容或触发器    |
+| active            | 当前内容和其左右相邻内容 |
+| current           | 当前内容或触发器    |
 
 ```markup
 <div class="nova-carousel">
@@ -83,7 +84,7 @@
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s4.qhimg.com/static/5060d63c9d713b56/carousel.1.0.3.js"></script>
+<script type="text/javascript" src="http://s3.qhimg.com/static/b8a04cf323346fd2/carousel.1.0.4.js"></script>
 <script type="text/javascript">
         var carousel = new Carousel({
             element: '.nova-carousel'
@@ -103,7 +104,7 @@ var config = {
     element: '.nova-carousel'           // Carousel元素
 
     index: 0,                           // 初始index 
-    recursive: true,                    // 是否可循环
+    recyclable: true,                   // 是否可循环
     duration_ms: 200,                   // 切换动画时长
     autoplay: false,                    // 是否自动轮播
     autoplay_interval_ms: 10000,        // 自动轮播时间间隔
@@ -151,6 +152,12 @@ carousel.after('next', function() {
 ```
 
 ## 日志
+
+## 1.0.4
+1. 修复新版webkit动画渲染问题
+2. 支持两个滑动项循环滑动
+3. 新增current类，当前切换到的滑动项上会有此类
+3. 将配置recursive名称改为recyclable
 
 ## 1.0.3
 
