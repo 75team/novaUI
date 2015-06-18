@@ -52,7 +52,7 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 
 <script type="text/javascript">
     _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('tab', 'http://s0.qhimg.com/static/019008c24a6ebaf9/tab.1.0.4.js');
+    _loader.add('tab', 'http://s3.qhimg.com/static/e606c2eeeebaeb7e/tab.1.0.4.js');
     _loader.use('widget, tab', function() { 
         var tab = new Tab({
             element: '.nova-tab',
@@ -102,7 +102,7 @@ Tab组件。使用硬件加速实现切换，动画流畅且tab之间无缝，�
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块 
 ```markup
 <script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s0.qhimg.com/static/019008c24a6ebaf9/tab.1.0.4.js"></script>
+<script type="text/javascript" src="http://s3.qhimg.com/static/e606c2eeeebaeb7e/tab.1.0.4.js"></script>
 <script type="text/javascript">
     var tab = new Tab({
         element: '.nova-tab',
