@@ -3,49 +3,30 @@
 跑马灯组件。使用硬件加速实现切换，动画流畅且tab之间无缝，支持循环，自动轮播，切换事件监听，回弹效果等。
 
 ## Demo
-<link rel="stylesheet" href="http://s4.qhimg.com/static/19a226791da76e1a/carousel.1.0.4.css" />
 
 <style type="text/css">
-    .nova-carousel {
+    nova-carousel {
+        display: block;
         height: 300px;
+        overflow: hidden;
     }
-
-    .nova-carousel img{
-        height: 300px;
-        -webkit-user-drag: none;
+    nova-carousel[unresolved] {
     }
 </style>
 
-<div class="nova-carousel">
-    <div class="carousel-cont">
-        <div class="cont-item">
-            <img src="novaui/img/1.jpg" alt="some pic">
-        </div>
-        <div class="cont-item">
-            <img src="novaui/img/2.jpg" alt="some pic">
-        </div>
-        <div class="cont-item">
-            <img src="novaui/img/3.jpg" alt="some pic">
-        </div>
-    </div>
-    <div class="carousel-control">
-        <span class="control-item"></span>
-        <span class="control-item"></span>
-        <span class="control-item"></span>
-    </div>
-</div>
-
-
 <script type="text/javascript">
-    _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('carousel', 'http://s3.qhimg.com/static/92642666da227923/carousel.1.0.4.js');
-    _loader.use('widget, carousel', function() { 
-        var carousel = new Carousel({
-            element: '.nova-carousel',
-            autoplay: true
-        });
-    });
+    _loader.add('nova_polyfills', 'http://s0.qhimg.com/static/c194ef77618ac141/nova_polyfills.js');
+    _loader.add('nova', 'http://s2.qhimg.com/static/df83318506488284/nova.1.0.0.js');
+    _loader.add('switchable', 'http://s3.qhimg.com/static/8d647c9ad1059ac5/switchable.1.0.5.js');
+    _loader.add('carousel', 'http://s2.qhimg.com/static/15d4e3566d6a9f8c/carousel.1.0.5.js');
+    _loader.use('nova_polyfills, nova, switchable, carousel', function() { });
 </script>
+
+<nova-carousel unresolved>
+    <img src="novaui/img/1.jpg" alt="some pic">
+    <img src="novaui/img/2.jpg" alt="some pic">
+    <img src="novaui/img/3.jpg" alt="some pic">
+</nova-carousel>
 
 ## 使用方法
 
@@ -62,8 +43,10 @@
 ### Javascript
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块
 ```markup
-<script src="nova.js"></script>
-<script src="carousel.js"></script>
+<script src="http://s0.qhimg.com/static/c194ef77618ac141/nova_polyfills.js"></script>
+<script src="http://s2.qhimg.com/static/df83318506488284/nova.1.0.0.js"></script>
+<script src="http://s3.qhimg.com/static/8d647c9ad1059ac5/switchable.1.0.5.js"></script>
+<script src="http://s2.qhimg.com/static/15d4e3566d6a9f8c/carousel.1.0.5.js"></script>
 ```
 ### CSS
 ```markup
