@@ -59,7 +59,7 @@
     <script type="text/javascript">
         var duoshuoQuery = {short_name:"novaui"};
         (function() {
-        var wid = location.href.match(/doc=([^&]+)/)[1];
+        var wid = dashToCamelCase(location.href.match(/doc=([^&]+)/)[1].replace('nova-', ''));
         $('.ds-thread').data('thread-key', wid).data('title', 'novaUI移动端组件：' + wid).data('url', location.href);
          var ds = document.createElement('script');
          ds.type = 'text/javascript';ds.async = true;
@@ -68,6 +68,10 @@
          (document.getElementsByTagName('head')[0] 
           || document.getElementsByTagName('body')[0]).appendChild(ds);
          })();
+
+        function dashToCamelCase(dash) {
+            return dash.replace(/-([a-z])/g,function(m) { return m[1].toUpperCase(); });
+        }
     </script>
 <!-- 多说公共JS代码 end -->
 </body>
