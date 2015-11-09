@@ -1,4 +1,4 @@
-#Carousel
+# &lt;nova-carousel&gt;
 
 跑马灯组件。使用硬件加速实现切换，动画流畅且tab之间无缝，支持循环，自动轮播，切换事件监听，回弹效果等。
 
@@ -7,25 +7,23 @@
 <style type="text/css">
     nova-carousel {
         display: block;
+        max-width: 420px;
         height: 300px;
-        overflow: hidden;
     }
     nova-carousel[unresolved] {
+        opacity: 0;
     }
 </style>
 
-<script type="text/javascript">
-    _loader.add('nova_polyfills', 'http://s0.qhimg.com/static/c194ef77618ac141/nova_polyfills.js');
-    _loader.add('nova', 'http://s2.qhimg.com/static/df83318506488284/nova.1.0.0.js');
-    _loader.add('switchable', 'http://s3.qhimg.com/static/8d647c9ad1059ac5/switchable.1.0.5.js');
-    _loader.add('carousel', 'http://s2.qhimg.com/static/15d4e3566d6a9f8c/carousel.1.0.5.js');
-    _loader.use('nova_polyfills, nova, switchable, carousel', function() { });
+<script>
+    _loader.add('customEle', '{{urls.carousel}}');
+    _loader.use('customEle', function() { });
 </script>
 
-<nova-carousel unresolved>
-    <img src="novaui/img/1.jpg" alt="some pic">
-    <img src="novaui/img/2.jpg" alt="some pic">
-    <img src="novaui/img/3.jpg" alt="some pic">
+<nova-carousel default-style unresolved>
+    <img src="novaui/img/1.jpg" alt="some pic" draggable="false">
+    <img src="novaui/img/2.jpg" alt="some pic" draggable="false">
+    <img src="novaui/img/3.jpg" alt="some pic" draggable="false">
 </nova-carousel>
 
 ## 使用方法
@@ -33,57 +31,35 @@
 ### HTML
 
 ```markup
-<nova-carousel>
-    <div>Page1</div>
-    <div>Page2</div>
-    <div>Page3</div>
+<nova-carousel default-style>
+    <img src="novaui/img/1.jpg" alt="some pic" draggable="false">
+    <img src="novaui/img/2.jpg" alt="some pic" draggable="false">
+    <img src="novaui/img/3.jpg" alt="some pic" draggable="false">
 </nova-carousel>
 ```
 
 ### Javascript
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块
 ```markup
-<script src="http://s0.qhimg.com/static/c194ef77618ac141/nova_polyfills.js"></script>
-<script src="http://s2.qhimg.com/static/df83318506488284/nova.1.0.0.js"></script>
-<script src="http://s3.qhimg.com/static/8d647c9ad1059ac5/switchable.1.0.5.js"></script>
-<script src="http://s2.qhimg.com/static/15d4e3566d6a9f8c/carousel.1.0.5.js"></script>
-```
-### CSS
-```markup
-<style type="text/css">
-    /* 自定义控制条样式 */
-    nova-carousel .controls {
-        position: absolute;
-        z-index: 5;
-        bottom: 0;
-        left: 0;
-        text-align: center;
-        line-height: 30px;
-    }
-    /* 自定义控制条中每个点的样式 */
-    nova-carousel .controls span {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 5px;
-        margin: 0 5px;
-    }
-</style>
+<script src="{{urls.nova_polyfills}}"></script>
+<script src="{{urls.nova}}"></script>
+<script src="{{urls.carousel}}"></script>
 ```
 
 ## 配置
 
 ```markup
 <nova-carousel></nova-carousel>
-<!-- 可配置如下attribute，当前列出属性均为默认值
+<!-- 可配置如下attributes
+    default-style                       // 是否使用默认样式。默认false
     index="0"                           // 初始index
-    loop="true"                         // 是否可循环
+    loop                                // 是否可循环。默认true，可通过loop="false"关闭
     duration-ms="200"                   // 切换动画的时长
-    autoplay="false"                    // 是否自动轮播
+    autoplay                            // 是否自动轮播。默认false
     autoplay-interval-ms="10000"        // 自动轮播时间间隔
-    swipable="true"                     // 是否可滑动
+    swipable                            // 是否可滑动。默认true，可通过swipable="false"关闭。
     direction="horizontal"              // 滑动方向。horizontal:水平，vertical:垂直
-    currentClassName="current"          // 当前元素的类名
+    current-class-name="current"        // 当前元素的类名
 -->
 ```
 
@@ -120,14 +96,18 @@ carousel.after('next', function() {
 
 ## 日志
 
-## 1.0.4
+### 1.0.5
+1. 使用Nova.1.0.0.js作为底层框架
+2. 将配置recyclable名称改为loop
+
+### 1.0.4
 1. 修复新版webkit动画渲染问题
 2. 支持两个滑动项循环滑动
 3. 新增current类，当前切换到的滑动项上会有此类
 4. 将配置recursive名称改为recyclable
-5. 支持多个Carousel嵌套
+5. 支持多个&lt;nova-carousel&gt;嵌套
 
-## 1.0.3
+### 1.0.3
 
 1. 支持垂直滑动
 2. 修复2.3滑动失效问题，bug原因是使用关键字switch作为方法ogz..

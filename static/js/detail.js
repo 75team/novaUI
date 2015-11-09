@@ -1,53 +1,81 @@
 (function() {
-    var doc = queryUrl(window.location.search, 'doc');
-    $.get('docs/' + doc + '.md', function(response) {
-        var docHtml = marked(response);
-        $('.doc').html(docHtml);
 
-        // 代码高亮
-        Prism.highlightAll();
+    var tmplData = {
+        urls: {
+            'nova_polyfills': 'http://s0.qhimg.com/static/c194ef77618ac141/nova_polyfills.1.0.1.js' ,
+            'nova': 'http://s1.qhimg.com/static/c70d46df1c829566/nova.1.0.1.js' ,
+            'nova_dev': 'http://s1.qhimg.com/static/8a4094068d25f2cc/nova_dev.1.0.1.js',
+            'tab': 'http://s4.qhimg.com/static/2e45ebbde894b2dc/nova-tab.1.0.5.js',
+            'carousel': 'http://s2.qhimg.com/static/ea413575de2fdb2c/nova-carousel.1.0.5.js',
+            'swipable': 'http://s1.qhimg.com/static/43608e95b76f0a28/nova-swipable.1.0.1.js',
+            'loadmore': 'http://s0.qhimg.com/static/ff2eed1b9bae4541/nova-loadmore.1.0.1.js',
+            'dialog': 'http://s3.qhimg.com/static/13f40ce77e06f7ed/nova-dialog.1.0.1.js',
+            'scratchTicket': 'http://s3.qhimg.com/static/1334c0a33c1f2e13/nova-scratch-ticket.1.0.1.js',
+            'sidebar': 'http://s1.qhimg.com/static/3b6d33f29e07bbbd/nova-sidebar.1.0.1.js',
+        }
+    };
 
-        // 生成目录
-        var toc = $('.toc'),
-            tocWrap = $('.toc-wrap');
-        toc.toc({
-            container: '.doc',
-            selector: 'h1, h2, h3, h4'
-        });
+    var deps = 'nova_polyfills nova'.split(' ');
+    deps.forEach(function(dep) {
+        _loader.add(dep, tmplData.urls[dep]);
+    });
 
-        // 监听滚动
-        var tocOffset = tocWrap.offset();
-        $(window).on('scroll', debounce(function(e) {
-            // 若发现tocOffset值不合理，重新取
-            if(tocOffset.top == 0) {
-                tocOffset = tocWrap.offset();
-                console.log(1);
-                return;
-            }
+    _loader.use(deps.join(','), function() {
+        var doc = queryUrl(window.location.search, 'doc');
+        $.get('docs/' + doc + '.md', function(response) {
+            var docHtml = replaceAnnotation(response, tmplData);
+            docHtml = marked(docHtml);
+            $('.doc').html(docHtml);
 
-            var scrollTop = $(window).scrollTop();
-            if(scrollTop - tocOffset.top >= 0) {
-                tocWrap.addClass('toc-fixed'); 
-            }
-            else {
-                tocWrap.removeClass('toc-fixed'); 
-            }
-        }, 1000/60));
+            // 代码高亮
+            Prism.highlightAll();
+
+            // 生成目录
+            var toc = $('.toc'),
+                tocWrap = $('.toc-wrap');
+            toc.toc({
+                container: '.doc',
+                selector: 'h1, h2, h3, h4'
+            });
+
+            // 监听滚动
+            var tocOffset = tocWrap.offset();
+            $(window).on('scroll', debounce(function(e) {
+                // 若发现tocOffset值不合理，重新取
+                if(tocOffset.top == 0) {
+                    tocOffset = tocWrap.offset();
+                    console.log(1);
+                    return;
+                }
+
+                var scrollTop = $(window).scrollTop();
+                if(scrollTop - tocOffset.top >= 0) {
+                    tocWrap.addClass('toc-fixed'); 
+                }
+                else {
+                    tocWrap.removeClass('toc-fixed'); 
+                }
+            }, 1000/60));
 
 
-        function debounce(func, wait, immediate) {
-            var timeout;
-            return function() {
-                var context = this, args = arguments;
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
-                    timeout = null;
-                    if (!immediate) func.apply(context, args);
-                }, wait);
-                if (immediate && !timeout) func.apply(context, args);
+            function debounce(func, wait, immediate) {
+                var timeout;
+                return function() {
+                    var context = this, args = arguments;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function() {
+                        timeout = null;
+                        if (!immediate) func.apply(context, args);
+                    }, wait);
+                    if (immediate && !timeout) func.apply(context, args);
+                };
             };
-        };
-    }); 
+        }); 
+    })
+
+    function replaceAnnotation(docHtml, data) {
+        return Nova.Utils.tmpl(docHtml, data);
+    }
 
     // Helpers
     function queryUrl(url, key) {

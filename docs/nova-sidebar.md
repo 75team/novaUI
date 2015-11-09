@@ -1,11 +1,9 @@
-
-#Sidebar
+# &lt;nova-sidebar&gt;
 
 侧边栏组件，使用硬件加速实现流畅滑动，支持Push, Overlay, Review三种显示方式。
 
 ## Demo
 **注意：**PC用户请使用开发者工具模拟Touch行为
-<link rel="stylesheet" href="http://s4.qhimg.com/static/59be558196d5185c/sidebar.1.0.1.css" />
 
 <style type="text/css">
     .page {
@@ -15,11 +13,15 @@
         text-align: center;
     }
 
-    .sidebar {
+    nova-sidebar[unresolved] {
+        display: none;
+    }
+
+    nova-sidebar {
         width: 220px;
     }
 
-    .sidebar img {
+    nova-sidebar img {
     }
 
     .cont {
@@ -47,12 +49,19 @@
     .blue {
         background-color: #32B6E6;
     }
+    /* Customized */
+    nova-sidebar {
+        background-color: #3D3D3D;
+        color: white;
+        padding: 20px 10px;
+        width: 240px;
+    }
 </style>
 
 <div class="page">
-    <div class="sidebar">
+    <nova-sidebar unresolved>
         Awesome
-    </div>
+    </nova-sidebar>
     <div class="cont">
         <p>
             <h3>从左边打开</h3>
@@ -69,14 +78,10 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('sidebar', 'http://s2.qhimg.com/static/9f9ccc3da55619a4/sidebar.1.0.1.js');
-    _loader.use('widget, sidebar', function() { 
-        var sidebar = new Sidebar({
-            element: '.sidebar',
-            contentSelector: '.cont'
-        });
+<script>
+    _loader.add('customEle', '{{urls.sidebar}}');
+    _loader.use('customEle', function() {
+        var sidebar = document.querySelector('nova-sidebar');
         $('.btn1').on('tap', function() {
             sidebar.toggle($(this).data('display'));
         });
@@ -94,15 +99,16 @@
 
 ### HTML
 
-| 类名          |  作用  |
-|---------------|---------|
-| sidebar       | 侧边栏 |
-| content       | 与侧边栏同级的内容 |
 
 ```markup
+<style>
+    .page {
+        position: relative;
+    }
+</style>
 <div class="page">
     <!-- Sidebar -->
-    <div class="side">Sidebar</div>
+    <nova-sidebar></nova-sidebar>
     <!-- Content -->
     <div class="cont">
         <p>Content</p>
@@ -112,55 +118,42 @@
 ```
 
 ### Javascript
-需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块 
+需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块
 ```markup
-<script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s2.qhimg.com/static/9f9ccc3da55619a4/sidebar.1.0.1.js"></script>
-<script type="text/javascript">
-    var sidebar = new Sidebar({
-        element: '.side',
-        contentSelector: '.cont'
-    });
+<script src="{{urls.nova_polyfills}}"></script>
+<script src="{{urls.nova}}"></script>
+<script src="{{urls.sidebar}}"></script>
+<script>
+    var sidebar = document.querySelector('nova-sidebar');
 
     $('.btn').on('tap', function() {
         sidebar.toggle();
     });
 </script>
 ```
-### CSS
-```markup
-<link rel="stylesheet" href="http://s4.qhimg.com/static/59be558196d5185c/sidebar.1.0.1.css" />
-```
-使用默认样式，请引入以上文件。若需自定义样式，仅复制未压缩版文件中/\* Required \*/注释下的样式即可。
 
 ## 配置
 
-```javascript
-var config = {
-    element: '.side'                    // 侧边栏元素
-    contentSelector: '.cont',           // 与侧边栏同级的内容元素
+```markup
+<nova-sidebar></nova-sidebar>
+<!-- 可配置如下attributes, 以下均为默认值
+    element=".side"                     // 侧边栏元素
+    content-selector=".cont"             // 与侧边栏同级的内容元素，若不传，nova-sidebar默认会使用其nextSibiling作为content
 
-    duration_ms: 200,                   // 动画时长
-    display: 'push',                    // 动画类型，可为'push','overlay','reveal'
-    position: 'left',                   // sidebar位置，可为'left'或'right'
-
-    classNames: {
-        sidebar: 'sidebar',             // 加在侧边栏上的类
-        content: 'content',             // 加在与侧边栏同级的内容上的类
-        left: 'sidebar-left',           // 侧边栏靠左
-        right: 'sidebar-right',         // 侧边栏靠右
-        push: 'sidebar-push',           // 侧边栏以push方式显示
-        overlay: 'sidebar-overlay',     // 侧边栏以overlay方式显示
-        reveal: 'sidebar-reveal',       // 侧边栏以reveal方式显示
-        mask: 'sidebar-mask'            // 点击隐藏侧边栏区域
-    },
-};
+    duration-ms="200"                   // 动画时长
+    display="push",                     // 动画类型，可为'push','overlay','reveal'
+    position="left"                     // sidebar位置，可为'left'或'right'
+-->
 ```
 
 ## 方法
 ```javascript
-// 注意：当display, position未传入时，使用初始化时的配置
-sidebar.toggle(display, position);      // 显示或隐藏sidebar 
+var sidebar = document.querySelector('nova-sidebar');
+
+// display, position均为optional
+var display = 'push';
+var position = 'left';
+sidebar.toggle(display, position);      // 显示或隐藏sidebar
 sidebar.show(display, position);        // 显示sidebar
 sidebar.hide();                         // 隐藏sidebar
 sidebar.push(position);                 // 使用push动画, 来显示或隐藏sidebar
@@ -181,6 +174,9 @@ sidebar.after('hide', function(ev, display, position) {
 ```
 
 ## 日志
+
+### 1.0.2
+1. 使用Nova.1.0.0.js作为底层框架
 
 ### 1.0.1 
 升级依赖widget.js版本为1.0.2

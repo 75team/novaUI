@@ -1,13 +1,15 @@
-# Dialog
+# &lt;nova-dialog&gt;
 
-Dialog组件。提供alert, confirm, toast等移动端常见的弹窗形式。同时支持完全自定义弹窗模板的高级定制。
+弹窗组件。提供alert, confirm, toast等移动端常见的弹窗形式。同时支持自定义弹窗模板。
 
 ## Demo
-<link rel="stylesheet" href="http://s4.qhimg.com/static/070116687c5a871f/dialog.1.0.0.css" />
 
 <style type="text/css">
-    .dialog .bd {
-        min-height: auto;
+    nova-dialog[unresolved] {
+        display: none;
+    }
+    nova-dialog {
+        text-align: center;
     }
     .btn {
         -webkit-appearance: none;
@@ -21,13 +23,13 @@ Dialog组件。提供alert, confirm, toast等移动端常见的弹窗形式。�
         cursor: pointer;
         margin-bottom: 10px;
     }
-    .my-dialog .btn {
+    nova-dialog .btn {
         display: inline-block;
     }
-    .my-dialog .btn+.btn {
+    nova-dialog .btn+.btn {
         margin-left: 20px;
     }
-    .my-dialog .ft {
+    nova-dialog .ft {
         //display: none;
     }
 
@@ -40,39 +42,38 @@ Dialog组件。提供alert, confirm, toast等移动端常见的弹窗形式。�
     }
 </style>
 
-
-<div class="hidden">
-    <div class="dialog-bd-inner">
+<div>
+    <nova-dialog class="my-dialog" unresolved>
         <h3>来点铜锣烧吧！</h3>
         <img src="http://p5.qhimg.com/t01e9f08beb6e4a5c67.png" alt="" />
         <div>
-            <button class="dialog-confirm btn">好哒</button>
-            <button class="dialog-cancel btn">不用啦</button>
+            <button data-value="yes" class="dialog-btn btn">好哒</button>
+            <button class="dialog-btn btn">不用啦</button>
         </div>
-    </div>
+    </nova-dialog>
 </div>
+
 <button class="btn js-alert">打开alert弹窗</button>
 <button class="btn js-confirm">打开confirm弹窗</button>
 <button class="btn js-toast">打开toast弹窗</button>
 <button class="btn js-custom">打开自定义弹窗</button>
 
-<script type="text/javascript">
+<script>
     _loader.add('callback', 'http://s2.qhimg.com/static/18201c173c4fe77e/zepto.callback.js');
     _loader.add('deferred', 'http://s3.qhimg.com/static/67ad7468a751dfb3/zepto.deferred.js');
-    _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('dialog', 'http://s4.qhimg.com/static/d127b1d58f7b4b3d/dialog.1.0.0.js');
-    _loader.use('callback,deferred,widget, dialog', function() { 
-        var dialog = new Dialog({
-            body: '.dialog-bd-inner',
-            className: 'my-dialog'
-        });
+    _loader.add('customEle', '{{urls.dialog}}');
+    _loader.use('callback, deferred, customEle', function() {
+        var dialog = document.querySelector('nova-dialog');
+        var Dialog = Nova.Components.NovaDialog;
 
         $('.js-alert').on('click', function() {
             Dialog.alert('Welcome to novaUI');
         });
 
         $('.js-confirm').on('click', function() {
-            Dialog.confirm('Are you sure?');
+            Dialog.confirm('Are you sure?').then(function(result) {
+                console.log(result);
+            });
         });
 
         $('.js-toast').on('click', function() {
@@ -95,33 +96,33 @@ Dialog组件。提供alert, confirm, toast等移动端常见的弹窗形式。�
 
 | 默认类名          |  作用  |
 |-------------------|---------|
-| dialog-confirm | 确认触发元素 |
-| dialog-cancel | 关闭触发元素 |
+| dialog-btn | 触发关闭弹窗的元素选择器 |
 | dialog-mask | 浮层 |
 
-### html
+### HTML
 
 ```markup
 <!-- 可自定义弹窗HTMl -->
-<div class="hidden">
-    <div class="dialog-bd-inner">
-        <h3>来点铜锣烧吧！</h3>
-        <img src="http://p5.qhimg.com/t01e9f08beb6e4a5c67.png" alt="" />
-        <div>
-            <!-- 通过添加dialog-confirm和dialog-cancel的类，给元素添加点击后确认或取消的功能 -->
-            <button class="dialog-confirm btn">好哒</button>
-            <button class="dialog-cancel btn">不用啦</button>
-        </div>
+<nova-dialog>
+    <h3>来点铜锣烧吧！</h3>
+    <img src="http://p5.qhimg.com/t01e9f08beb6e4a5c67.png" alt="" />
+    <div>
+        <!-- 通过添加dialog-btn, 使button为关闭弹窗的触发器。通过data-value，定义关闭弹窗后传递给处理函数的值 -->
+        <button data-value="yes" class="dialog-btn">好哒</button>
+        <button class="dialog-btn">不用啦</button>
     </div>
-</div>
+</nova-dialog>
 ```
 
-### javascript
+### Javascript
 需先引入依赖的文件：Zepto基础库，Zepto callback模块, Zepto deferred模块
 ```markup
-<script src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script src="http://s4.qhimg.com/static/d127b1d58f7b4b3d/dialog.1.0.0.js"></script>
+<script src="{{urls.nova_polyfills}}"></script>
+<script src="{{urls.nova}}"></script>
+<script src="{{urls.dialog}}"></script>
 <script>
+    var Dialog = Nova.Components.NovaDialog;
+
     /* 简单用法 */
     Dialog.alert('Welcome').then(function() {
         // Do something after the dialog is closed
@@ -135,11 +136,8 @@ Dialog组件。提供alert, confirm, toast等移动端常见的弹窗形式。�
 
     Dialog.toast('提交成功');
 
-    /* 高级定制 */
-    var dialog = new Dialog({
-        body: '.dialog-bd-inner',
-        className: 'my-dialog'
-    });
+    /* 操作自定义弹窗 */
+    var dialog = document.querySelector('nova-dialog');
 
     dialog.show().then(function(result) {
         if(result) {
@@ -152,26 +150,10 @@ Dialog组件。提供alert, confirm, toast等移动端常见的弹窗形式。�
 
 ```
 
-### CSS
-```markup
-<link rel="stylesheet" href="http://s4.qhimg.com/static/070116687c5a871f/dialog.1.0.0.css" />
-```
-
-## 配置
-
-```javascript
-var config = {
-    body: '',                               // 弹窗内容，可以是DOM元素或html
-    selectors: {
-        confirmBtn: '.dialog-confirm',      // 确认按钮选择器
-        cancelBtn: '.dialog-cancel'         // 关闭按钮选择器
-    },
-    className: ''                           // 给dialog添加的类名
-};
-```
-
 ## 方法
 ```javascript
+
+var Dialog = Nova.Components.NovaDialog;
 
 /********************** 静态方法 ***********************/
 Dialog.alert('Welcome').then(function() {
@@ -187,10 +169,7 @@ Dialog.confirm('Do you like some water').then(function(result) {
 Dialog.toast('提交成功');
 
 /********************** 自定义弹窗的方法 ***********************/
-var dialog = new Dialog({
-    body: '.dialog-bd-inner',
-    className: 'my-dialog'
-});
+var dialog = document.querySelector('nova-dialog');
 
 dialog.show().then(function(result) { // ... });    // 显示弹窗
 dialog.hide();                                      // 隐藏弹窗
@@ -217,6 +196,9 @@ dialog.after('hide', function(ev) {
 ```
 
 ## 日志
+
+### 1.0.1
+1. 使用Nova.1.0.0.js作为底层框架
 
 ### 1.0.0 
 首次发布

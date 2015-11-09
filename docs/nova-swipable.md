@@ -1,5 +1,4 @@
-
-#Swipable
+# &lt;nova-swipable&gt;
 
 滑动组件，支持水平和垂直方向的惯性滑动，边缘有回弹效果。
 
@@ -7,10 +6,10 @@
 **注意：**PC用户请使用开发者工具模拟Touch行为
 
 <style type="text/css">
-.swipable-wrap {
+nova-swipable {
     overflow: hidden;
 }
-.swipable-wrap .swipable-nav {
+nova-swipable .swipable-nav {
     width: 300%;
     box-sizing: border-box;
     height: 150px;
@@ -31,7 +30,8 @@
 }
 </style>
 
-<div class="swipable-wrap"> 
+<div> 
+<nova-swipable direction="horizontal">
     <ul class="swipable-nav">
         <li>Home</li>
         <li>Blog</li>
@@ -39,17 +39,12 @@
         <li>About</li>
         <li>Contact</li>
     </ul>
+</nova-swipable>
 </div>
 
-<script type="text/javascript">
-    _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('swipable', 'http://s4.qhimg.com/static/cd00e5b0ab939a47/swipable.1.0.0.js');
-    _loader.use('widget, swipable', function() { 
-        var swipable = new Swipable({
-            element: '.swipable-wrap',
-            dir: 'horizontal'
-        });
-    });
+<script>
+    _loader.add('customEle', '{{urls.swipable}}');
+    _loader.use('customEle', function() { });
 </script>
 
 ## 使用方法
@@ -57,7 +52,7 @@
 ### HTML
 
 ```markup
-<div class="wrap"> 
+<nova-swipable>
     <ul class="nav">
         <li>Home</li>
         <li>Blog</li>
@@ -65,39 +60,42 @@
         <li>About</li>
         <li>Contact</li>
     </ul>
-</div>
+</nova-swipable>
 ```
+
+#### 使用要求
+* `<nova-swipable>`只能有一个子节点
 
 ### Javascript
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块 
 ```markup
-<script type="text/javascript" src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script type="text/javascript" src="http://s4.qhimg.com/static/cd00e5b0ab939a47/swipable.1.0.0.js"></script>
-<script type="text/javascript">
-    var swipable = new Swipable({
-        element: '.swipable-wrap',
-        dir: 'horizontal'
-    });
-</script>
+<script src="{{urls.nova_polyfills}}"></script>
+<script src="{{urls.nova}}"></script>
+<script src="{{urls.swipable}}"></script>
 ```
 
 ## 配置
 
-```javascript
-var config = {
-    dir: 'vertical',                    // 滑动方向，可取值vertical, horizontal
-    speed: 0.5                          // 速度，范围(0, 1)，数值越大速度越大
-};
+```markup
+<nova-swipable></nova-swipable>
+<!-- 可配置如下attributes
+    direction="vertical"                // 滑动方向。默认vertical，可取vertical或horizontal
+    speed="0.5"                         // 滑动速度。范围(0,1)，数值越大速度越快
+-->
 ```
 
 ## 方法
 ```javascript
+var swipable = document.querySelector('nova-swipable');
 swipable.refresh();                     // 当容器或内容的宽高改变时，需调用refresh
 ```
 
 ## 日志
 
-### 1.0.0 
+### 1.0.1
+1. 使用Nova.1.0.0.js作为底层框架
+
+### 1.0.0
 首次发布
 
 

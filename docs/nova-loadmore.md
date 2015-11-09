@@ -1,13 +1,13 @@
-#Loadmore
+# &lt;nova-loadmore&gt;
 
-Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果，拖拽加载提示可配置，支持替换(replace)与拼接(append)两种模式。
+基于`<nova-swipable>`组件实现仿原生应用的拖拽加载效果，拖拽加载提示可配置，支持替换(replace)与拼接(append)两种模式。
 
 ## Demo
 
 **注意：**PC用户请使用开发者工具模拟Touch行为
 
 <style type="text/css">
-    .wrap{
+    .phone {
         width:327px;
         height:667px;
         position:relative;
@@ -15,11 +15,14 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
         background:url(novaui/img/iphone.png) no-repeat 0px 0px;
         background-size: 100% 100%;
     }
-    .load-wrap .load-cont{
+    node-loadmore[unresolved] {
+        opacity: 0;
+    }
+    nova-loadmore .load-cont{
         padding: 0;
         margin: 0;
     }
-    .load-wrap .load-cont li{
+    nova-loadmore .load-cont li{
         height: 40px;
         line-height: 40px;
         font-family: '微软雅黑';
@@ -28,7 +31,7 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
         list-style:none;
     }
 
-    .load-wrap {
+    nova-loadmore {
         position: absolute;
         left: 17px;
         top: 62px;
@@ -41,7 +44,7 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
         -webkit-user-select: none;
     }
 
-    .load-wrap .load-cont{
+    nova-loadmore .load-cont{
         min-height: 100%;
     }
 
@@ -57,9 +60,9 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
     }
 </style>
 
-<div class='wrap'>
-    <div class="load-wrap">
-        <ul class="load-cont"  style="background-color:#f5574b">
+<div class="phone">
+<nova-loadmore unresolved mode="replace">
+    <ul class="load-cont"  style="background-color:#f5574b">
         <li>第一首</li>
         <li>你是人间的四月天</li>
         <li>我说你是人间的四月天；</li>
@@ -81,40 +84,36 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
         <li>是燕在梁间呢喃，</li>
         <li>——你是爱，是暖，是希望，</li>
         <li>你是人间的四月天！</li>
-        </ul>
-    </div>
+    </ul>
+</nova-loadmore>
 </div>
 
-<script type="text/javascript">
-    _loader.add('widget', 'http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js');
-    _loader.add('swipable', 'http://s2.qhimg.com/!6c098979/swipable.1.0.1.js');
-    _loader.add('loadmore', 'http://s5.qhimg.com/!2f9178e8/loadmore.js');
-    _loader.use('widget, swipable, loadmore', function() {
+<script>
+    _loader.add('customEle', '{{urls.loadmore}}');
+    _loader.use('customEle', function() {
+        $('.phone').on('touchmove',function(e){
+            e.preventDefault();
+        });
 
-    $('.load-wrap').on('touchmove',function(e){
-        e.preventDefault();
-    });
-    var page = 0;
+        var loadmore = document.querySelector('nova-loadmore');
+        Nova.ready(loadmore, function() {
+            loadmore.after('prePage',function(){
+                //$('nova-loadmore .load-cont').append($("#poem"+(loadmore.page - 1)).html());
+                $('nova-loadmore .load-cont').html($("#poem"+(loadmore.page - 1)).html());
+                loadmore.refresh();
+            });
+            loadmore.after('nextPage',function(){
+                //$('nova-loadmore .load-cont').append($("#poem"+(loadmore.page - 1)).html());
+                $('nova-loadmore .load-cont').html($("#poem"+(loadmore.page - 1)).html());
+                loadmore.refresh();
+                if(loadmore.page == 4){
+                    loadmore.set('isLastPage',true);
+                }
+            });
+        });
 
-    var loadmore = new Loadmore({
-        element: '.load-wrap'
+        window.loadmore = loadmore;
     });
-    loadmore.after('prePage',function(){
-        page--;
-        $('.load-wrap .load-cont').append($("#poem"+page).html());
-        loadmore.refresh();
-    });
-    loadmore.after('nextPage',function(){
-        page++;
-        $('.load-wrap .load-cont').append($("#poem"+page).html());
-        loadmore.refresh();
-        if(page == 3){
-            loadmore.set('isLastPage',true);
-        }
-    });
-
-    window.loadmore = loadmore;
-});
 </script>
 
 <script type="text/poem" id="poem0">
@@ -192,9 +191,8 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
 ### HTML
 
 ```markup
-<div style="width:300px;height:500px;position:relative;margin:40px;">
-  <div class="load-wrap">
-    <ul class="load-cont"  style="background-color:#f5574b">
+<nova-loadmore>
+    <ul class="load-cont">
         <li>第一首</li>
         <li>你是人间的四月天</li>
         <li>我说你是人间的四月天；</li>
@@ -217,124 +215,101 @@ Loadmore组件。基于Swipable组件实现仿原生应用的拖拽加载效果�
         <li>——你是爱，是暖，是希望，</li>
         <li>你是人间的四月天！</li>
     </ul>
-  </div>
-</div>
+</nova-loadmore>
 ```
 
 ### Javascript
 
-需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块, Widget模块, Swipable模块
+需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块
 
 ```markup
-<script src="http://s0.qhimg.com/static/24fee17ef5eeefee/zepto_touch_fx.112.js"></script>
-<script src="http://s1.qhimg.com/static/c8b7de8c67377042/widget.1.0.2.js"></script>
-<script src="http://s2.qhimg.com/!6c098979/swipable.1.0.1.js"></script>
-<script src="http://s5.qhimg.com/!2f9178e8/loadmore.js"></script>
-<script type="text/javascript">
-    var loadmore = new Loadmore({
-        element: '.load-wrap'
-    });
+<script src="{{urls.nova_polyfills}}"></script>
+<script src="{{urls.nova}}"></script>
+<script src="{{urls.loadmore}}"></script>
+<script>
+    var loadmore = document.querySelector('nova-loadmore');
+    var loadCont = loadmore.querySelector('.load-cont');
     loadmore.after('prePage',function(){
-        // ....     加载上一页的Ajax处理逻辑
+        // 渲染上一页的内容
+        loadCont.html(getPoem(loadCont.page));
+
         loadmore.refresh();
     });
     loadmore.after('nextPage',function(){
-        // ....     加载下一页的Ajax处理逻辑
+        // 渲染下一页的内容
+        loadCont.html(getPoem(loadCont.page));
+
         loadmore.refresh();
-        if(page == 3){//如果当前为最后一页
+
+        // 标识最后一页
+        if(loadmore.page == 3){//如果当前为最后一页
             loadmore.set('isLastPage',true);
         }
     });
 </script>
 ```
-### CSS
-
-容器的样式需符合如下规则
-
-```css
-.load-wrap {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.load-wrap .load-cont{
-    min-height: 100%;
-}
-
-.hint {
-  color: #333;
-  font-weight: 700;
-  font-size: 14px;
-  height: 40px;
-  left: 50%;
-  line-height: 40px;
-  margin-left: -5px;
-  text-align: center;
-}
-```
 
 ## 配置
 
-```javascript
-var config = {
-    dir: 'vertical',    // 可取值vertical, horizontal
-    speed: 0.5,         // 滑动速度 
-    threshold: 50,      // 拖动范围
-    showNextHint: true,        //默认显示往后翻页的提示
-    showPreHint: false,     //默认隐藏往前翻页的提示
-    mode: 'replace',  //默认replace替换模式，还可取值append添加模式
-    page: 1,            //默认页码从第一页开始
-    isLastPage: false,  //当前是否最后一页
-    hintContent:{       //可赋值html片段
-        firstPageText: '当前页为第一页',//若为append模式则可不初始化
-        lastPageText: '当前页为最后一页',
-        hintLoading: '加载中...',
-        nextPageHintDefault: '上拉加载第{$pn}页',
-        nextPageHintPrepare: '释放加载第{$pn}页',
-        prePageHintDefault: '下拉加载第{$pn}页',//若为append模式则可不初始化
-        prePageHintPrepare: '释放加载第{$pn}页' //若为append模式则可不初始化
 
-    }
-};
+```markup
+<nova-loadmore></nova-loadmore>
+<!-- 可配置如下attributes, 以下均为默认值
+    direction="vertical"                // 滑动方向。默认vertical，可取vertical或horizontal
+    speed="0.5"                         // 滑动速度。范围(0,1)，数值越大速度越快
+    threshold="50"                      // 形成翻页的拖动临界值
+    show-next-hint                      // 拖到底部松手后是否保持显示往后翻页的提示。默认为true，可通过show-next-hint="false"关闭
+    show-pre-hint                       // 拖到顶部松手后是否保持显示往前翻页的提示。默认为false
+    mode="replace"                      // 翻页模式，可取replace替换模式或append添加模式
+    page="1"                            // 开始页码
+
+    hint-content.first-page-text="当前页为第一页"
+    hint-content.last-page-text="当前页为最后一页"
+    hint-content.hint-loading="加载中..."
+    hint-content.next-page-hint-default="上拉加载第{$pn}页"
+    hint-content.next-page-hint-prepare="释放加载第{$pn}页"
+    hint-content.pre-page-hint-default="下拉加载第{$pn}页"
+    hint-content.pre-page-hint-prepare="释放加载第{$pn}页"
+-->
 ```
 
 
-## 方法
+## 属性和方法
 
 ```javascript
 
 // 1. 每次加载之后必须手动调用refresh函数
 loadmore.refresh();
 
-// 2. 设置当前页为后一页
-loadmore.set('isLastPage',true);
+// 2. 设置当前页为后一页，从而在拖动时不再提示上拉
+loadmore.isLastPage = true;
+
+// 3. 当前页码
+loadmore.page;
 
 ```
 
 ## 扩展
 
 ```javascript
-// 1. 在加载前一页时执行代码
+// 1. 在发生拉动到上一页的行为时执行代码
 loadmore.after('prePage', function() {
-    // ....     加载上一页的Ajax处理逻辑
-    loadmore.refresh();//每次加载之后必须手动调用refresh函数
+    // 渲染上一页内容
+    loadmore.refresh(); //每次加载之后必须手动调用refresh函数
 });
 
-// 2. 在加载后一页时执行代码
+// 2. 在发生拉动到下一页的行为时执行代码
 loadmore.after('nextPage', function() {
-    // ....     加载下一页的Ajax处理逻辑
-    loadmore.refresh();//每次加载之后必须手动调用refresh函数
+    // 渲染下一页内容
+    loadmore.refresh(); //每次加载之后必须手动调用refresh函数
 });
 
 ```
 
 ## 日志
+
+### 1.0.1
+1. 使用Nova.1.0.0.js作为底层框架
 
 ### 1.0.0
 
