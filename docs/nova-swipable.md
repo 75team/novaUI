@@ -52,7 +52,7 @@ nova-swipable .swipable-nav {
 ### HTML
 
 ```markup
-<nova-swipable>
+<nova-swipable direction="horizontal">
     <ul class="nav">
         <li>Home</li>
         <li>Blog</li>
@@ -65,6 +65,7 @@ nova-swipable .swipable-nav {
 
 #### 使用要求
 * `<nova-swipable>`只能有一个子节点
+* `<nova-swipable>`的子节点宽度大于它时，才会有滑动效果
 
 ### Javascript
 需先引入依赖的文件：Zepto基础库，Zepto touch模块, Zepto fx模块 
