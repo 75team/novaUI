@@ -12,7 +12,7 @@
             'dialog': 'http://s3.qhimg.com/static/13f40ce77e06f7ed/nova-dialog.1.0.1.js',
             'scratchTicket': 'http://s3.qhimg.com/static/1334c0a33c1f2e13/nova-scratch-ticket.1.0.1.js',
             'sidebar': 'http://s1.qhimg.com/static/3b6d33f29e07bbbd/nova-sidebar.1.0.1.js',
-            'paginator': 'http://s3.qhimg.com/static/02263df255ae388d/nova-paginator.js'
+            'paginator': 'http://s3.qhimg.com/static/02263df255ae388d/nova-paginator.1.0.0.js'
         }
     };
 
