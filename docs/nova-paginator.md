@@ -51,7 +51,7 @@
 ```javascript
 var paginator = document.querySelector('nova-paginator');
 
-paginator.totalItems = 100;             // 设置总页数
+paginator.totalItems = 100;             // 设置总数目
 paginator.itemsPerPage = 20;            // 设置每一页显示个数
 paginator.page = 3;                     // 设置当前页码
 ```
