@@ -29,3 +29,6 @@
 [submodule "src/widgets/loadmore"]
 	path = src/widgets/loadmore
 	url = https://github.com/novawidgets/loadmore.git
+[submodule "src/widgets/paginator"]
+	path = src/widgets/paginator
+	url = https://github.com/novawidgets/paginator.git
